@@ -1,3 +1,7 @@
+### SmartBillboard
+본 프로젝트는 Reactjs를 이용한 SmartBillboard 웹 어플리케이션 만들기 프로젝트 입니다. 
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
