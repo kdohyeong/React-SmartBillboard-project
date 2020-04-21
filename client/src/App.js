@@ -5,6 +5,10 @@ import ShowCustom from './Components/ShowCustom';
 import Button from '@material-ui/core/Button';
 import './App.css';
 
+const mainUrl = 'http://localhost:5000/api/';
+
+// const videoUrl = mainUrl + 'video';
+// const imageUrl = mainUrl + 'image';
 
 class App extends Component {
 constructor(props){
@@ -27,14 +31,14 @@ constructor(props){
   }
 
   componentDidMount(){
-      this.callApi()
+      this.callApi('videos')
       .then(res => this.setState({datas: res}))
       .catch(err => console.log(err));
-      this.ChangeView() 
+      this.changeView() 
     }
     
-  callApi = async () => {
-      const response = await fetch('http://localhost:5000/api/videos');
+  callApi = async (value) => {
+      const response = await fetch(`${mainUrl}${value}`);
       const body = await response.json();
       return body;
     }
@@ -46,7 +50,7 @@ constructor(props){
   }
 
   
-  ChangeView() {
+  changeView() {
     if (this.state.mode === 'BILLBOARD'){
       if (this.state.category === 'AI') 
         {return this.state.datas ? <ShowAI datas={this.state.datas}/> : '..LOADING'}  
@@ -58,10 +62,10 @@ constructor(props){
   render(){
     return(
       <div>
-      {this.ChangeView()}
+      {this.changeView()}
         <ul class>
         <li class>
-          <Button fullWidth='true' variant="contained" color="primary" href="#contained-buttons" 
+          <Button fullWidth='true' variant="contained" color="primary" href="#contained-buttons" font-size="x-large"
                   onClick={() => this.handleChangeMode('BILLBOARD')} name='Show' value='ShowBill'>Home</Button></li>
         <li class>
           <Button fullWidth='true' variant="contained" color="primary" href="#contained-buttons" 

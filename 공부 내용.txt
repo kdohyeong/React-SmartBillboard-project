@@ -1,0 +1,9 @@
+cloneElement()
+React.cloneElement(
+  element,
+  [props],
+  [...children]
+)
+element를 기준으로 새로운 React 엘리먼트를 복사하고 반환합니다. 새로운 엘리먼트에는 원본 엘리먼트가 가졌던 props가 새로운 props와 얕게 합쳐진 뒤 주어집니다. 새로운 자식들은 기존의 자식들을 대체합니다. 원본 엘리먼트의 key와 ref는 그대로 유지됩니다.
+
+React.cloneElement()는 아래의 구문과 거의 동등합니다.

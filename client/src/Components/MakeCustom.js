@@ -1,17 +1,25 @@
-import React from 'react';
+import React from 'react'
+import 'fabric'   
+import DesignCanvas from './DesignCanvas'
+import CanvasItem from './CanvasItem'
 
 class MakeCustom extends React.Component {
-    render () {
-      return (
-        <div>
-          만들기 페이지
-        </div>
-     );
-    }
-  } 
-
     
-  
-  
+  render () {
+    return (
+      <div>
+        <DesignCanvas>
+        {/* <CanvasItem/> */}
+        </DesignCanvas>
+        
+      </div>
+  );   
+    }
+  }
   
 export default MakeCustom;
+
+
+
+//       <Circle radius={20} top={200} />
+//       <Image url="https://http.cat/100" scale={0.2} top={100} />
