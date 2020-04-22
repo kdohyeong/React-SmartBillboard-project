@@ -89,12 +89,13 @@ export default DesignCanvas
 
 function getIndex(canvas){
   var activeObj = canvas.getActiveObject();
-  if (activeObj){
-    if (activeObj._element.currentSrc === canvas.toJSON().objects[0].src){
-
-  console.log(activeObj._element.currentSrc);
-    }
-      }
+  
+  // if (activeObj){
+  //   if (activeObj._element.currentSrc === canvas.toJSON().objects[0].src){
+  // console.log(activeObj._element.currentSrc);
+  //   }
+    // console.log(activeObj._element.currentSrc);
+    //   }
   canvas.bringToFront(activeObj);                                                  //씨발 일단 인덱스는 땄는데 도대체 어케해야 toJSON에 
   console.log(activeObj && canvas.getObjects().indexOf(activeObj));                //이걸 넣을수 있는지 모르겠다
   return activeObj && canvas.getObjects().indexOf(activeObj)
@@ -124,7 +125,11 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
 
   var images = document.querySelectorAll(".furniture img");
   var videos = document.querySelectorAll(".furniture video");
+  
+  var canvasObject = $('canvas',this)[0];
   var canvasContainer = $(this)[0];
+
+  var imageOffsetX, imageOffsetY;
 
   function handleDragStart(e) {  //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
     console.log('DragStart');
@@ -134,6 +139,9 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
     });
     this.classList.add("img_dragging");
     // console.log(this.classList);
+    var imageOffset = $(this).offset();
+        imageOffsetX = e.clientX - imageOffset.left;  //내가 놓은 위치에 이미지가 그 위치에 안착하게 도와주는부분
+        imageOffsetY = e.clientY - imageOffset.top;
   }
 
   function handleDragOver(e) {   //넣을 이미지가 canvas위에서 자리이동할때 불리는함수
@@ -169,8 +177,13 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
 
     console.log("event: ", e);
 
+    var offset = $(canvasObject).offset();
+        var y = e.clientY - (offset.top + imageOffsetY);    //내가 놓은 위치에 이미지가 그 위치에 안착하게 도와주는부분
+        var x = e.clientX - (offset.left + imageOffsetX);
+
     var newImage = new fabric.Image(img, { 
-        
+          left: x, 
+          top: y  
         });        
         canvas.add(newImage);
 
