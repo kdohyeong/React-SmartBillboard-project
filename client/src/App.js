@@ -54,7 +54,8 @@ constructor(props){
     if (this.state.mode === 'BILLBOARD'){
       if (this.state.category === 'AI') 
         {return this.state.datas ? <ShowAI datas={this.state.datas}/> : '..LOADING'}  
-      else {return <ShowCustom datas={this.state.datas}/>}
+      else if (this.state.category === 'CUSTOM') 
+        {return this.state.datas ? <ShowCustom datas={this.state.datas}/> : '..LOADING'}
     }
     else if (this.state.mode === 'MAKE') {return <MakeCustom/>}
   }
@@ -65,7 +66,7 @@ constructor(props){
       {this.changeView()}
         <ul class>
         <li class>
-          <Button fullWidth='true' variant="contained" color="primary" href="#contained-buttons" font-size="x-large"
+          <Button fullWidth='true' variant="contained" color="primary" href="#contained-buttons" fontSize="x-large"
                   onClick={() => this.handleChangeMode('BILLBOARD')} name='Show' value='ShowBill'>Home</Button></li>
         <li class>
           <Button fullWidth='true' variant="contained" color="primary" href="#contained-buttons" 

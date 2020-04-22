@@ -1,7 +1,7 @@
 import React from 'react'
 import 'fabric'   
 import DesignCanvas from './DesignCanvas'
-import CanvasItem from './CanvasItem'
+// import CanvasItem from './CanvasItem'
 
 class MakeCustom extends React.Component {
     
