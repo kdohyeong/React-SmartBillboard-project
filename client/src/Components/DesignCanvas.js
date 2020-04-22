@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-
+// import { fill } from 'lodash';
 const fabric = window.fabric   // 윈도우 안에 패브릭을 넣어줌
 var $ = require('jquery')     // 제이쿼리를 사용하기로함
 
@@ -22,8 +22,10 @@ class DesignCanvas extends React.Component {
     canvas.setWidth(1500);
     this.setState({ canvas })                  
     dragAndDrop(canvas);
+
     canvas.on('mouse:down', function(options) {
     console.log(options.e.clientX, options.e.clientY);
+    // console.log(canvas.toJSON().objects[0].src);
     getIndex(canvas);
 
     $("#delete").click(function(){
@@ -33,7 +35,7 @@ class DesignCanvas extends React.Component {
     
     // canvas.item(0).sourcePath = '/assets/dragon.svg';
     // console.log(JSON.stringify(canvas.toDatalessJSON()));
-    console.log(canvas.toJSON());
+    // var a = fill(canvas , getIndex(canvas))
     
     });
       
@@ -87,9 +89,15 @@ export default DesignCanvas
 
 function getIndex(canvas){
   var activeObj = canvas.getActiveObject();
+  if (activeObj){
+    if (activeObj._element.currentSrc === canvas.toJSON().objects[0].src){
+
+  console.log(activeObj._element.currentSrc);
+    }
+      }
   canvas.bringToFront(activeObj);                                                  //씨발 일단 인덱스는 땄는데 도대체 어케해야 toJSON에 
   console.log(activeObj && canvas.getObjects().indexOf(activeObj));                //이걸 넣을수 있는지 모르겠다
-  // return activeObj && canvas.getObjects().indexOf(activeObj)
+  return activeObj && canvas.getObjects().indexOf(activeObj)
  }
 
  function deleteObjects(canvas){
@@ -98,6 +106,7 @@ function getIndex(canvas){
       canvas: canvas                                                              // 그걸 통으로 지우는 방식
     });
     if (activeobjectGroup) {
+      // console.log(activeobjectGroup);
       activeobjectGroup.forEachObject(function(obj) {
       canvas.remove(obj);
     });
