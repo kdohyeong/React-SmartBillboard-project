@@ -1,19 +1,56 @@
 import React, { Fragment } from 'react'
-// import { fill } from 'lodash';
+import ReactPlayer from 'react-player'
+import { omit } from 'lodash';
+import Fsrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/video/test.mp4';
 const fabric = window.fabric   // 윈도우 안에 패브릭을 넣어줌
 var $ = require('jquery')     // 제이쿼리를 사용하기로함
 
 
 class DesignCanvas extends React.Component {
 
-  state = {
-  canvas: null,                                   //캔버스값을 저장을 저장할 그릇
-  src1:"http://placehold.it/150x150/848/fff",
-  src2:"https://http.cat/100",
-  src3:"http://placehold.it/220x220/848/000",       
-  scale :0.5,
-
+  constructor(props) {
+    super(props);
+        this.state = {
+            id : null,
+            src: null,
+            width: '',
+            height: '',
+            top: '',
+            left: '',
+            angle: '',
+            categoty: 'CUSTOM',
+            type: '',
+            scaleX: '',
+            scaleY: '',
+       
+            canvas: null,                                   //캔버스값을 저장을 저장할 그릇
+            src1:"http://placehold.it/150x150/848/fff",
+            src2:"https://http.cat/100",
+            src3:"http://placehold.it/220x220/848/000", 
+            src4:"http://html5demos.com/assets/dizzy.mp4",      
+            scale :0.5,
+    }
   }
+  
+    // formJson(canvas) {
+    // var json = this.state.canvas.toJSON();
+    // json.objects.map((data) => this.setState({
+
+    //     id : null,
+    //     src: data.src,
+    //     width: data.width,
+    //     height: data.height,
+    //     top: data.top,
+    //     left: data.left,
+    //     angle: data.angle,
+    //     categoty: 'CUSTOM',
+    //     type : data.type,
+    //     scaleX: data.scaleX,
+    //     scaleY: data.scaleY
+
+    //    })
+    //   );
+    // }
 
   
   componentDidMount() {
@@ -22,7 +59,8 @@ class DesignCanvas extends React.Component {
     canvas.setWidth(1500);
     this.setState({ canvas })                  
     dragAndDrop(canvas);
-
+    // addVideo(canvas);
+    
     canvas.on('mouse:down', function(options) {
     console.log(options.e.clientX, options.e.clientY);
     // console.log(canvas.toJSON().objects[0].src);
@@ -31,23 +69,21 @@ class DesignCanvas extends React.Component {
     $("#delete").click(function(){
       // canvas.isDrawingMode = false;                        //삭제 버튼누르면 삭제 함수 실행
       deleteObjects(canvas);
+      });
     });
-    
-    // canvas.item(0).sourcePath = '/assets/dragon.svg';
-    // console.log(JSON.stringify(canvas.toDatalessJSON()));
-    // var a = fill(canvas , getIndex(canvas))
-    
-    });
-      
+
+    $("#addtext").click(function(){
+      addText(canvas);
+      });  
   }      
-     
+
   render() {
     const children = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
       canvas: this.state.canvas,                        //컴포넌트에는 기본적으로 this.props.children이라는걸 다 가지고있는데
       })                                                //  이 놈을 child라는 놈으로 매핑돌리고 그 child라는 놈에다가 
-    })                                                  //  this.state.canvas 값을 추가해서 리턴해줌
-    
+    })      
+                                               //  this.state.canvas 값을 추가해서 리턴해줌
     return (
       <Fragment>
         <div className="canvas-container">
@@ -63,6 +99,8 @@ class DesignCanvas extends React.Component {
         {/* </div>
         <div className="furniture"> */}
         <img draggable='true' src={this.state.src3} width='200' height='200' />
+        <ReactPlayer url='http://html5demos.com/assets/dizzy.mp4' width="250px" height="250px"></ReactPlayer>
+        <video src= {Fsrc} class='canvas-vid' width="250" height="250"></video>
         </div>
 
         <button onClick={e => {
@@ -70,8 +108,8 @@ class DesignCanvas extends React.Component {
           console.log(this.state.canvas.toJSON());
         }}>To JSON</button>
 
-        <button id="delete">Delete selected object(s)</button>
-        
+        <button id="delete">Delete selected image</button>
+        <button id="addtext">Add Text</button>
 
       </Fragment>
       );
@@ -86,6 +124,37 @@ export default DesignCanvas
 //   console.log(canvas.getObjects().indexOf($('furniture')));
 // }
 
+// function addVideo(src){
+
+// var video1El = document.querySelectorAll('.furniture video.canvas-vid');
+//     var video1 = new fabric.Image(video1El, {
+//       left: 0,
+//       top: 0,
+//       width : 200,
+//       height : 200
+//     });
+
+//     canvas.add(video1);
+
+//     fabric.util.requestAnimFrame(function render() {
+//       canvas.requestRenderAll();
+//       fabric.util.requestAnimFrame(render);
+//     });
+//   }
+
+
+function addText(canvas) { 
+  canvas.add(new fabric.IText('Input Text', { 
+        left: 50,
+        top: 100,
+        fontFamily: 'arial black',
+        fill: '#333',
+        fontSize: 50
+  }));
+  canvas.requestRenderAll();
+  }
+
+  
 
 function getIndex(canvas){
   var activeObj = canvas.getActiveObject();
@@ -124,8 +193,7 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
   $(".canvas-container").each(function(index) {
 
   var images = document.querySelectorAll(".furniture img");
-  var videos = document.querySelectorAll(".furniture video");
-  
+ 
   var canvasObject = $('canvas',this)[0];
   var canvasContainer = $(this)[0];
 
@@ -133,6 +201,7 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
 
   function handleDragStart(e) {  //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
     console.log('DragStart');
+  
     [].forEach.call(images, function(img) {
       img.classList.remove("img_dragging");
       // console.log(img.classList);
@@ -142,6 +211,7 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
     var imageOffset = $(this).offset();
         imageOffsetX = e.clientX - imageOffset.left;  //내가 놓은 위치에 이미지가 그 위치에 안착하게 도와주는부분
         imageOffsetY = e.clientY - imageOffset.top;
+ 
   }
 
   function handleDragOver(e) {   //넣을 이미지가 canvas위에서 자리이동할때 불리는함수
@@ -173,7 +243,9 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
     if (e.stopPropagation) {
       e.stopPropagation();
     }
+
     var img = document.querySelector(".furniture img.img_dragging");
+    
 
     console.log("event: ", e);
 
@@ -186,11 +258,6 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
           top: y  
         });        
         canvas.add(newImage);
-
-
-    // fabric.Image.fromURL(img.src, img => {
-    // canvas.add(img)
-    // })
 
     return false;
   }
@@ -212,7 +279,6 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
   canvasContainer.addEventListener("dragover", handleDragOver, false);
   canvasContainer.addEventListener("dragleave", handleDragLeave, false);
   canvasContainer.addEventListener("drop", handleDrop, false);
-
 
   });
 }

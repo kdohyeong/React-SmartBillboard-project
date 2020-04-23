@@ -25,7 +25,7 @@ constructor(props){
           top: null,
           left: null, 
           type: null,             // 'IMAGE' || 'VIDEO'
-          zIndex: null            // image,video order
+          angle: null             // angle
     }]
     }
   }

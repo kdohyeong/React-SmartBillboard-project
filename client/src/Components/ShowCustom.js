@@ -15,7 +15,7 @@ class ShowCustom extends React.Component {
                         top = {data.top}
                         left = {data.left}
                         position = 'fixed'
-                        zIndex = {data.zIndex}
+                        angle = {data.angle}
                     />
                    );
                 }
@@ -27,7 +27,7 @@ class ShowCustom extends React.Component {
                       top = {data.top}
                       left = {data.left}
                       position = 'fixed'
-                      zIndex = {data.zIndex}
+                      angle = {data.angle}
                   ></img>
                   );
                 } 
