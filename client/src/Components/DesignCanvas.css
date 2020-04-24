@@ -24,3 +24,7 @@ input {
     box-sizing: border-box;
 
   }
+
+.canvas-container {
+  background-color: aliceblue;
+}

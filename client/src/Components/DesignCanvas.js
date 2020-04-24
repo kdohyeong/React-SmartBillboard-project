@@ -4,9 +4,10 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 // import layout from "simple-keyboard-layouts/build/layouts/korean";
 import Fsrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/video/test.mp4';
+import Isrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/test1.png';
 import './DesignCanvas.css';
-const fabric = window.fabric   // 윈도우 안에 패브릭을 넣어줌
-var $ = require('jquery')     // 제이쿼리를 사용하기로함
+const fabric = window.fabric                                                // 윈도우 안에 패브릭을 넣어줌
+var $ = require('jquery')                                                   // 제이쿼리를 사용하기로함
 
 
 class DesignCanvas extends React.Component {
@@ -30,7 +31,9 @@ class DesignCanvas extends React.Component {
             src1:"http://placehold.it/150x150/848/fff",
             src2:"https://http.cat/100",
             src3:"http://placehold.it/220x220/848/000", 
-            src4:"http://html5demos.com/assets/dizzy.mp4",      
+            src4:"http://html5demos.com/assets/dizzy.mp4",
+            src5:"https://http.cat/302", 
+            src6:"https://lh3.googleusercontent.com/proxy/Behma-2PNzGok16XGYQz8tStsyGAHpq8kanQl-BHgRYeUaKCtxPkNfzrpmXo4qUjcSDfySDecalkLUHstUIdc0Iym8IDl-oLeNceeEhh-dta1EH1F3v4UP1dFrOjgUgJMi69OlA2VT_N2uNyylBuiNen2hLVK788O3yRjV77hA",     
             scale :0.5,
 
             mode:"off",
@@ -62,7 +65,7 @@ class DesignCanvas extends React.Component {
     //   );
     // }
     onChange = input => {
-      this.setState({ input });
+      this.setState({ input });                                         //키보드 작동시키는 함수들
       console.log("Input changed", input);
     };
 
@@ -83,20 +86,25 @@ class DesignCanvas extends React.Component {
       const input = event.target.value;
       
       this.setState({ input });
-      // this.keyboard.setInput(input);
+      // this.keyboard.setInput(input);                                     ///여기까지 키보드
     };
     
 
   componentDidMount = () => {
-    const canvas = this.canvas = new fabric.Canvas(this.c)          //컨버스를 만듬 + this.c를 넣는데 this.c는 밑에부분 보셈
-    canvas.setHeight(700);                            //캔버스의 크기설정할수 있음
+    const canvas = this.canvas = new fabric.Canvas(this.c , {backgroundColor : '#fff'});      //컨버스를 만듬 + this.c를 넣는데 this.c는 밑에부분 보셈
+
+    // var width = parseInt(cs.getPropertyValue('width'), 10);
+    // var height = parseInt(cs.getPropertyValue('height'), 10);
+
+    
+    canvas.setHeight(700);                                          //캔버스의 크기설정할수 있음
     canvas.setWidth(1500);
     this.setState({ canvas })                  
     
     dragAndDrop(canvas);
    
     canvas.on('mouse:down', function(options) {
-      console.log(options.e.clientX, options.e.clientY);
+      console.log(options.e.clientX, options.e.clientY);             //인덱스 따기
       // console.log(canvas.toJSON().objects[0].src);
       getIndex(canvas);
   
@@ -115,17 +123,22 @@ class DesignCanvas extends React.Component {
      
       $("#addtext").click(function(e){
         e.preventDefault();
-        addText(canvas);
+        addText(canvas);                                        //텍스트 추가 이벤트
         $('#new_text').val('');
         
         });  
 
       $('#bg_color').on('input', function() { 
-      	canvas.backgroundColor = $('#bg_color').val();
+      	canvas.backgroundColor = $('#bg_color').val();          //컬러설정 이벤트
       	canvas.renderAll();
       });
       
-     
+      
+      $("#capture").click(function(){
+        // canvas.isDrawingMode = false;                        //클릭하면 버튼함수 호출해서 캡쳐따기
+        capturebutton(canvas);
+  
+        });
   }
 
   onKeyBoard() {
@@ -162,8 +175,8 @@ class DesignCanvas extends React.Component {
       return React.cloneElement(child, {
       canvas: this.state.canvas,                        //컴포넌트에는 기본적으로 this.props.children이라는걸 다 가지고있는데
       })                                                //  이 놈을 child라는 놈으로 매핑돌리고 그 child라는 놈에다가 
-    })      
-                                               //  this.state.canvas 값을 추가해서 리턴해줌
+    })                                                   //  this.state.canvas 값을 추가해서 리턴해줌
+                                                       
     return (
       <Fragment>
         <div className="canvas-container">
@@ -172,16 +185,15 @@ class DesignCanvas extends React.Component {
         </div>                                       {/*그놈을 newCanvas(this.c) 넣어서 컨버스를 만듬 애초에 만들때 */}
 
         <div className="furniture">
-        <img draggable='true' src={this.state.src1} width='200' height='300' />
-        {/* </div>
-        <div className="furniture"> */}
+        <img draggable='true' src={this.state.src1} width='200' height='200' />
+        <img draggable='true' src={Isrc} width='200' height='200' />
         <img draggable='true' src={this.state.src2} width='200' height='200' />
-        {/* </div>
-        <div className="furniture"> */}
         <img draggable='true' src={this.state.src3} width='200' height='200' />
-        <ReactPlayer url='http://html5demos.com/assets/dizzy.mp4' width="250px" height="250px"></ReactPlayer>
-        <video src= {Fsrc} class='canvas-vid' width="250" height="250"></video>
+        <img draggable='true' src={this.state.src5} width='200' height='200' />
+        <ReactPlayer url={this.state.src4} width="250px" height="250px"></ReactPlayer>
+        <video src={Fsrc} class='canvas-vid' width="250" height="250"></video>
         </div>
+        
         <div>
         <input
           value={this.state.input}
@@ -200,7 +212,6 @@ class DesignCanvas extends React.Component {
 		      		<div class="col-md-3">
 		      			<input className="color"type="color" id="bg_color"/>
 		      		</div>
-      
         </div>
 
         <button onClick={e => {
@@ -208,9 +219,9 @@ class DesignCanvas extends React.Component {
           console.log(this.state.canvas.toJSON());
         }}>To JSON</button>
 
-        <button id="delete">Delete selected image</button>
-
-        <button id="capture">Submit Canvas</button>
+        <button id="delete">Delete Selected Image</button>
+        <button id="capture">Capture Canvas</button>
+        
       </Fragment>
       );
   }
@@ -224,7 +235,7 @@ function addText(canvas) {
   if($('#new_text').val() !=='') {
     var newText = new fabric.IText($('#new_text').val(), {                 ///씨 val  이놈이 문제였어 이놈이 
         left: 50,
-        top: 100,
+        top: 100,                                                          //텍스트 추가함수
         fontFamily: 'arial black',
         fill: '#333',
         fontSize: 50
@@ -244,14 +255,14 @@ function getIndex(canvas){
   //   }
     // console.log(activeObj._element.currentSrc);
     //   }
-  canvas.bringToFront(activeObj);                                                  //씨발 일단 인덱스는 땄는데 도대체 어케해야 toJSON에 
-  console.log(activeObj && canvas.getObjects().indexOf(activeObj));                //이걸 넣을수 있는지 모르겠다
+  canvas.bringToFront(activeObj);                                                  //클릭한놈 인덱스를 제일 앞으로 당겨옴 
+  console.log(activeObj && canvas.getObjects().indexOf(activeObj));                //콘솔에 인덱스 찍어봄 확인용
   return activeObj && canvas.getObjects().indexOf(activeObj)
  }
 
  
  function deleteObjects(canvas){
-  var activeObject = canvas.getActiveObjects(),
+  var activeObject = canvas.getActiveObjects(),                                   //삭제함수
       activeobjectGroup = new fabric.ActiveSelection(activeObject, {              //여러개 선택하면 삭제 안되니깐 새로 패브릭으로 만들어주고
       canvas: canvas                                                              // 그걸 통으로 지우는 방식
     });
@@ -269,7 +280,7 @@ function getIndex(canvas){
 }
 
 
-function dragAndDrop(canvas) {                        // 함수 외부에서 컨버스를 만들었으니 매개변수로 넣어줌
+function dragAndDrop(canvas) {                        // 함수 외부에서 컨버스를 만들었으니 매개변수로 넣어줌  드래그 엔 드랍 이미지 인
   $(".canvas-container").each(function(index) {
 
   var images = document.querySelectorAll(".furniture img");
@@ -337,7 +348,7 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
     var newImage = new fabric.Image(img, { 
           left: x, 
           top: y,
-        });        
+        });                                                         //이미지 패브릭 만듬
         canvas.add(newImage);
 
     return false;
@@ -364,3 +375,7 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
   });
 }
 
+function capturebutton(canvas){
+    canvas.requestRenderAll();                                               //캔버스 전체를 캡쳐따오기
+    console.log(canvas.toDataURL('image/png'));
+}
