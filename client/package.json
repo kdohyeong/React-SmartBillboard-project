@@ -16,7 +16,9 @@
     "react-dom": "^16.13.1",
     "react-player": "^1.15.3",
     "react-scripts": "3.4.1",
-    "request": "^2.88.2"
+    "react-simple-keyboard": "^2.3.5",
+    "request": "^2.88.2",
+    "simple-keyboard-layouts": "^1.12.82"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,7 +1,10 @@
 import React, { Fragment } from 'react'
 import ReactPlayer from 'react-player'
-import { omit } from 'lodash';
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
+// import layout from "simple-keyboard-layouts/build/layouts/korean";
 import Fsrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/video/test.mp4';
+import './DesignCanvas.css';
 const fabric = window.fabric   // 윈도우 안에 패브릭을 넣어줌
 var $ = require('jquery')     // 제이쿼리를 사용하기로함
 
@@ -29,8 +32,15 @@ class DesignCanvas extends React.Component {
             src3:"http://placehold.it/220x220/848/000", 
             src4:"http://html5demos.com/assets/dizzy.mp4",      
             scale :0.5,
+
+            mode:"off",
+            layoutName: "default",
+            // layout: {layout},
+            input: ""
     }
   }
+  
+
   
     // formJson(canvas) {
     // var json = this.state.canvas.toJSON();
@@ -51,31 +61,101 @@ class DesignCanvas extends React.Component {
     //    })
     //   );
     // }
+    onChange = input => {
+      this.setState({ input });
+      console.log("Input changed", input);
+    };
 
+    onKeyPress = button => {
+      console.log("Button pressed", button);
+      if (button === "{shift}" || button === "{lock}") this.handleShift();
+    };
+
+    handleShift = () => {
+      const layoutName = this.state.layoutName;
   
-  componentDidMount() {
-    const canvas = new fabric.Canvas(this.c)          //컨버스를 만듬 + this.c를 넣는데 this.c는 밑에부분 보셈
+      this.setState({
+        layoutName: layoutName === "default" ? "shift" : "default"
+      });
+    };
+
+    onChangeInput = event => {
+      const input = event.target.value;
+      
+      this.setState({ input });
+      // this.keyboard.setInput(input);
+    };
+    
+
+  componentDidMount = () => {
+    const canvas = this.canvas = new fabric.Canvas(this.c)          //컨버스를 만듬 + this.c를 넣는데 this.c는 밑에부분 보셈
     canvas.setHeight(700);                            //캔버스의 크기설정할수 있음
     canvas.setWidth(1500);
     this.setState({ canvas })                  
-    dragAndDrop(canvas);
-    // addVideo(canvas);
     
+    dragAndDrop(canvas);
+   
     canvas.on('mouse:down', function(options) {
-    console.log(options.e.clientX, options.e.clientY);
-    // console.log(canvas.toJSON().objects[0].src);
-    getIndex(canvas);
-
-    $("#delete").click(function(){
-      // canvas.isDrawingMode = false;                        //삭제 버튼누르면 삭제 함수 실행
+      console.log(options.e.clientX, options.e.clientY);
+      // console.log(canvas.toJSON().objects[0].src);
+      getIndex(canvas);
+  
+      $("#delete").click(function(){
+        // canvas.isDrawingMode = false;                        //삭제 버튼누르면 삭제 함수 실행
       deleteObjects(canvas);
+  
+        });
       });
-    });
 
-    $("#addtext").click(function(){
-      addText(canvas);
-      });  
-  }      
+      // $('#capture').click(function(e){ 
+      // 	e.preventDefault();
+      //   canvas.renderAll();
+      //   console.log(canvas.toDataURL());
+      // });
+     
+      $("#addtext").click(function(e){
+        e.preventDefault();
+        addText(canvas);
+        $('#new_text').val('');
+        
+        });  
+
+      $('#bg_color').on('input', function() { 
+      	canvas.backgroundColor = $('#bg_color').val();
+      	canvas.renderAll();
+      });
+      
+     
+  }
+
+  onKeyBoard() {
+    if (this.state.mode ==='on'){
+      return <Keyboard
+          keyboardRef={r => (this.keyboard = r)}
+          layoutName={this.state.layoutName}
+          onChange={this.onChange}
+          onKeyPress={this.onKeyPress}
+          // layout= {layout}
+        />
+      }
+    }
+
+    handleChangebutton(){
+      if (this.state.mode === 'on'){
+      return <button onClick={() => this.handleChangeMode('off')}>Keyboard Off</button>
+      }
+      else if (this.state.mode === 'off'){
+      return <button onClick={() => this.handleChangeMode('on')}>Keyboard on</button>
+      }
+    }
+
+   handleChangeMode = (mode) => {
+    this.setState({
+       mode: mode
+        });
+      }
+    
+
 
   render() {
     const children = React.Children.map(this.props.children, child => {
@@ -102,6 +182,26 @@ class DesignCanvas extends React.Component {
         <ReactPlayer url='http://html5demos.com/assets/dizzy.mp4' width="250px" height="250px"></ReactPlayer>
         <video src= {Fsrc} class='canvas-vid' width="250" height="250"></video>
         </div>
+        <div>
+        <input
+          value={this.state.input}
+          placeholder={"Virtual Keyboard Start"}
+          onChange={this.onChangeInput}
+          type="text"
+          id="new_text"
+          class="form-control"
+        />
+        {this.onKeyBoard()}
+        <div>
+        {this.handleChangebutton()}
+        <button id="addtext">Text into Canvas</button>
+        </div>
+        <div class="col-md-9">Background Color</div>
+		      		<div class="col-md-3">
+		      			<input className="color"type="color" id="bg_color"/>
+		      		</div>
+      
+        </div>
 
         <button onClick={e => {
           e.preventDefault()
@@ -109,8 +209,8 @@ class DesignCanvas extends React.Component {
         }}>To JSON</button>
 
         <button id="delete">Delete selected image</button>
-        <button id="addtext">Add Text</button>
 
+        <button id="capture">Submit Canvas</button>
       </Fragment>
       );
   }
@@ -120,41 +220,20 @@ export default DesignCanvas
 
 
 
-// function saveCanvas(canvas) {
-//   console.log(canvas.getObjects().indexOf($('furniture')));
-// }
-
-// function addVideo(src){
-
-// var video1El = document.querySelectorAll('.furniture video.canvas-vid');
-//     var video1 = new fabric.Image(video1El, {
-//       left: 0,
-//       top: 0,
-//       width : 200,
-//       height : 200
-//     });
-
-//     canvas.add(video1);
-
-//     fabric.util.requestAnimFrame(function render() {
-//       canvas.requestRenderAll();
-//       fabric.util.requestAnimFrame(render);
-//     });
-//   }
-
-
 function addText(canvas) { 
-  canvas.add(new fabric.IText('Input Text', { 
+  if($('#new_text').val() !=='') {
+    var newText = new fabric.IText($('#new_text').val(), {                 ///씨 val  이놈이 문제였어 이놈이 
         left: 50,
         top: 100,
         fontFamily: 'arial black',
         fill: '#333',
         fontSize: 50
-  }));
-  canvas.requestRenderAll();
-  }
-
-  
+      });
+        canvas.add(newText);
+        canvas.requestRenderAll();
+        $('#new_text').val('');
+    }
+}
 
 function getIndex(canvas){
   var activeObj = canvas.getActiveObject();
@@ -170,6 +249,7 @@ function getIndex(canvas){
   return activeObj && canvas.getObjects().indexOf(activeObj)
  }
 
+ 
  function deleteObjects(canvas){
   var activeObject = canvas.getActiveObjects(),
       activeobjectGroup = new fabric.ActiveSelection(activeObject, {              //여러개 선택하면 삭제 안되니깐 새로 패브릭으로 만들어주고
@@ -246,6 +326,7 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
 
     var img = document.querySelector(".furniture img.img_dragging");
     
+    
 
     console.log("event: ", e);
 
@@ -255,7 +336,7 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
 
     var newImage = new fabric.Image(img, { 
           left: x, 
-          top: y  
+          top: y,
         });        
         canvas.add(newImage);
 
@@ -282,3 +363,4 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
 
   });
 }
+
