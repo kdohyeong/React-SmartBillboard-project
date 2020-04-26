@@ -25,8 +25,10 @@ constructor(props){
           top: null,
           left: null, 
           type: null,             // 'IMAGE' || 'VIDEO'
-          angle: null             // angle
-    }]
+          angle: null,             // ANGLE
+          scaleX: null,
+          scaleY: null,
+      }]
     }
   }
 
@@ -34,7 +36,7 @@ constructor(props){
       this.callApi('videos')
       .then(res => this.setState({datas: res}))
       .catch(err => console.log(err));
-      this.changeView() 
+      this.viewChange() 
     }
     
   callApi = async (value) => {
@@ -50,26 +52,26 @@ constructor(props){
   }
 
   
-  changeView() {
+  viewChange() {
     if (this.state.mode === 'BILLBOARD'){
       if (this.state.category === 'AI') 
-        {return this.state.datas ? <ShowAI datas={this.state.datas}/> : '..LOADING'}  
+        { return this.state.datas ? <ShowAI datas={this.state.datas}/> : '..LOADING '}  
       else if (this.state.category === 'CUSTOM') 
-        {return this.state.datas ? <ShowCustom datas={this.state.datas}/> : '..LOADING'}
+        { return this.state.datas ? <ShowCustom datas={this.state.datas}/> : '..LOADING' }
     }
-    else if (this.state.mode === 'MAKE') {return <MakeCustom/>}
+    else if (this.state.mode === 'MAKE') { return <MakeCustom/> }
   }
 
   render(){
     return(
-      <div>
-      {this.changeView()}
-        <ul class>
-        <li class>
-          <Button fullWidth='true' variant="contained" color="primary" href="#contained-buttons" fontSize="x-large"
+      <div height = '100%'>
+      { this.viewChange() }
+        <ul>
+        <li>
+          <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" fontSize="x-large"
                   onClick={() => this.handleChangeMode('BILLBOARD')} name='Show' value='ShowBill'>Home</Button></li>
-        <li class>
-          <Button fullWidth='true' variant="contained" color="primary" href="#contained-buttons" 
+        <li>
+          <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" 
                   onClick={() => this.handleChangeMode('MAKE')} name='Make' value='MakeBill'>Make BillBoard</Button></li>
         </ul>
       </div>
