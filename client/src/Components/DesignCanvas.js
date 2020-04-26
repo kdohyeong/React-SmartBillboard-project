@@ -434,18 +434,18 @@ function addVideo(selected) {
   // console.log($('#addvideo')[0]);                                   //  이거 존나 중요!!!! 
   // console.log(document.getElementById('addvideo'));
 
-var v = selected; //$('.addvideo video');
-const vid = new fabric.CustomVideo(v, {left: 50, top: 0, width: 200, height: 200, cropRect: {x: 200, y: 50, w: 200, h: 200}});
+var vid = selected; //$('.addvideo video');
+const newVideo = new fabric.CustomVideo(vid, {left: 50, top: 0, width: 200, height: 200, cropRect: {x: 200, y: 50, w: 200, h: 200}});
 
-canvas.add(vid);                                                      //비디오 추가
+canvas.add(newVideo);                                                      //비디오 추가
 
-vid.getElement().addEventListener('play', playTrigger, false);           
-vid.getElement().play();
+newVideo.getElement().addEventListener('play', playTrigger, false);           
+newVideo.getElement().play();
 
 
 function playTrigger() {
-if(v.paused || v.ended) return false;                               //비디오를 프레임단위로 재생시키는 함수
-vid.set('time', v.currentTime)
+if(vid.paused || vid.ended) return false;                               //비디오를 현재시간으로 계속 셋팅해서 플레이시킴
+newVideo.set('time', vid.currentTime)
 // console.log('current time:', v.currentTime)
 canvas.renderAll()
 setTimeout(playTrigger,20)
