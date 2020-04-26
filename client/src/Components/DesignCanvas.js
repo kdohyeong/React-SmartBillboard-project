@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
-import ReactPlayer from 'react-player'
+// import ReactPlayer from 'react-player'
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 // import layout from "simple-keyboard-layouts/build/layouts/korean";
 import Fsrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/video/test.mp4';
-import Isrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/test1.png';
+import Isrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/test1.png';               //웹에선 로컬주소를 불러올수없어서 import 시킴
 import './DesignCanvas.css';
+
 const fabric = window.fabric                                                // 윈도우 안에 패브릭을 넣어줌
 var $ = require('jquery')                                                   // 제이쿼리를 사용하기로함
 
@@ -64,6 +65,7 @@ class DesignCanvas extends React.Component {
     //    })
     //   );
     // }
+    
     onChange = input => {
       this.setState({ input });                                         //키보드 작동시키는 함수들
       console.log("Input changed", input);
@@ -91,54 +93,50 @@ class DesignCanvas extends React.Component {
     
 
   componentDidMount = () => {
-    const canvas = this.canvas = new fabric.Canvas(this.c , {backgroundColor : '#fff'});      //컨버스를 만듬 + this.c를 넣는데 this.c는 밑에부분 보셈
-
-    // var width = parseInt(cs.getPropertyValue('width'), 10);
-    // var height = parseInt(cs.getPropertyValue('height'), 10);
-
+                
+      canvas = new fabric.Canvas(this.c , {backgroundColor : '#fff'});      // 컨버스를 만듬 
+      canvas.setHeight(700);                                                //캔버스의 크기설정할수 있음
+      canvas.setWidth(1500);
+      this.setState({ canvas })                                             //스테이트에 컨버스내용 저장
     
-    canvas.setHeight(700);                                          //캔버스의 크기설정할수 있음
-    canvas.setWidth(1500);
-    this.setState({ canvas })                  
-    
-    dragAndDrop(canvas);
+      dragAndDrop();
+
+      // VdragAndDrop();                                                    //이미지 드래그앤드랍 실행
    
-    canvas.on('mouse:down', function(options) {
-      console.log(options.e.clientX, options.e.clientY);             //인덱스 따기
-      // console.log(canvas.toJSON().objects[0].src);
-      getIndex(canvas);
-  
-      $("#delete").click(function(){
-        // canvas.isDrawingMode = false;                        //삭제 버튼누르면 삭제 함수 실행
-      deleteObjects(canvas);
-  
-        });
+      canvas.on('mouse:down', function(options) {
+      // console.log(options.e.clientX, options.e.clientY);                 //내 현재 마우스가 클릭한 위치 따기     
+      getIndex();
       });
 
-      // $('#capture').click(function(e){ 
-      // 	e.preventDefault();
-      //   canvas.renderAll();
-      //   console.log(canvas.toDataURL());
-      // });
+      $("#delete").click(function(e){
+        // e.preventDefault();
+        // canvas.isDrawingMode = false;                                    //삭제 버튼누르면 삭제 함수 실행
+        deleteObjects();
+        });
      
       $("#addtext").click(function(e){
-        e.preventDefault();
-        addText(canvas);                                        //텍스트 추가 이벤트
+        // e.preventDefault();
+        addText();                                                          //텍스트 추가
         $('#new_text').val('');
-        
         });  
 
       $('#bg_color').on('input', function() { 
-      	canvas.backgroundColor = $('#bg_color').val();          //컬러설정 이벤트
+      	canvas.backgroundColor = $('#bg_color').val();                      //배경 컬러설정 
       	canvas.renderAll();
-      });
-      
+        });
       
       $("#capture").click(function(){
-        // canvas.isDrawingMode = false;                        //클릭하면 버튼함수 호출해서 캡쳐따기
-        capturebutton(canvas);
-  
+        // canvas.isDrawingMode = false;                                    //클릭하면 버튼함수 호출해서 캡쳐따기
+        capturebutton();
         });
+
+      $(".addvideo video").on('click', function(e){                         ///$("#addvideo").click(function(e){                
+        // e.preventDefault();                                              //이런식으로 주면 배열하나에 첫번째껏만 들어가는 오류 발생해서 안됐음.  
+        // console.log($(this)[0]);
+        // addVideo($(this)[0]);
+        addVideo(e.target);                                                 //텍스트 추가
+        });  
+
   }
 
   onKeyBoard() {
@@ -171,27 +169,36 @@ class DesignCanvas extends React.Component {
 
 
   render() {
-    const children = React.Children.map(this.props.children, child => {
-      return React.cloneElement(child, {
-      canvas: this.state.canvas,                        //컴포넌트에는 기본적으로 this.props.children이라는걸 다 가지고있는데
-      })                                                //  이 놈을 child라는 놈으로 매핑돌리고 그 child라는 놈에다가 
-    })                                                   //  this.state.canvas 값을 추가해서 리턴해줌
+    // const children = React.Children.map(this.props.children, child => {
+    //   return React.cloneElement(child, {
+    //   canvas: this.state.canvas,                        //컴포넌트에는 기본적으로 this.props.children이라는걸 다 가지고있는데
+    //   })                                                //  이 놈을 child라는 놈으로 매핑돌리고 그 child라는 놈에다가 
+    // })                                                   //  this.state.canvas 값을 추가해서 리턴해줌
                                                        
     return (
       <Fragment>
         <div className="canvas-container">
         <canvas ref={c => (this.c = c)}/>            {/*이게 컨버스라는 객체 전체 내용을 ref 로 참조해서 c라고 명시한담에*/}
-        {this.state.canvas && children}              {/*그 c를 this.c에 넣어주면 this.c 라는놈이 컨버스 객체의 전체내용을 담고있음*/} 
+        {/* {this.state.canvas && children}  */}
+                                                     {/*그 c를 this.c에 넣어주면 this.c 라는놈이 컨버스 객체의 전체내용을 담고있음*/} 
         </div>                                       {/*그놈을 newCanvas(this.c) 넣어서 컨버스를 만듬 애초에 만들때 */}
 
         <div className="furniture">
+        
+        <div className="addimage">
         <img draggable='true' src={this.state.src1} width='200' height='200' />
         <img draggable='true' src={Isrc} width='200' height='200' />
         <img draggable='true' src={this.state.src2} width='200' height='200' />
         <img draggable='true' src={this.state.src3} width='200' height='200' />
         <img draggable='true' src={this.state.src5} width='200' height='200' />
-        <ReactPlayer url={this.state.src4} width="250px" height="250px"></ReactPlayer>
-        <video src={Fsrc} class='canvas-vid' width="250" height="250"></video>
+        </div>
+
+        <div className='addvideo'>
+        <video src={Fsrc} width="250px" height="250px" muted poster loop/>
+        <video src="http://html5demos.com/assets/dizzy.mp4" width='250px' height='250px' poster loop />
+        {/* <ReactPlayer url={this.state.src4} width="250px" height="250px" /> */}
+        </div>
+
         </div>
         
         <div>
@@ -216,7 +223,7 @@ class DesignCanvas extends React.Component {
 
         <button onClick={e => {
           e.preventDefault()
-          console.log(this.state.canvas.toJSON());
+          console.log(canvas.toJSON());                                 //this.state.canvas.toJSON() 스테이트에도 넣어줬으니 이렇게 해도됌.
         }}>To JSON</button>
 
         <button id="delete">Delete Selected Image</button>
@@ -230,12 +237,14 @@ class DesignCanvas extends React.Component {
 export default DesignCanvas
 
 
+let canvas = null; //new fabric.Canvas(this.c , {backgroundColor : '#fff'});      //컨버스를 전역으로 선언!
 
-function addText(canvas) { 
+
+function addText() { 
   if($('#new_text').val() !=='') {
-    var newText = new fabric.IText($('#new_text').val(), {                 ///씨 val  이놈이 문제였어 이놈이 
+    var newText = new fabric.IText($('#new_text').val(), {                 ///c val  이놈이 문제였어 이놈이 
         left: 50,
-        top: 100,                                                          //텍스트 추가함수
+        top: 100,                                                          // 텍스트 추가
         fontFamily: 'arial black',
         fill: '#333',
         fontSize: 50
@@ -243,10 +252,11 @@ function addText(canvas) {
         canvas.add(newText);
         canvas.requestRenderAll();
         $('#new_text').val('');
+        console.log($('#new_text'));
     }
 }
 
-function getIndex(canvas){
+function getIndex(){
   var activeObj = canvas.getActiveObject();
   
   // if (activeObj){
@@ -261,7 +271,7 @@ function getIndex(canvas){
  }
 
  
- function deleteObjects(canvas){
+ function deleteObjects(){
   var activeObject = canvas.getActiveObjects(),                                   //삭제함수
       activeobjectGroup = new fabric.ActiveSelection(activeObject, {              //여러개 선택하면 삭제 안되니깐 새로 패브릭으로 만들어주고
       canvas: canvas                                                              // 그걸 통으로 지우는 방식
@@ -280,17 +290,17 @@ function getIndex(canvas){
 }
 
 
-function dragAndDrop(canvas) {                        // 함수 외부에서 컨버스를 만들었으니 매개변수로 넣어줌  드래그 엔 드랍 이미지 인
+function dragAndDrop() {                                        // 드래그 엔 드랍 이미지 인
   $(".canvas-container").each(function(index) {
 
-  var images = document.querySelectorAll(".furniture img");
+  var images = document.querySelectorAll(".addimage img");
  
   var canvasObject = $('canvas',this)[0];
   var canvasContainer = $(this)[0];
 
   var imageOffsetX, imageOffsetY;
 
-  function handleDragStart(e) {  //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
+  function handleDragStart(e) {                                    //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
     console.log('DragStart');
   
     [].forEach.call(images, function(img) {
@@ -300,12 +310,12 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
     this.classList.add("img_dragging");
     // console.log(this.classList);
     var imageOffset = $(this).offset();
-        imageOffsetX = e.clientX - imageOffset.left;  //내가 놓은 위치에 이미지가 그 위치에 안착하게 도와주는부분
+        imageOffsetX = e.clientX - imageOffset.left;             //내가 놓은 위치에 이미지가 그 위치에 안착하게 도와주는부분
         imageOffsetY = e.clientY - imageOffset.top;
  
   }
 
-  function handleDragOver(e) {   //넣을 이미지가 canvas위에서 자리이동할때 불리는함수
+  function handleDragOver(e) {                                  //넣을 이미지가 canvas위에서 자리이동할때 불리는함수
     console.log('drag over');
     if (e.preventDefault) {
       e.preventDefault();
@@ -314,18 +324,18 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
     return false;
   }
 
-  function handleDragEnter(e) {  //넣을 이미지가 canvas안에 들어가는 시점에서 발생되는 함수(start와는다름)
+  function handleDragEnter(e) {                             //넣을 이미지가 canvas안에 들어가는 시점에서 발생되는 함수(start와는다름)
     console.log('drag enter');
   this.classList.add("over");
   // console.log(this.classList);
   }
 
-  function handleDragLeave(e) {  //넣을 이미지가 canvas에서 나오는 시점에서 발생되는함수
+  function handleDragLeave(e) {                                //넣을 이미지가 canvas에서 나오는 시점에서 발생되는함수
     console.log('drag leave');
     this.classList.remove("over");
   }
 
-  async function handleDrop(e) {    //넣을 이미지가 canvas위에 드랍됬을때 호출되는함수
+  async function handleDrop(e) {                              //넣을 이미지가 canvas위에 드랍됬을때 호출되는함수
     console.log('drag drop');
     e = e || window.event;
     if (e.preventDefault) {
@@ -335,10 +345,9 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
       e.stopPropagation();
     }
 
-    var img = document.querySelector(".furniture img.img_dragging");
+    var img = document.querySelector(".addimage img.img_dragging");
     
     
-
     console.log("event: ", e);
 
     var offset = $(canvasObject).offset();
@@ -375,7 +384,75 @@ function dragAndDrop(canvas) {                        // 함수 외부에서 컨
   });
 }
 
-function capturebutton(canvas){
-    canvas.requestRenderAll();                                               //캔버스 전체를 캡쳐따오기
-    console.log(canvas.toDataURL('image/png'));
+function capturebutton(){
+    var img = canvas.requestRenderAll();         
+    setTimeout(() => {  
+    var imgs = img.toDataURL('image/jpeg')                                                         //캔버스 전체를 캡쳐따오기
+    console.log(imgs);
+  }, 2000)
 }
+
+///비디오 넣기위해 클래스 객체로 커스텀으로 만들어줌. 
+fabric.CustomVideo = fabric.util.createClass(fabric.Image, {
+  type: 'video',
+  cropRect: null,                                              //비디오에서 부분만 짜를때 쓸꺼
+  
+  initialize: function (video, options) {
+    const defaultOpts = {
+      lockRotation: false,                                 //앵글 돌리기 잠금
+      objectCaching: true,
+      cacheProperties: ['time']
+    }
+    options = options || {}
+      
+    this.callSuper('initialize', video, 
+                   Object.assign({}, defaultOpts, options))
+  },
+  _draw: function (video,ctx,w,h) {
+    const c = this.cropRect
+    const d = {
+      x: -this.width/2,
+      y: -this.height/2,
+      w: this.width,
+      h: this.height
+    }
+    if (c) {
+      ctx.drawImage(video, d.x, d.y, d.w, d.h)
+    } else {
+      ctx.drawImage(video, d.x, d.y, d.w, d.h)
+    }
+  },
+  
+  _render: function (ctx) {
+    // console.log('rendered', this.cropLeft)
+    this._draw(this.getElement(), ctx)
+  }
+})
+
+
+function addVideo(selected) {
+  // console.log($('#addvideo')[0]);                                   //  이거 존나 중요!!!! 
+  // console.log(document.getElementById('addvideo'));
+
+var v = selected; //$('.addvideo video');
+const vid = new fabric.CustomVideo(v, {left: 50, top: 0, width: 200, height: 200, cropRect: {x: 200, y: 50, w: 200, h: 200}});
+
+canvas.add(vid);                                                      //비디오 추가
+
+vid.getElement().addEventListener('play', playTrigger, false);           
+vid.getElement().play();
+
+
+function playTrigger() {
+if(v.paused || v.ended) return false;                               //비디오를 프레임단위로 재생시키는 함수
+vid.set('time', v.currentTime)
+// console.log('current time:', v.currentTime)
+canvas.renderAll()
+setTimeout(playTrigger,20)
+}
+}
+
+
+
+
+

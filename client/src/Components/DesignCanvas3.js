@@ -41,4 +41,4 @@ class DesignCanvas extends React.Component {
   }
 }
 
-export default DesignCanvas
+export default DesignCanvas2
