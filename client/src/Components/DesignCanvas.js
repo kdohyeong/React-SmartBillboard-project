@@ -200,7 +200,7 @@ export default DesignCanvas
 
 function addText() { 
   if($('#new_text').val() !=='') {
-    var newText = new fabric.IText($('#new_text').val(), {                 ///c val  이놈이 문제였어 이놈이 문자열로 반환해줌
+    var newText = new fabric.Text($('#new_text').val(), {                 ///c val  이놈이 문제였어 이놈이 문자열로 반환해줌
         left: 50,
         top: 100,                                                          // 텍스트 추가
         fontFamily: 'arial black',
@@ -330,11 +330,15 @@ function dragAndDrop() {                                              // 드래�
     var vy = e.clientY - (offset.top + videoOffsetY);    
     var vx = e.clientX - (offset.left + videoOffsetX);
     // console.log($(img).prop('tagName'));                                           //태그이름 반환
-
+    
+  
     if ($(img).prop('tagName') === 'IMG'){
-      var newImage = new fabric.Image(img, {left: x, top: y, });                      //이미지 패브릭 만듬
+      var newImage = new fabric.Image(img, { left: x, top: y });                      //이미지 패브릭 만듬
         canvas.add(newImage);
+        newImage.scaleToWidth(img.width);                                             //태그에 단 width(200)을 scale to에 넣어줘서 해결
+        newImage.scaleToHeight(img.height);
       }
+
 
     else if ($(vid).prop('tagName') === 'VIDEO'){                                     //비디오 패브릭 만듬
       var newVideo = new fabric.CustomVideo(vid, {left: vx, top: vy, width: 200, height: 200, cropRect: {x: 200, y: 50, w: 200, h: 200}});

@@ -9,7 +9,6 @@ class MakeCustom extends React.Component {
     return (
       <div>
         <DesignCanvas>
-        {/* <CanvasItem/> */}
         </DesignCanvas>
         
       </div>
