@@ -135,7 +135,18 @@ class DesignCanvas extends React.Component {
       canvas.backgroundColor = $('#bg_color').val();                      //배경 컬러설정 
       canvas.renderAll();
     });
-  
+
+    $('#text_color').on('input', function(){
+        // console.log(canvas.getActiveObject());
+      if (canvas.getActiveObject() !== undefined && canvas.getActiveObject() !== null){       //선택한 객체가 undefined나 null이 아닐때, 
+        if (canvas.getActiveObject().text){                                                   //선택한 객체가 text일때만 실행시키기 위해서
+        canvas.getActiveObject().set({fill: $('#text_color').val()});                         //텍스트 색깔 설정
+        canvas.renderAll();
+        // console.log(canvas.getActiveObject());
+        }
+      }
+    });
+
   }
 
   render() {
@@ -154,6 +165,7 @@ class DesignCanvas extends React.Component {
         <img draggable='true' src={this.state.src2} width='200' height='200' />
         <img draggable='true' src={this.state.src3} width='200' height='200' />
         <img draggable='true' src={this.state.src5} width='200' height='200' />
+        <img draggable='true' src="https://i.pinimg.com/originals/e2/b7/da/e2b7da6bc749ba2d7ebdfda28fac6009.gif" width='200' height='200' />
         </div>
 
         <div className='addvideo'>
@@ -177,10 +189,14 @@ class DesignCanvas extends React.Component {
         {this.handleChangeButton()}
         <button id="addtext">Text into Canvas</button>
         </div>
-        <div>Background Color</div>
+        <label>Background Color</label>
 		      		<div>
-		      			<input className="color" type="color" id="bg_color"/>
+		      			<input className="bg_color" type="color" id="bg_color"/>
 		      		</div>
+        <label>Font-Color</label>
+              <div>
+                <input className="text_color" type="color" id="text_color"/>
+              </div>
         </div>
 
         <button onClick={e => {
@@ -277,6 +293,7 @@ function dragAndDrop() {                                              // 드래�
     [].forEach.call(videos, function(vid) {
         vid.classList.remove("vid_dragging");                         //이미지랑 마찬가지
       });
+      
     if ($(this).prop('tagName') === 'VIDEO'){
       this.classList.add("vid_dragging");
 
