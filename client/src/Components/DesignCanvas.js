@@ -105,48 +105,44 @@ class DesignCanvas extends React.Component {
     }
   
   handleChangeMode = (mode) => {
-    this.setState({ mode: mode });                                        ///여기까지 키보드
+    this.setState({ mode: mode });                                          ///여기까지 키보드
     }
 
   componentDidMount() {
 
     canvas = new fabric.Canvas(this.c , { backgroundColor : '#fff' });      // 컨버스를 만듬 
 
-    // console.log($('.canvas-container').width())                         //컨테이너 크기를 100%로 하고 그값을 가져올라고 찍어봄
-    canvas.setHeight(700);                                                //캔버스의 크기설정할수 있음
-    canvas.setWidth($('.canvas-container').width() * 0.75);                //75퍼센트만 컨버스 25%는 메뉴 들어갈곳
-    this.setState({ canvas })                                             //스테이트에 컨버스내용 저장
+    // console.log($('.canvas-container').width())                          //컨테이너 크기를 100%로 하고 그값을 가져올라고 찍어봄
+    canvas.setHeight(700);                                                  //캔버스의 크기설정할수 있음
+    canvas.setWidth($('.canvas-container').width() * 0.7);                  //75퍼센트만 컨버스 25%는 메뉴 들어갈곳
+    this.setState({ canvas })                                               //스테이트에 컨버스내용 저장
     
-    dragAndDrop();                                                        //이미지,비디오 드래그 앤 드랍으로 추가
+    dragAndDrop();                                                          //이미지,비디오 드래그 앤 드랍으로 추가
     
-    canvas.on('mouse:down', function() { getIndex(); });                   //인덱스 앞으로 땡기기
-    // console.log(options.e.clientX, options.e.clientY);                 //내 현재 마우스가 클릭한 위치 따기 
+    canvas.on('mouse:down', function() { bringFrontIndex() });              //선택한 객체 인덱스 맨앞으로 땡기기
+    // console.log(options.e.clientX, options.e.clientY);                   //내 현재 마우스가 클릭한 위치 따기 
                      
-    $("#capture").click(function(){ captureButton(); });                  //캡쳐 함수 실행
+    $("#capture").click(function(){ captureButton(); });                    //캡쳐 함수 실행
 
-    $("#delete").click(function(e){ deleteObjects(); });                  //삭제 버튼누르면 삭제 함수 실행
+    $("#delete").click(function(){ deleteObjects(); });                     //삭제 버튼누르면 삭제 함수 실행
                                           
-    $("#addtext").click(function(e){
-      addText();                                                          //텍스트 추가
-      $('#new_text').val('');
-    });  
+    $("#addtext").click(function(){ addText(); $('#new_text').val(''); });  //텍스트 추가 
 
-    $('#bg_color').on('input', function() { 
-      canvas.backgroundColor = $('#bg_color').val();                      //배경 컬러설정 
-      canvas.renderAll();
-    });
+    $('#sendbackwards').click(function() { sendBackwards(); });             //선택한 객체의 인덱스를 맨뒤로 보내기 버튼
 
-    $('#text_color').on('input', function(){
-        // console.log(canvas.getActiveObject());
-      if (canvas.getActiveObject() !== undefined && canvas.getActiveObject() !== null){       //선택한 객체가 undefined나 null이 아닐때, 
-        if (canvas.getActiveObject().text){                                                   //선택한 객체가 text일때만 실행시키기 위해서
-        canvas.getActiveObject().set({fill: $('#text_color').val()});                         //텍스트 색깔 설정
-        canvas.renderAll();
-        // console.log(canvas.getActiveObject());
-        }
-      }
-    });
+    $('#bg_color').on('input', function() { bgColor(); });                  //배경색 지정
 
+    $('#text_color').on('input', function() { textColor(); });              //텍스트 색깔  
+
+    $('#text_stroke_color').on('input', function(){ textStrokeColor(); });  //텍스트 테두리 색깔
+
+    $('#text_stroke_width').on('input', function(){ textStrokeWidth(); });  //텍스트 테두리 두께
+
+    $('#text_bg_color').on('input', function(){ textBgColor(); });          //텍스트 배경 색깔
+  
+    $('#font_family').on('input', function() { fontFamily(); });            //폰트 종류 바꾸기
+  
+  
   }
 
   render() {
@@ -154,49 +150,79 @@ class DesignCanvas extends React.Component {
     return (
       <Fragment>
         <div className="canvas-container" width='100%'>
-        <canvas ref={c => (this.c = c)} />            {/*컨버스 참조내용을 c로 받고 그걸 this.c에 넣어서 new fabric.canvas(this.c) */}                                              
+          <canvas ref={c => (this.c = c)} />            {/*컨버스 참조내용을 c로 받고 그걸 this.c에 넣어서 new fabric.canvas(this.c) */}                                              
                                             
+          <div className="furniture">
+          
+            <div className="addimage">
+            <img draggable='true' src={this.state.src1} width='200' height='200' />
+            <img draggable='true' src={Isrc} width='200' height='200' />
+            <img draggable='true' src={this.state.src2} width='200' height='200' />
+            <img draggable='true' src={this.state.src3} width='200' height='200' />
+            <img draggable='true' src={this.state.src5} width='200' height='200' />
+            <img draggable='true' src="https://i.pinimg.com/originals/e2/b7/da/e2b7da6bc749ba2d7ebdfda28fac6009.gif" width='200' height='200' />
+            </div>
 
-        <div className="furniture">
+            <div className='addvideo'>
+            <video draggable='true' src={Fsrc} width="250px" height="250px" muted poster="" />
+            <video draggable='true' src="http://html5demos.com/assets/dizzy.mp4" width='250px' height='250px' poster="" loop />
+            </div>
+
+          </div>
         
-        <div className="addimage">
-        <img draggable='true' src={this.state.src1} width='200' height='200' />
-        <img draggable='true' src={Isrc} width='200' height='200' />
-        <img draggable='true' src={this.state.src2} width='200' height='200' />
-        <img draggable='true' src={this.state.src3} width='200' height='200' />
-        <img draggable='true' src={this.state.src5} width='200' height='200' />
-        <img draggable='true' src="https://i.pinimg.com/originals/e2/b7/da/e2b7da6bc749ba2d7ebdfda28fac6009.gif" width='200' height='200' />
-        </div>
+          <div>
+          <input
+            value={this.state.input}
+            placeholder={"Virtual Keyboard Start"}
+            onChange={this.onChangeInput}
+            type="text"
+            id="new_text"
+            className="form-control"
+          />
+          {this.onKeyBoard()}
+          <div>
 
-        <div className='addvideo'>
-        <video draggable='true' src={Fsrc} width="250px" height="250px" muted poster="" />
-        <video draggable='true' src="http://html5demos.com/assets/dizzy.mp4" width='250px' height='250px' poster="" loop />
-        </div>
+          {this.handleChangeButton()}
+          <button id="addtext">Text into Canvas</button>
+          <button id="sendbackwards">Send Backwards</button>
+          </div>
 
-        </div>
-        
-        <div>
-        <input
-          value={this.state.input}
-          placeholder={"Virtual Keyboard Start"}
-          onChange={this.onChangeInput}
-          type="text"
-          id="new_text"
-          className="form-control"
-        />
-        {this.onKeyBoard()}
-        <div>
-        {this.handleChangeButton()}
-        <button id="addtext">Text into Canvas</button>
-        </div>
+        <label>Font family</label>
+        <select id="font_family">
+          <option value="arial black" selected>Arial</option>
+          <option value="helvetica" >Helvetica</option>
+          <option value="comic sans ms">Comic Sans MS</option>
+          <option value="impact">Impact</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="delicious">Delicious</option>
+          <option value="verdana">Verdana</option>
+          <option value="georgia">Georgia</option>
+          <option value="courier">Courier</option>
+        </select><br/>
+
         <label>Background Color</label>
 		      		<div>
-		      			<input className="bg_color" type="color" id="bg_color"/>
+		      			<input className="color" id="bg_color" type="color" />
 		      		</div>
-        <label>Font-Color</label>
+        <label>Text Color</label>
               <div>
-                <input className="text_color" type="color" id="text_color"/>
+                <input className="color" id="text_color" type="color" />
               </div>
+        <label>Stroke Color</label>
+              <div>
+                <input className="color" id="text_stroke_color" type="color" />
+              </div>
+        <label>Stroke Width</label>
+              <div>
+                <input className="range"  id="text_stroke_width" type="range" min="1" max="10" defaultValue="1" />
+              </div>
+        <label>Text Background Color</label>
+              <div>
+                <input className="color" id="text_bg_color" type="color" />
+              </div>
+        
+
+
         </div>
 
         <button onClick={e => {
@@ -214,9 +240,72 @@ class DesignCanvas extends React.Component {
 
 export default DesignCanvas
 
+function textColor() {
+  // console.log(canvas.getActiveObject());
+if (canvas.getActiveObject() !== undefined && canvas.getActiveObject() !== null){       //선택한 객체가 undefined나 null이 아닐때, 
+  if (canvas.getActiveObject().text){                                                   //선택한 객체가 text일때만 실행시키기 위해서
+  canvas.getActiveObject().set({ fill: $('#text_color').val() });                                //텍스트 색깔 설정
+  canvas.renderAll();
+  // console.log(canvas.getActiveObject());
+    }
+  }
+}
+
+function fontFamily() {
+  // console.log(canvas.getActiveObject());
+if (canvas.getActiveObject() !== undefined && canvas.getActiveObject() !== null){       //선택한 객체가 undefined나 null이 아닐때, 
+  if (canvas.getActiveObject().text){                                                   //선택한 객체가 text일때만 실행시키기 위해서
+  canvas.getActiveObject().set({ fontFamily: $('#font_family').val() });                                //텍스트 색깔 설정
+  canvas.renderAll();
+  // console.log(canvas.getActiveObject());
+    }
+  }
+}
+
+function bgColor() {
+  canvas.backgroundColor = $('#bg_color').val();                                          //컨버스 배경 컬러설정 
+  canvas.renderAll();
+}
+
+function textStrokeColor() {
+  if (canvas.getActiveObject() !== undefined && canvas.getActiveObject() !== null){       //선택한 객체가 undefined나 null이 아닐때, 
+    if (canvas.getActiveObject().text){                                                   //선택한 객체가 text일때만 실행시키기 위해서
+    canvas.getActiveObject().set({ stroke: $('#text_stroke_color').val() });                     //텍스트 테두리 색깔 설정
+    canvas.renderAll();
+    }
+  }
+}
+
+function textStrokeWidth() {
+  if (canvas.getActiveObject() !== undefined && canvas.getActiveObject() !== null){       //선택한 객체가 undefined나 null이 아닐때, 
+    if (canvas.getActiveObject().text){                                                   //선택한 객체가 text일때만 실행시키기 위해서
+    canvas.getActiveObject().set({ strokeWidth: $('#text_stroke_width').val() });                     //텍스트 테두리 색깔 설정
+    canvas.renderAll();
+    }
+  }
+}
+
+function textBgColor() {
+  if (canvas.getActiveObject() !== undefined && canvas.getActiveObject() !== null){       //선택한 객체가 undefined나 null이 아닐때, 
+    if (canvas.getActiveObject().text){                                                   //선택한 객체가 text일때만 실행시키기 위해서
+    canvas.getActiveObject().set({ backgroundColor: $('#text_bg_color').val() });                //텍스트 배경 색깔 설정
+    canvas.renderAll();
+    }
+  }
+}
+
+
+function sendBackwards() {
+  var activeObj = canvas.getActiveObject();
+  if (activeObj){
+    canvas.sendToBack(activeObj);
+    canvas.discardActiveObject();
+  }
+}
+
 function addText() { 
   if($('#new_text').val() !=='') {
-    var newText = new fabric.Text($('#new_text').val(), {                 ///c val  이놈이 문제였어 이놈이 문자열로 반환해줌
+    var newText = new fabric.IText($('#new_text').val(), {                 ///c val  이놈이 문제였어 이놈이 문자열로 반환해줌
         left: 50,
         top: 100,                                                          // 텍스트 추가
         fontFamily: 'arial black',
@@ -230,10 +319,9 @@ function addText() {
   }
 }
 
-function getIndex() {
-  var activeObj = canvas.getActiveObject();
-  
-  canvas.bringToFront(activeObj);                                                  //클릭한놈 인덱스를 제일 앞으로 당겨옴 
+function bringFrontIndex() {
+  var activeObj = canvas.getActiveObject();  
+  canvas.bringToFront(activeObj);                                                     //클릭한놈 인덱스를 제일 앞으로 당겨옴 
   // console.log(activeObj && canvas.getObjects().indexOf(activeObj));                //콘솔에 인덱스 찍어봄 확인용
   // return activeObj && canvas.getObjects().indexOf(activeObj)
 }
