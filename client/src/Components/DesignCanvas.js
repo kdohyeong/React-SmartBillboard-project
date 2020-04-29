@@ -24,21 +24,23 @@ class DesignCanvas extends React.Component {
             scaleX: '',
             scaleY: '',
        
-            canvas: null,                                   //캔버스값을 저장을 저장할 그릇    
+            canvas: null,                                                   //캔버스값을 저장을 저장할 그릇  
+            menu : 'VIDEO'                                     
       }
   }
    
 
   componentDidMount() {
 
-    canvas = new fabric.Canvas(this.c , { backgroundColor : '#fff' , position : 'relative'});      // 컨버스를 만듬 
+    canvas = new fabric.Canvas(this.c , { backgroundColor : '#fff' });      // 컨버스를 만듬 
 
     // console.log($('.canvas-container').width())                          //컨테이너 크기를 100%로 하고 그값을 가져올라고 찍어봄
     canvas.setHeight($('.canvas-wrapper').height());                                                  //캔버스의 크기설정할수 있음
     canvas.setWidth($('.canvas-wrapper').width());                  //75퍼센트만 컨버스 25%는 메뉴 들어갈곳
-    this.setState({ canvas })                                               //스테이트에 컨버스내용 저장
-    
-    dragAndDrop();                                                          //이미지,비디오 드래그 앤 드랍으로 추가
+    this.setState({ canvas }) 
+
+
+    dragAndDrop();                        
     
     canvas.on('mouse:down', function() { bringFrontIndex() });              //선택한 객체 인덱스 맨앞으로 땡기기
     // console.log(options.e.clientX, options.e.clientY);                   //내 현재 마우스가 클릭한 위치 따기 
@@ -61,8 +63,36 @@ class DesignCanvas extends React.Component {
 
     $('#text_bg_color').on('input', function(){ textBgColor(); });          //텍스트 배경 색깔
   
-    $('#font_family').on('input', function() { fontFamily(); });            //폰트 종류 바꾸기
-  
+    $('#font_family').on('input', function() { fontFamily(); });            //폰트 종류 바꾸기//스테이트에 컨버스내용 저장
+    }
+
+    componentDidUpdate(e) {
+
+
+    }
+
+  handleMenuChange(menu){ this.setState({ menu : menu }) };
+
+  handleFurnitureChange() {
+    if (this.state.menu === 'IMAGE'){ 
+      return (
+      <div className="addimage"> 
+        <Image></Image> 
+      </div>
+      ); 
+    }
+    else if(this.state.menu === 'VIDEO'){ 
+      return (
+      <div className='addvideo'> 
+        <Video></Video> 
+      </div>); 
+    }
+    else if (this.state.menu === 'TEXT'){ 
+      return (
+      <div className="addtext">
+        <Text></Text>
+      </div>); 
+    }
   }
 
   render() {
@@ -78,9 +108,9 @@ class DesignCanvas extends React.Component {
           </div>                                 
 
           <div className="menu">
-            <button>Image</button>
-            <button>Video</button>
-            <button>Text</button>
+            <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('IMAGE')}}>Image</button>
+            <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('VIDEO')}}>Video</button>
+            <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('TEXT')}}>Text</button>
          
             <label>Background Color</label>
 		      	<div>
@@ -96,18 +126,20 @@ class DesignCanvas extends React.Component {
 
 
           <div className="furniture">
-            <div className="addimage">
-            <Image></Image>
+            { this.handleFurnitureChange() }
+            {/* <div className="addimage"> 
+              <Image></Image> 
             </div>
 
-            <div className='addvideo'>
-            <Video></Video>
+            <div className='addvideo'> 
+              <Video></Video> 
             </div>
-
+          
             <div className="addtext">
-            <Text></Text>
-            </div>
+              <Text></Text>
+            </div> */}
           </div>
+
         </div>
      
       </Fragment>
@@ -223,7 +255,8 @@ function deleteObjects() {
 }
 
 
-function dragAndDrop() {                                              // 드래그 엔 드랍 이미지 인
+function dragAndDrop() {
+                                               // 드래그 엔 드랍 이미지 인
   $(".canvas-container").each(function(index) {
   
   var images = document.querySelectorAll(".addimage img");            // 태그달고있는 전체 NodeList로 반환
@@ -237,7 +270,7 @@ function dragAndDrop() {                                              // 드래�
 
 
   function handleDragStart(e) {                                       //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
-    // console.log('DragStart');
+    console.log('DragStart');
     // console.log($(this).prop('tagName'));                          //태그이름 따려고 따는놈 반환값= VIDEO OR IMG
 
     [].forEach.call(images, function(img) {
@@ -245,6 +278,7 @@ function dragAndDrop() {                                              // 드래�
        // console.log(img.classList);
     });
 
+  
     if ($(this).prop('tagName') === 'IMG'){
       this.classList.add("img_dragging");                             //태그이름이 이미지일때만 실행해서 넣어줌
       // console.log(this.classList);
@@ -289,7 +323,7 @@ function dragAndDrop() {                                              // 드래�
   }
 
   async function handleDrop(e) {                                     //넣을 이미지가 canvas위에 드랍됬을때 호출되는함수
-    // console.log('drag drop');
+    console.log('drag drop');
     e = e || window.event;
     if (e.preventDefault) {
       e.preventDefault();
@@ -301,6 +335,8 @@ function dragAndDrop() {                                              // 드래�
     var img = document.querySelector(".addimage img.img_dragging");                   //저 태그단놈(드래그 중일때만 저 class가 있으니) 선택
     var vid = document.querySelector(".addvideo video.vid_dragging");
     
+    console.log(vid);
+    console.log(img);
     // console.log($(".addvideo video"));
     // console.log("event: ", e);
 
