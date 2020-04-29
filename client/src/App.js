@@ -5,6 +5,7 @@ import ShowCustom from './Components/ShowCustom';
 import Button from '@material-ui/core/Button';
 import './App.css';
 
+
 const mainUrl = 'http://localhost:5000/api/';
 
 // const videoUrl = mainUrl + 'video';
@@ -64,15 +65,15 @@ constructor(props){
 
   render(){
     return(
-      <div height = '100%'>
+      <div>
       { this.viewChange() }
         <ul>
-        <li>
-          <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" fontSize="x-large"
-                  onClick={() => this.handleChangeMode('BILLBOARD')} name='Show' value='ShowBill'>Home</Button></li>
-        <li>
-          <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" 
-                  onClick={() => this.handleChangeMode('MAKE')} name='Make' value='MakeBill'>Make BillBoard</Button></li>
+          <li>
+            <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" fontSize="x-large"
+                    onClick={() => this.handleChangeMode('BILLBOARD')} name='Show' value='ShowBill'>Home</Button></li>
+          <li>
+            <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" 
+                    onClick={() => this.handleChangeMode('MAKE')} name='Make' value='MakeBill'>Make BillBoard</Button></li>
         </ul>
       </div>
      );

@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react'
-import Keyboard from "react-simple-keyboard";
-import "react-simple-keyboard/build/css/index.css";
-import Fsrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/video/test.mp4';
-import Isrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/test1.png';               //웹에선 로컬주소를 불러올수없어서 import 시킴
 import './DesignCanvas.css';
+import Image from './Image.js'
+import Video from './Video.js'
+import Text from './Text.js'
 
-const fabric = window.fabric;                                                // 윈도우 안에 패브릭을 넣어줌
-var $ = require('jquery');                                                   // 제이쿼리를 사용하기로함
+const fabric = window.fabric;                                                //윈도우 안에 패브릭을 넣어줌
+var $ = require('jquery');                                                   //제이쿼리를 사용하기로함
 let canvas = null;                                                           //컨버스를 전역으로 선언!
 
 class DesignCanvas extends React.Component {
@@ -25,96 +24,18 @@ class DesignCanvas extends React.Component {
             scaleX: '',
             scaleY: '',
        
-            canvas: null,                                   //캔버스값을 저장을 저장할 그릇
-            src1:"http://placehold.it/150x150/848/fff",
-            src2:"https://http.cat/100",
-            src3:"http://placehold.it/220x220/848/000", 
-            src4:"http://html5demos.com/assets/dizzy.mp4",
-            src5:"https://http.cat/302", 
-            src6:"https://lh3.googleusercontent.com/proxy/Behma-2PNzGok16XGYQz8tStsyGAHpq8kanQl-BHgRYeUaKCtxPkNfzrpmXo4qUjcSDfySDecalkLUHstUIdc0Iym8IDl-oLeNceeEhh-dta1EH1F3v4UP1dFrOjgUgJMi69OlA2VT_N2uNyylBuiNen2hLVK788O3yRjV77hA",     
-            scale :0.5,
-
-            mode:"off",
-            layoutName: "default",
-            // layout: {layout},
-            input: ""
+            canvas: null,                                   //캔버스값을 저장을 저장할 그릇    
       }
   }
-  
-    // formJson(canvas) {
-    // var json = this.state.canvas.toJSON();
-    // json.objects.map((data) => this.setState({
-
-    //     id : null,
-    //     src: data.src,
-    //     width: data.width,
-    //     height: data.height,
-    //     top: data.top,
-    //     left: data.left,
-    //     angle: data.angle,
-    //     categoty: 'CUSTOM',
-    //     type : data.type,
-    //     scaleX: data.scaleX,
-    //     scaleY: data.scaleY
-
-    //    })
-    //   );
-    // }
-    
-  onChange = input => {                                                       //키보드 작동시키는 함수들
-    this.setState({ input });                                               
-    // console.log("Input changed", input);
-  };
-
-  onKeyPress = button => {
-    // console.log("Button pressed", button);
-    if (button === "{shift}" || button === "{lock}") this.handleShift();
-  };
-
-  handleShift = () => {
-    const layoutName = this.state.layoutName;
-      this.setState({
-        layoutName: layoutName === "default" ? "shift" : "default"
-      });
-    };
-
-  onChangeInput = event => {
-    const input = event.target.value;  
-      this.setState({ input });
-      // this.keyboard.setInput(input);                                   
-    };
-    
-  onKeyBoard() {
-    if (this.state.mode ==='on'){
-      return <Keyboard
-          keyboardRef={r => (this.keyboard = r)}
-          layoutName={this.state.layoutName}
-          onChange={this.onChange}
-          onKeyPress={this.onKeyPress}
-        />
-      }
-    }
-  
-  handleChangeButton() {
-    if (this.state.mode === 'on'){
-      return <button onClick={() => this.handleChangeMode('off')}>Keyboard Off</button>
-      }
-    else if (this.state.mode === 'off'){
-      return <button onClick={() => this.handleChangeMode('on')}>Keyboard on</button>
-      }
-    }
-  
-  handleChangeMode = (mode) => {
-    this.setState({ mode: mode });                                          ///여기까지 키보드
-    }
+   
 
   componentDidMount() {
 
-    canvas = new fabric.Canvas(this.c , { backgroundColor : '#fff' });      // 컨버스를 만듬 
+    canvas = new fabric.Canvas(this.c , { backgroundColor : '#fff' , position : 'relative'});      // 컨버스를 만듬 
 
     // console.log($('.canvas-container').width())                          //컨테이너 크기를 100%로 하고 그값을 가져올라고 찍어봄
-    canvas.setHeight(700);                                                  //캔버스의 크기설정할수 있음
-    canvas.setWidth($('.canvas-container').width() * 0.7);                  //75퍼센트만 컨버스 25%는 메뉴 들어갈곳
+    canvas.setHeight($('.canvas-wrapper').height());                                                  //캔버스의 크기설정할수 있음
+    canvas.setWidth($('.canvas-wrapper').width());                  //75퍼센트만 컨버스 25%는 메뉴 들어갈곳
     this.setState({ canvas })                                               //스테이트에 컨버스내용 저장
     
     dragAndDrop();                                                          //이미지,비디오 드래그 앤 드랍으로 추가
@@ -142,97 +63,53 @@ class DesignCanvas extends React.Component {
   
     $('#font_family').on('input', function() { fontFamily(); });            //폰트 종류 바꾸기
   
-  
   }
 
   render() {
 
     return (
       <Fragment>
-        <div className="canvas-container" width='100%'>
-          <canvas ref={c => (this.c = c)} />            {/*컨버스 참조내용을 c로 받고 그걸 this.c에 넣어서 new fabric.canvas(this.c) */}                                              
-                                            
+        <div className="canvas-container">
+
+          <div className="title">Billboard Maker</div>
+
+          <div className="canvas-wrapper">
+            <canvas ref={c => (this.c = c)} />  
+          </div>                                 
+
+          <div className="menu">
+            <button>Image</button>
+            <button>Video</button>
+            <button>Text</button>
+         
+            <label>Background Color</label>
+		      	<div>
+		      		<input className="color" id="bg_color" type="color" />
+		      	</div>
+            
+            <button id="delete">Delete Selected Image</button>
+            <button id="sendbackwards">Send Backwards</button>
+            <button id="capture">Capture Canvas</button>
+
+            <button onClick={e => { e.preventDefault(); console.log(canvas.toJSON()); }}>To JSON</button>
+          </div>
+
+
           <div className="furniture">
-          
             <div className="addimage">
-            <img draggable='true' src={this.state.src1} width='200' height='200' />
-            <img draggable='true' src={Isrc} width='200' height='200' />
-            <img draggable='true' src={this.state.src2} width='200' height='200' />
-            <img draggable='true' src={this.state.src3} width='200' height='200' />
-            <img draggable='true' src={this.state.src5} width='200' height='200' />
-            <img draggable='true' src="https://i.pinimg.com/originals/e2/b7/da/e2b7da6bc749ba2d7ebdfda28fac6009.gif" width='200' height='200' />
+            <Image></Image>
             </div>
 
             <div className='addvideo'>
-            <video draggable='true' src={Fsrc} width="250px" height="250px" muted poster="" />
-            <video draggable='true' src="http://html5demos.com/assets/dizzy.mp4" width='250px' height='250px' poster="" loop />
+            <Video></Video>
             </div>
 
+            <div className="addtext">
+            <Text></Text>
+            </div>
           </div>
-        
-          <div>
-          <input
-            value={this.state.input}
-            placeholder={"Virtual Keyboard Start"}
-            onChange={this.onChangeInput}
-            type="text"
-            id="new_text"
-            className="form-control"
-          />
-          {this.onKeyBoard()}
-          <div>
-
-          {this.handleChangeButton()}
-          <button id="addtext">Text into Canvas</button>
-          <button id="sendbackwards">Send Backwards</button>
-          </div>
-
-        <label>Font family</label>
-        <select id="font_family">
-          <option value="arial black" selected>Arial</option>
-          <option value="helvetica" >Helvetica</option>
-          <option value="comic sans ms">Comic Sans MS</option>
-          <option value="impact">Impact</option>
-          <option value="Times New Roman">Times New Roman</option>
-          <option value="delicious">Delicious</option>
-          <option value="verdana">Verdana</option>
-          <option value="georgia">Georgia</option>
-          <option value="courier">Courier</option>
-        </select><br/>
-
-        <label>Background Color</label>
-		      		<div>
-		      			<input className="color" id="bg_color" type="color" />
-		      		</div>
-        <label>Text Color</label>
-              <div>
-                <input className="color" id="text_color" type="color" />
-              </div>
-        <label>Stroke Color</label>
-              <div>
-                <input className="color" id="text_stroke_color" type="color" />
-              </div>
-        <label>Stroke Width</label>
-              <div>
-                <input className="range"  id="text_stroke_width" type="range" min="1" max="10" defaultValue="1" />
-              </div>
-        <label>Text Background Color</label>
-              <div>
-                <input className="color" id="text_bg_color" type="color" />
-              </div>
-        
-
-
         </div>
-
-        <button onClick={e => {
-          e.preventDefault()
-          console.log(canvas.toJSON());                                 //this.state.canvas.toJSON() 스테이트에도 넣어줬으니 이렇게 해도됌.
-        }}>To JSON</button>
-
-        <button id="delete">Delete Selected Image</button>
-        <button id="capture">Capture Canvas</button>
-        </div>  
+     
       </Fragment>
       );
   }

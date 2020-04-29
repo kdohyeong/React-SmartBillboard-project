@@ -1,7 +1,7 @@
 import React from 'react'
 import 'fabric'   
 import DesignCanvas from './DesignCanvas'
-// import CanvasItem from './CanvasItem'
+import './MakeCustom.css';
 
 class MakeCustom extends React.Component {
     
@@ -10,7 +10,6 @@ class MakeCustom extends React.Component {
       <div>
         <DesignCanvas>
         </DesignCanvas>
-        
       </div>
   );   
     }
