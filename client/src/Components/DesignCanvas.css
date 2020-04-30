@@ -77,13 +77,25 @@ input {
     box-sizing: border-box;
 
   }
-
-
+/* 
 .addimage{
-  float: right;
+  width: 0;
+  height : 0;
+  display : none;
+  box-sizing: border-box;
 }
-
 
 .addvideo{
-  float : right;
+  width: 0;
+  height: 0;
+  display : none;
+  box-sizing: border-box;
 }
+
+.addtext{
+  width: 0;
+  height: 0;
+  display : none;
+  box-sizing: border-box;
+}
+ */

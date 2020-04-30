@@ -4,10 +4,11 @@ import Image from './Image.js'
 import Video from './Video.js'
 import Text from './Text.js'
 
+import { dragAndDrop } from '../utils/canvas';
+
 const fabric = window.fabric;                                                //윈도우 안에 패브릭을 넣어줌
 var $ = require('jquery');                                                   //제이쿼리를 사용하기로함
-let canvas = null;                                                           //컨버스를 전역으로 선언!
-
+let canvas = null;
 class DesignCanvas extends React.Component {
   constructor(props) {
     super(props);
@@ -25,22 +26,19 @@ class DesignCanvas extends React.Component {
             scaleY: '',
        
             canvas: null,                                                   //캔버스값을 저장을 저장할 그릇  
-            menu : 'VIDEO'                                     
+            menu : 'IMAGE'                                     
       }
   }
-   
 
   componentDidMount() {
-
     canvas = new fabric.Canvas(this.c , { backgroundColor : '#fff' });      // 컨버스를 만듬 
+    dragAndDrop(canvas)
 
     // console.log($('.canvas-container').width())                          //컨테이너 크기를 100%로 하고 그값을 가져올라고 찍어봄
     canvas.setHeight($('.canvas-wrapper').height());                                                  //캔버스의 크기설정할수 있음
     canvas.setWidth($('.canvas-wrapper').width());                  //75퍼센트만 컨버스 25%는 메뉴 들어갈곳
     this.setState({ canvas }) 
-
-
-    dragAndDrop();                        
+                
     
     canvas.on('mouse:down', function() { bringFrontIndex() });              //선택한 객체 인덱스 맨앞으로 땡기기
     // console.log(options.e.clientX, options.e.clientY);                   //내 현재 마우스가 클릭한 위치 따기 
@@ -49,51 +47,68 @@ class DesignCanvas extends React.Component {
 
     $("#delete").click(function(){ deleteObjects(); });                     //삭제 버튼누르면 삭제 함수 실행
                                           
-    $("#addtext").click(function(){ addText(); $('#new_text').val(''); });  //텍스트 추가 
+     //텍스트 추가 
 
     $('#sendbackwards').click(function() { sendBackwards(); });             //선택한 객체의 인덱스를 맨뒤로 보내기 버튼
 
     $('#bg_color').on('input', function() { bgColor(); });                  //배경색 지정
 
-    $('#text_color').on('input', function() { textColor(); });              //텍스트 색깔  
+                //텍스트 색깔  
 
-    $('#text_stroke_color').on('input', function(){ textStrokeColor(); });  //텍스트 테두리 색깔
+     //텍스트 테두리 색깔
 
-    $('#text_stroke_width').on('input', function(){ textStrokeWidth(); });  //텍스트 테두리 두께
+     //텍스트 테두리 두께
 
-    $('#text_bg_color').on('input', function(){ textBgColor(); });          //텍스트 배경 색깔
+          //텍스트 배경 색깔
   
-    $('#font_family').on('input', function() { fontFamily(); });            //폰트 종류 바꾸기//스테이트에 컨버스내용 저장
-    }
-
-    componentDidUpdate(e) {
+              //폰트 종류 바꾸기//스테이트에 컨버스내용 저장
 
 
-    }
-
-  handleMenuChange(menu){ this.setState({ menu : menu }) };
-
-  handleFurnitureChange() {
-    if (this.state.menu === 'IMAGE'){ 
-      return (
-      <div className="addimage"> 
-        <Image></Image> 
-      </div>
-      ); 
-    }
-    else if(this.state.menu === 'VIDEO'){ 
-      return (
-      <div className='addvideo'> 
-        <Video></Video> 
-      </div>); 
-    }
-    else if (this.state.menu === 'TEXT'){ 
-      return (
-      <div className="addtext">
-        <Text></Text>
-      </div>); 
-    }
   }
+
+  componentDidUpdate(){
+
+
+    // $("#addtext").click(function(){ addText(); $('#new_text').val(''); });
+
+    $('#text_color').on('input', function() { textColor(); });  
+
+    $('#text_bg_color').on('input', function(){ textBgColor(); });   
+
+    $('#font_family').on('input', function() { fontFamily(); });  
+
+    $('#text_stroke_width').on('input', function(){ textStrokeWidth(); });
+
+    $('#text_stroke_color').on('input', function(){ textStrokeColor(); }); 
+  }
+
+  handleMenuChange(menu){
+     this.setState({ menu : menu })
+    };
+
+    handleFurnitureChange() {
+      if (this.state.menu === 'IMAGE'){ 
+        return (
+        <div className="addimage"> 
+          <Image></Image> 
+        </div>
+        ); 
+      }
+      else if(this.state.menu === 'VIDEO'){ 
+        return (
+        <div className='addvideo'>  
+          <Video></Video> 
+        </div>
+        ); 
+      }
+      else if (this.state.menu === 'TEXT'){ 
+        return (
+        <div className="addtext">
+          <Text></Text>
+        </div>
+        ); 
+      }
+    };
 
   render() {
 
@@ -106,12 +121,12 @@ class DesignCanvas extends React.Component {
           <div className="canvas-wrapper">
             <canvas ref={c => (this.c = c)} />  
           </div>                                 
-
+        
           <div className="menu">
             <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('IMAGE')}}>Image</button>
             <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('VIDEO')}}>Video</button>
             <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('TEXT')}}>Text</button>
-         
+          
             <label>Background Color</label>
 		      	<div>
 		      		<input className="color" id="bg_color" type="color" />
@@ -126,16 +141,18 @@ class DesignCanvas extends React.Component {
 
 
           <div className="furniture">
+
             { this.handleFurnitureChange() }
-            {/* <div className="addimage"> 
+            {/* <div id="sideimage"className="addimage"> 
               <Image></Image> 
             </div>
+            
 
-            <div className='addvideo'> 
+            <div id="sidevideo" className='addvideo'> 
               <Video></Video> 
             </div>
           
-            <div className="addtext">
+            <div id="sidetext" className="addtext">
               <Text></Text>
             </div> */}
           </div>
@@ -203,28 +220,11 @@ function textBgColor() {
   }
 }
 
-
 function sendBackwards() {
   var activeObj = canvas.getActiveObject();
   if (activeObj){
     canvas.sendToBack(activeObj);
     canvas.discardActiveObject();
-  }
-}
-
-function addText() { 
-  if($('#new_text').val() !=='') {
-    var newText = new fabric.IText($('#new_text').val(), {                 ///c val  이놈이 문제였어 이놈이 문자열로 반환해줌
-        left: 50,
-        top: 100,                                                          // 텍스트 추가
-        fontFamily: 'arial black',
-        fill: '#333',
-        fontSize: 50
-      });
-      canvas.add(newText);
-      canvas.requestRenderAll();
-      $('#new_text').val('');
-      // console.log($('#new_text'));
   }
 }
 
@@ -235,7 +235,6 @@ function bringFrontIndex() {
   // return activeObj && canvas.getObjects().indexOf(activeObj)
 }
 
- 
 function deleteObjects() {
   var activeObject = canvas.getActiveObjects(),                                   //삭제함수
       activeobjectGroup = new fabric.ActiveSelection(activeObject, {              //여러개 선택하면 삭제 안되니깐 새로 패브릭으로 만들어주고
@@ -254,159 +253,6 @@ function deleteObjects() {
   canvas.requestRenderAll();
 }
 
-
-function dragAndDrop() {
-                                               // 드래그 엔 드랍 이미지 인
-  $(".canvas-container").each(function(index) {
-  
-  var images = document.querySelectorAll(".addimage img");            // 태그달고있는 전체 NodeList로 반환
-  var videos = document.querySelectorAll(".addvideo video");
- 
-  var canvasObject = $('canvas',this)[0];
-  var canvasContainer = $(this)[0];
-
-  var imageOffsetX, imageOffsetY;                                     //좌표 따려고 선언
-  var videoOffsetX, videoOffsetY;
-
-
-  function handleDragStart(e) {                                       //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
-    console.log('DragStart');
-    // console.log($(this).prop('tagName'));                          //태그이름 따려고 따는놈 반환값= VIDEO OR IMG
-
-    [].forEach.call(images, function(img) {
-      img.classList.remove("img_dragging");                           //모든 img중에 classList 에서 dragging 남아있는거 지움 
-       // console.log(img.classList);
-    });
-
-  
-    if ($(this).prop('tagName') === 'IMG'){
-      this.classList.add("img_dragging");                             //태그이름이 이미지일때만 실행해서 넣어줌
-      // console.log(this.classList);
-      
-    var imageOffset = $(this).offset();
-        imageOffsetX = e.clientX - imageOffset.left;                  //내가 놓은 위치에 이미지가 그 위치에 안착하게 값 계산
-        imageOffsetY = e.clientY - imageOffset.top;
-    }
-
-   
-    [].forEach.call(videos, function(vid) {
-        vid.classList.remove("vid_dragging");                         //이미지랑 마찬가지
-      });
-      
-    if ($(this).prop('tagName') === 'VIDEO'){
-      this.classList.add("vid_dragging");
-
-      var videoOffset = $(this).offset();
-      videoOffsetX = e.clientX - videoOffset.left;             
-      videoOffsetY = e.clientY - videoOffset.top;
-    }
-  }
-
-  function handleDragOver(e) {                                        //넣을 이미지가 canvas위에서 자리이동할때 불리는함수
-    // console.log('drag over');
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    e.dataTransfer.dropEffect = "copy";
-    return false;
-  }
-
-  function handleDragEnter(e) {                                       //넣을 이미지가 canvas안에 들어가는 시점에서 발생되는 함수
-    // console.log('drag enter');
-  this.classList.add("over");
-  // console.log(this.classList);
-  }
-
-  function handleDragLeave(e) {                                       //넣을 이미지가 canvas에서 나오는 시점에서 발생되는함수
-    // console.log('drag leave');
-    this.classList.remove("over");
-  }
-
-  async function handleDrop(e) {                                     //넣을 이미지가 canvas위에 드랍됬을때 호출되는함수
-    console.log('drag drop');
-    e = e || window.event;
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    if (e.stopPropagation) {
-      e.stopPropagation();
-    }
-
-    var img = document.querySelector(".addimage img.img_dragging");                   //저 태그단놈(드래그 중일때만 저 class가 있으니) 선택
-    var vid = document.querySelector(".addvideo video.vid_dragging");
-    
-    console.log(vid);
-    console.log(img);
-    // console.log($(".addvideo video"));
-    // console.log("event: ", e);
-
-    var offset = $(canvasObject).offset();
-
-    var y = e.clientY - (offset.top + imageOffsetY);    
-    var x = e.clientX - (offset.left + imageOffsetX);                                 //이미지 or 동영상 추가될 때 드랍되는 좌표값 
-
-    var vy = e.clientY - (offset.top + videoOffsetY);    
-    var vx = e.clientX - (offset.left + videoOffsetX);
-    // console.log($(img).prop('tagName'));                                           //태그이름 반환
-    
-  
-    if ($(img).prop('tagName') === 'IMG'){
-      var newImage = new fabric.Image(img, { left: x, top: y });                      //이미지 패브릭 만듬
-        canvas.add(newImage);
-        newImage.scaleToWidth(img.width);                                             //태그에 단 width(200)을 scale to에 넣어줘서 해결
-        newImage.scaleToHeight(img.height);
-      }
-
-
-    else if ($(vid).prop('tagName') === 'VIDEO'){                                     //비디오 패브릭 만듬
-      var newVideo = new fabric.CustomVideo(vid, {left: vx, top: vy, width: 200, height: 200, cropRect: {x: 200, y: 50, w: 200, h: 200}});
-        canvas.add(newVideo);     
-
-      function playTrigger() {
-        var vid = $(".addvideo video.vid_dragging");
-          if(vid.paused || vid.ended) return false;                                   //비디오의 장면을 현재시간으로 계속 셋팅해서 플레이시킴
-            newVideo.set('time', vid.currentTime);
-          // console.log('current time:', v.currentTime)
-          canvas.renderAll();
-          setTimeout(playTrigger,20)
-          }   
-
-        newVideo.getElement().addEventListener('play', playTrigger(), false);           
-        newVideo.getElement().play();
-    }
-
-    return false;
-  }
-
-  function handleDragEnd(e) {
-    // console.log('Dragend');
-    [].forEach.call(images, function(img) {
-      img.classList.remove("img_dragging");
-    });
-
-    [].forEach.call(videos, function(vid) {
-      vid.classList.remove("vid_dragging");
-    });
-  }
-
-  [].forEach.call(images, function(img) {
-    img.addEventListener("dragstart", handleDragStart, false);
-    img.addEventListener("dragend", handleDragEnd, false);
-  });
-
-  [].forEach.call(videos, function(vid) {
-    vid.addEventListener("dragstart", handleDragStart, false);
-    vid.addEventListener("dragend", handleDragEnd, false);
-  });
-
-
-  canvasContainer.addEventListener("dragenter", handleDragEnter, false);
-  canvasContainer.addEventListener("dragover", handleDragOver, false);
-  canvasContainer.addEventListener("dragleave", handleDragLeave, false);
-  canvasContainer.addEventListener("drop", handleDrop, false);
-  });
-}
-
 function captureButton() {
     var img = canvas.requestRenderAll();         
     setTimeout(() => {  
@@ -414,6 +260,7 @@ function captureButton() {
     console.log(imgs);
   }, 2000)
 }
+
 
 ///비디오 넣기위해 클래스 객체로 커스텀으로 만들어줌. 
 fabric.CustomVideo = fabric.util.createClass(fabric.Image, {

@@ -1,6 +1,12 @@
 import React, { Fragment }from 'react'
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
+import { addTextToCanvas } from '../utils/canvas'
+
+const fabric = window.fabric;                                                //윈도우 안에 패브릭을 넣어줌
+var $ = require('jquery');  
+
+let test = '';
 
 class Text extends React.Component {
   constructor(props) {
@@ -10,6 +16,8 @@ class Text extends React.Component {
         layoutName: "default",
         input: ""
       }
+
+      this.addText = this.addText.bind(this);
   }
 
   onChange = input => { this.setState({ input }); };
@@ -22,6 +30,7 @@ class Text extends React.Component {
   };
     
   onChangeInput = event => {
+    console.log(event.target.value);
     const input = event.target.value;  
     this.setState({ input });
   };
@@ -50,12 +59,34 @@ class Text extends React.Component {
     this.setState({ mode: mode });                                          ///여기까지 키보드
   }
 
+  addText () { 
+    if($('#new_text').val() !=='') {
+      console.log(test);
+      console.log(this.keyboard);
+      addTextToCanvas();
+      if (this.keyboard) {
+        this.keyboard.clearInput();
+      }
+      document.getElementById('new_text').value = '';
+    }
+  }
+
+  // componentDidUpdate() {
+  //   console.log('value: ', document.getElementById('new_text').value);
+  //   console.log('input: ',this.state.input);
+  //   if (document.getElementById('new_text').value === '' && this.state.input !== '') {
+  //     this.setState({ input: '' });
+  //   }
+  // }
+
   render() {
+    console.log(this.state.input);
     return (
       <Fragment>
        
 
        <input
+            ref={(t) => {test = t}}
             value={this.state.input}
             placeholder={"Virtual Keyboard Start"}
             onChange={this.onChangeInput}
@@ -66,7 +97,7 @@ class Text extends React.Component {
       {this.onKeyBoard()}
       {this.handleChangeButton()}
 
-      <button id="addtext">Text into Canvas</button><br/>
+      <button id="addtext" onClick={this.addText}>Text into Canvas</button><br/>
 
       <label>Font family : </label>
         <select id="font_family">

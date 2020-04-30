@@ -1,5 +1,7 @@
 import React, { Fragment }from 'react'
 import Fsrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/video/test.mp4';
+import { dragAndDrop, removeCanvasEvent } from '../utils/canvas';
+
 class Video extends React.Component {
 
   constructor(props) {
@@ -7,6 +9,13 @@ class Video extends React.Component {
         this.state = {
             src1:"http://html5demos.com/assets/dizzy.mp4"
         }
+      }
+      componentDidMount() {
+        dragAndDrop(null);
+      }
+    
+      componentWillUnmount() {
+        removeCanvasEvent();
       }
 
   render() {
