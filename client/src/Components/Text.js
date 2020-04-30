@@ -1,12 +1,10 @@
 import React, { Fragment }from 'react'
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
-import { addTextToCanvas } from '../utils/canvas'
+import { addTextToCanvas } from '../utils/DragDrop.js'
 
-const fabric = window.fabric;                                                //윈도우 안에 패브릭을 넣어줌
 var $ = require('jquery');  
-
-let test = '';
+let text = '';
 
 class Text extends React.Component {
   constructor(props) {
@@ -16,10 +14,9 @@ class Text extends React.Component {
         layoutName: "default",
         input: ""
       }
-
-      this.addText = this.addText.bind(this);
+  this.addText = this.addText.bind(this);
   }
-
+  //키보드 함수
   onChange = input => { this.setState({ input }); };
     
   onKeyPress = button => { if (button === "{shift}" || button === "{lock}") this.handleShift(); };
@@ -28,9 +25,8 @@ class Text extends React.Component {
     const layoutName = this.state.layoutName;
     this.setState({ layoutName: layoutName === "default" ? "shift" : "default" });
   };
-    
+  
   onChangeInput = event => {
-    console.log(event.target.value);
     const input = event.target.value;  
     this.setState({ input });
   };
@@ -45,6 +41,8 @@ class Text extends React.Component {
             />
     }
   };
+
+  handleChangeMode = (mode) => { this.setState({ mode: mode }); }
       
   handleChangeButton() {
     if (this.state.mode === 'on'){
@@ -54,39 +52,21 @@ class Text extends React.Component {
       return <button onClick={() => this.handleChangeMode('on')}>Keyboard on</button>
     }
   }
-      
-  handleChangeMode = (mode) => {
-    this.setState({ mode: mode });                                          ///여기까지 키보드
-  }
-
+  
+  //텍스트 추가 함수 추가하고 value를 지워줌
   addText () { 
     if($('#new_text').val() !=='') {
-      console.log(test);
-      console.log(this.keyboard);
       addTextToCanvas();
-      if (this.keyboard) {
-        this.keyboard.clearInput();
-      }
+      if (this.keyboard) { this.keyboard.clearInput(); }
       document.getElementById('new_text').value = '';
     }
   }
 
-  // componentDidUpdate() {
-  //   console.log('value: ', document.getElementById('new_text').value);
-  //   console.log('input: ',this.state.input);
-  //   if (document.getElementById('new_text').value === '' && this.state.input !== '') {
-  //     this.setState({ input: '' });
-  //   }
-  // }
-
   render() {
-    console.log(this.state.input);
     return (
       <Fragment>
-       
-
        <input
-            ref={(t) => {test = t}}
+            ref={(t) => {text = t}}
             value={this.state.input}
             placeholder={"Virtual Keyboard Start"}
             onChange={this.onChangeInput}
@@ -97,7 +77,7 @@ class Text extends React.Component {
       {this.onKeyBoard()}
       {this.handleChangeButton()}
 
-      <button id="addtext" onClick={this.addText}>Text into Canvas</button><br/>
+      <button id="addtext" onClick={this.addText}>ADD TEXT</button><br/>
 
       <label>Font family : </label>
         <select id="font_family">
@@ -128,7 +108,6 @@ class Text extends React.Component {
               <div>
                 <input className="color" id="text_bg_color" type="color" />
               </div>
-
       </Fragment>
     );
   }

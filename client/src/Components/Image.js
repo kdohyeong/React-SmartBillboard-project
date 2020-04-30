@@ -1,6 +1,7 @@
 import React, { Fragment }from 'react'
-import Isrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/test1.png';     //웹에선 로컬주소를 불러올수없어서 import 시킴
-import { dragAndDrop, removeCanvasEvent } from '../utils/canvas';
+//웹에선 로컬주소를 불러올수없어서 import 시킴
+import Isrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/test1.png';  
+import { dragAndDrop, removeCanvasEvent } from '../utils/DragDrop.js';
 
 class Image extends React.Component {
 
@@ -15,13 +16,9 @@ class Image extends React.Component {
             src6:"https://lh3.googleusercontent.com/proxy/Behma-2PNzGok16XGYQz8tStsyGAHpq8kanQl-BHgRYeUaKCtxPkNfzrpmXo4qUjcSDfySDecalkLUHstUIdc0Iym8IDl-oLeNceeEhh-dta1EH1F3v4UP1dFrOjgUgJMi69OlA2VT_N2uNyylBuiNen2hLVK788O3yRjV77hA",
         }
       }
-  componentDidMount() {
-    dragAndDrop(null);
-  }
+  componentDidMount() { dragAndDrop(null); }
 
-  componentWillUnmount() {
-    removeCanvasEvent();
-  }
+  componentWillUnmount() { removeCanvasEvent(); }
 
   render() {
     return (

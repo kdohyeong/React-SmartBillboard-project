@@ -1,22 +1,18 @@
 import React, { Fragment }from 'react'
 import Fsrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/video/test.mp4';
-import { dragAndDrop, removeCanvasEvent } from '../utils/canvas';
+import { dragAndDrop, removeCanvasEvent } from '../utils/DragDrop.js';
 
 class Video extends React.Component {
-
   constructor(props) {
     super(props);
         this.state = {
             src1:"http://html5demos.com/assets/dizzy.mp4"
         }
       }
-      componentDidMount() {
-        dragAndDrop(null);
-      }
+
+  componentDidMount() { dragAndDrop(null); }
     
-      componentWillUnmount() {
-        removeCanvasEvent();
-      }
+  componentWillUnmount() { removeCanvasEvent(); }
 
   render() {
     return (

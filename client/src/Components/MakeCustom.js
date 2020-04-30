@@ -16,8 +16,3 @@ class MakeCustom extends React.Component {
   }
   
 export default MakeCustom;
-
-
-
-//       <Circle radius={20} top={200} />
-//       <Image url="https://http.cat/100" scale={0.2} top={100} />

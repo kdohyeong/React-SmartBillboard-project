@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactPlayer from 'react-player'       // 웹서버 링크, 로컬 둘다 플레이 가능 
+//웹서버 링크, 로컬 둘다 플레이 가능 
+import ReactPlayer from 'react-player'       
 
 class ShowAI extends React.Component {
     render () {
