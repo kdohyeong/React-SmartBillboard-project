@@ -1,10 +1,11 @@
 import React, { Fragment }from 'react'
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
-import { addTextToCanvas } from '../utils/DragDrop.js'
+import * as Tfunc from '../utils/TextFunction.js';
 
 var $ = require('jquery');  
 let text = '';
+let canvas = null;
 
 class Text extends React.Component {
   constructor(props) {
@@ -14,23 +15,27 @@ class Text extends React.Component {
         layoutName: "default",
         input: ""
       }
-  this.addText = this.addText.bind(this);
+    this.addText = this.addText.bind(this);
+    canvas = this.props.canvas;
   }
+
   //키보드 함수
+
+  handleChangeMode = (mode) => { this.setState({ mode: mode }); };
+
   onChange = input => { this.setState({ input }); };
-    
+      
   onKeyPress = button => { if (button === "{shift}" || button === "{lock}") this.handleShift(); };
-    
-  handleShift = () => {
-    const layoutName = this.state.layoutName;
-    this.setState({ layoutName: layoutName === "default" ? "shift" : "default" });
+      
+  onChangeInput = (e) => { e.preventDefault(); const input = e.target.value; this.setState({ input }); };
+
+  //쉬프트 누르면 대 소문자 전환
+  handleShift = (e) => { 
+    const layoutName = this.state.layoutName; 
+    this.setState({ layoutName: layoutName === "default" ? "shift" : "default" }); 
   };
-  
-  onChangeInput = event => {
-    const input = event.target.value;  
-    this.setState({ input });
-  };
-        
+
+  //ON일때 키보드 반환
   onKeyBoard() {
     if (this.state.mode ==='on'){
       return <Keyboard
@@ -42,73 +47,70 @@ class Text extends React.Component {
     }
   };
 
-  handleChangeMode = (mode) => { this.setState({ mode: mode }); }
-      
+  //키보드 ON & OFF 버튼
   handleChangeButton() {
     if (this.state.mode === 'on'){
-      return <button onClick={() => this.handleChangeMode('off')}>Keyboard Off</button>
+      return <button onClick={(e) => { e.preventDefault(); this.handleChangeMode('off'); }}>Keyboard Off</button>
     }
     else if (this.state.mode === 'off'){
-      return <button onClick={() => this.handleChangeMode('on')}>Keyboard on</button>
+      return <button onClick={(e) => { e.preventDefault(); this.handleChangeMode('on'); }}>Keyboard on</button>
     }
-  }
-  
+  };
+
   //텍스트 추가 함수 추가하고 value를 지워줌
-  addText () { 
+  addText() { 
     if($('#new_text').val() !=='') {
-      addTextToCanvas();
+      Tfunc.addTextToCanvas(canvas);
       if (this.keyboard) { this.keyboard.clearInput(); }
       document.getElementById('new_text').value = '';
     }
-  }
+  };
 
+  //텍스트 글꼴 옵션리스트
+  fontOption() {
+    return (
+    <Fragment>
+      <option value="arial black" selected>Arial</option>
+      <option value="helvetica" >Helvetica</option>
+      <option value="comic sans ms">Comic Sans MS</option>
+      <option value="impact">Impact</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="delicious">Delicious</option>
+      <option value="verdana">Verdana</option>
+      <option value="georgia">Georgia</option>
+      <option value="courier">Courier</option>
+    </Fragment>
+    );
+  };
+  
   render() {
     return (
       <Fragment>
-       <input
-            ref={(t) => {text = t}}
-            value={this.state.input}
-            placeholder={"Virtual Keyboard Start"}
-            onChange={this.onChangeInput}
-            type="text"
-            id="new_text"
-            className="form-control"
+
+        <input
+            ref={(t) => {text = t}} value={this.state.input} placeholder={"Keyboard Input"}
+            onChange={this.onChangeInput} type="text" id="new_text"
         />
-      {this.onKeyBoard()}
-      {this.handleChangeButton()}
+        {this.onKeyBoard()}
+        
+        {this.handleChangeButton()}
+        <button id="addtext" onClick={this.addText}>ADD TEXT</button><br/>
 
-      <button id="addtext" onClick={this.addText}>ADD TEXT</button><br/>
+        <label>Font Family</label><br/>
+          <select id="font_family" onChange={(e) => { e.preventDefault(); Tfunc.fontFamily(canvas); }}>
+            { this.fontOption() }
+          </select><br/>
 
-      <label>Font family : </label>
-        <select id="font_family">
-          <option value="arial black" selected>Arial</option>
-          <option value="helvetica" >Helvetica</option>
-          <option value="comic sans ms">Comic Sans MS</option>
-          <option value="impact">Impact</option>
-          <option value="Times New Roman">Times New Roman</option>
-          <option value="delicious">Delicious</option>
-          <option value="verdana">Verdana</option>
-          <option value="georgia">Georgia</option>
-          <option value="courier">Courier</option>
-        </select><br/>
-
-        <label>Text Color</label>
-              <div>
-                <input className="color" id="text_color" type="color" />
-              </div>
-        <label>Stroke Color</label>
-              <div>
-                <input className="color" id="text_stroke_color" type="color" />
-              </div>
-        <label>Stroke Width</label>
-              <div>
-                <input className="range"  id="text_stroke_width" type="range" min="1" max="5" defaultValue='1' />
-              </div>
-        <label>Text Background Color</label>
-              <div>
-                <input className="color" id="text_bg_color" type="color" />
-              </div>
-      </Fragment>
+          <label>Text Color</label><br/>
+            <input className="color" id="text_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textColor(canvas); }} /><br/>
+          <label>Text Background Color</label><br/>
+            <input className="color" id="text_bg_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textBgColor(canvas); }} /><br/>
+          <label>Stroke Color</label><br/>
+            <input className="color" id="text_stroke_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textStrokeColor(canvas); }} /><br/>
+          <label>Stroke Width</label><br/>   
+            <input className="range"  id="text_stroke_width" type="range" onChange={(e) => { e.preventDefault(); Tfunc.textStrokeWidth(canvas); }} min="1" max="5" defaultValue="1" /><br/> 
+          
+        </Fragment>
     );
   }
 }

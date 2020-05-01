@@ -16,7 +16,7 @@ let canvasContainer = null;
 // 태그달고있는 전체 NodeList로 반환
 //= document.querySelectorAll(".addimage img"); 
 let images = null;  
- //= document.querySelectorAll(".addvideo video");         
+//= document.querySelectorAll(".addvideo video");         
 let videos = null;       
 
 //드래그 앤 드랍을 각 이미지 동영상 별로 실행 시키기 위해 전역으로 export
@@ -47,20 +47,6 @@ export function dragAndDrop(canvas_) {
     canvasContainer.addEventListener("dragover", handleDragOver, false);
     canvasContainer.addEventListener("dragleave", handleDragLeave, false);
     canvasContainer.addEventListener("drop", handleDrop, false);
-}
-
-//텍스트 추가
-export function addTextToCanvas() {
-    //.val => value값을 반환해줌
-    var newText = new fabric.IText($('#new_text').val(), {                
-        left: 50,
-        top: 100,                                                         
-        fontFamily: 'arial black',
-        fill: '#333',
-        fontSize: 50
-      });
-      canvas.add(newText);
-      canvas.requestRenderAll();
 }
 
 //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
@@ -118,7 +104,7 @@ function handleDragLeave(e) {
 }
 
 //넣을 이미지가 canvas위에 드랍됬을때 호출되는함수 (이미지 , 비디오 추가)
-async function handleDrop(e) {                                     
+function handleDrop(e) {                                     
     // console.log('drag drop');
     e = e || window.event;
     if (e.preventDefault) {

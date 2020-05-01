@@ -5,13 +5,13 @@ import { dragAndDrop, removeCanvasEvent } from '../utils/DragDrop.js';
 class Video extends React.Component {
   constructor(props) {
     super(props);
-        this.state = {
-            src1:"http://html5demos.com/assets/dizzy.mp4"
-        }
+      this.state = {
+          src1:"http://html5demos.com/assets/dizzy.mp4"
       }
+    }
 
   componentDidMount() { dragAndDrop(null); }
-    
+  
   componentWillUnmount() { removeCanvasEvent(); }
 
   render() {
