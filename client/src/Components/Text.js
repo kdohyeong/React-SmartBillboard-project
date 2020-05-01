@@ -6,6 +6,7 @@ import * as Tfunc from '../utils/TextFunction.js';
 var $ = require('jquery');  
 let text = '';
 let canvas = null;
+const fabric = window.fabric;
 
 class Text extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class Text extends React.Component {
         layoutName: "default",
         input: ""
       }
-    this.addText = this.addText.bind(this);
+    // this.addText = this.addText.bind(this);
     canvas = this.props.canvas;
   }
 
@@ -35,15 +36,20 @@ class Text extends React.Component {
     this.setState({ layoutName: layoutName === "default" ? "shift" : "default" }); 
   };
 
-  //ON일때 키보드 반환
+  //ON일때 키보드 , 입력창 , 추가버튼 출력
   onKeyBoard() {
     if (this.state.mode ==='on'){
-      return <Keyboard
-              keyboardRef={r => (this.keyboard = r)}
-              layoutName={this.state.layoutName}
-              onChange={this.onChange}
-              onKeyPress={this.onKeyPress}
-            />
+      return  <Fragment>
+              <input
+                ref={(t) => {text = t}} value={this.state.input} placeholder={"Keyboard Input"}
+                onChange={this.onChangeInput} type="text" id="new_text"
+              />
+              <Keyboard
+                      keyboardRef={r => (this.keyboard = r)} layoutName={this.state.layoutName}
+                      onChange={this.onChange} onKeyPress={this.onKeyPress}
+              />
+              <button id="addtext" onClick={ (e) => { e.preventDefault(); Tfunc.addText(this.keyboard , canvas); }}>ADD TEXT</button><br/>
+              </Fragment>
     }
   };
 
@@ -54,15 +60,6 @@ class Text extends React.Component {
     }
     else if (this.state.mode === 'off'){
       return <button onClick={(e) => { e.preventDefault(); this.handleChangeMode('on'); }}>Keyboard on</button>
-    }
-  };
-
-  //텍스트 추가 함수 추가하고 value를 지워줌
-  addText() { 
-    if($('#new_text').val() !=='') {
-      Tfunc.addTextToCanvas(canvas);
-      if (this.keyboard) { this.keyboard.clearInput(); }
-      document.getElementById('new_text').value = '';
     }
   };
 
@@ -87,14 +84,10 @@ class Text extends React.Component {
     return (
       <Fragment>
 
-        <input
-            ref={(t) => {text = t}} value={this.state.input} placeholder={"Keyboard Input"}
-            onChange={this.onChangeInput} type="text" id="new_text"
-        />
+       
         {this.onKeyBoard()}
         
         {this.handleChangeButton()}
-        <button id="addtext" onClick={this.addText}>ADD TEXT</button><br/>
 
         <label>Font Family</label><br/>
           <select id="font_family" onChange={(e) => { e.preventDefault(); Tfunc.fontFamily(canvas); }}>

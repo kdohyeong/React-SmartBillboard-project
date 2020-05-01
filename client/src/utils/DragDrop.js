@@ -13,10 +13,9 @@ let canvas_container = null;
 let canvasObject = null;
 let canvasContainer = null;
 
-// 태그달고있는 전체 NodeList로 반환
-//= document.querySelectorAll(".addimage img"); 
-let images = null;  
-//= document.querySelectorAll(".addvideo video");         
+//태그달고있는 전체 NodeList로 반환
+
+let images = null;       
 let videos = null;       
 
 //드래그 앤 드랍을 각 이미지 동영상 별로 실행 시키기 위해 전역으로 export
@@ -26,23 +25,23 @@ export function dragAndDrop(canvas_) {
     // 태그달고있는 전체 NodeList로 반환
     images = document.querySelectorAll(".addimage img");            
     videos = document.querySelectorAll(".addvideo video");
-    // $(".canvas-container").each(function(index) {
+    //$(".canvas-container")
     canvas_container = document.getElementsByClassName('canvas-container')[0];
-    // console.log(document.getElementsByClassName('canvas-container')[0]);
+    //console.log(document.getElementsByClassName('canvas-container')[0]);
     canvasObject = $('canvas',canvas_container)[0];
-    // console.log(canvasObject);
+    //console.log(canvasObject);
     canvasContainer = $(canvas_container)[0];
-    // addimage img 태그 단 아이템 전부 에 대해 각각 start, end 리스너 실행
+    //addimage img 태그 단 아이템 전부 에 대해 각각 start, end 리스너 실행
     [].forEach.call(images, function(img) {
         img.addEventListener("dragstart", handleDragStart, false);
         img.addEventListener("dragend", handleDragEnd, false);
     });
-    // addvideo vid 태그 단 아이템 전부 에 대해 start,end 리스너 실행
+    //addvideo vid 태그 단 아이템 전부 에 대해 start,end 리스너 실행
     [].forEach.call(videos, function(vid) {
         vid.addEventListener("dragstart", handleDragStart, false);
         vid.addEventListener("dragend", handleDragEnd, false);
     });
-    // 컨버스 내에서 enter , over , leave , drop 리스너 실행
+    //컨버스 내에서 enter , over , leave , drop 리스너 실행
     canvasContainer.addEventListener("dragenter", handleDragEnter, false);
     canvasContainer.addEventListener("dragover", handleDragOver, false);
     canvasContainer.addEventListener("dragleave", handleDragLeave, false);

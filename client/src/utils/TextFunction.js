@@ -5,11 +5,12 @@ var $ = require('jquery');
 //캔버스를 전역으로 선언
 let canvas = null;
 
-//텍스트 추가 함수
-export function addTextToCanvas(_canvas) {
+
+//텍스트 추가 함수 추가 -> value제거
+export function addText(keyboard , _canvas) {
   canvas = _canvas;
-  //.val => value값을 반환해줌
-  var newText = new fabric.IText($('#new_text').val(), {                
+  if($('#new_text').val() !=='') {
+    var newText = new fabric.IText($('#new_text').val(), {                
       left: 50,
       top: 100,                                                         
       fontFamily: 'arial black',
@@ -18,7 +19,12 @@ export function addTextToCanvas(_canvas) {
     });
     canvas.add(newText);
     canvas.requestRenderAll();
-}
+    //this.keyboard에 저장된 value 지움
+    if (keyboard) { keyboard.clearInput(); }
+    //input 박스에 저장된 value 지움
+    document.getElementById('new_text').value = '';
+  }
+};
 
 //폰트 종류 설정
 export function fontFamily(_canvas) {
