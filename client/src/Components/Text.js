@@ -4,9 +4,8 @@ import "react-simple-keyboard/build/css/index.css";
 import * as Tfunc from '../utils/TextFunction.js';
 
 var $ = require('jquery');  
-let text = '';
 let canvas = null;
-const fabric = window.fabric;
+// let text = '';
 
 class Text extends React.Component {
   constructor(props) {
@@ -16,18 +15,20 @@ class Text extends React.Component {
         layoutName: "default",
         input: ""
       }
-    // this.addText = this.addText.bind(this);
     canvas = this.props.canvas;
   }
 
   //키보드 함수
+  //입력인자로 ON || OFF 받아서 state 전환
+  handleOnKeyborad = (mode) => { this.setState({ mode: mode }); };
 
-  handleChangeMode = (mode) => { this.setState({ mode: mode }); };
-
+  //키보드 입력값이 바뀌면 그 값을 state에 저장
   onChange = input => { this.setState({ input }); };
       
+  //클릭시 버튼이 shift면 lock으로 전환
   onKeyPress = button => { if (button === "{shift}" || button === "{lock}") this.handleShift(); };
       
+  //인풋이 바뀌면 그 값을 state input에 저장해서 텍스트박스에 적용
   onChangeInput = (e) => { e.preventDefault(); const input = e.target.value; this.setState({ input }); };
 
   //쉬프트 누르면 대 소문자 전환
@@ -36,13 +37,12 @@ class Text extends React.Component {
     this.setState({ layoutName: layoutName === "default" ? "shift" : "default" }); 
   };
 
-  //ON일때 키보드 , 입력창 , 추가버튼 출력
+  //ON일때 키보드 , 입력창 , 추가버튼 출력 //ref={(t) => {text = t}}
   onKeyBoard() {
     if (this.state.mode ==='on'){
       return  <Fragment>
               <input
-                ref={(t) => {text = t}} value={this.state.input} placeholder={"Keyboard Input"}
-                onChange={this.onChangeInput} type="text" id="new_text"
+                value={this.state.input} placeholder={"Keyboard Input"} onChange={this.onChangeInput} type="text" id="new_text"
               />
               <Keyboard
                       keyboardRef={r => (this.keyboard = r)} layoutName={this.state.layoutName}
@@ -56,10 +56,10 @@ class Text extends React.Component {
   //키보드 ON & OFF 버튼
   handleChangeButton() {
     if (this.state.mode === 'on'){
-      return <button onClick={(e) => { e.preventDefault(); this.handleChangeMode('off'); }}>Keyboard Off</button>
+      return <button onClick={(e) => { e.preventDefault(); this.handleOnKeyborad('off'); }}>Keyboard Off</button>
     }
     else if (this.state.mode === 'off'){
-      return <button onClick={(e) => { e.preventDefault(); this.handleChangeMode('on'); }}>Keyboard on</button>
+      return <button onClick={(e) => { e.preventDefault(); this.handleOnKeyborad('on'); }}>Keyboard on</button>
     }
   };
 
@@ -82,28 +82,28 @@ class Text extends React.Component {
   
   render() {
     return (
-      <Fragment>
+        <Fragment>
 
-       
-        {this.onKeyBoard()}
-        
-        {this.handleChangeButton()}
-
-        <label>Font Family</label><br/>
-          <select id="font_family" onChange={(e) => { e.preventDefault(); Tfunc.fontFamily(canvas); }}>
-            { this.fontOption() }
-          </select><br/>
-
-          <label>Text Color</label><br/>
-            <input className="color" id="text_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textColor(canvas); }} /><br/>
-          <label>Text Background Color</label><br/>
-            <input className="color" id="text_bg_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textBgColor(canvas); }} /><br/>
-          <label>Stroke Color</label><br/>
-            <input className="color" id="text_stroke_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textStrokeColor(canvas); }} /><br/>
-          <label>Stroke Width</label><br/>   
-            <input className="range"  id="text_stroke_width" type="range" onChange={(e) => { e.preventDefault(); Tfunc.textStrokeWidth(canvas); }} min="1" max="5" defaultValue="1" /><br/> 
+          {this.onKeyBoard()}
           
-        </Fragment>
+          {this.handleChangeButton()}<br/>
+
+          <label>Font Family</label><br/>
+            <select id="font_family" onChange={(e) => { e.preventDefault(); Tfunc.fontFamily(canvas); }}>
+              { this.fontOption() }
+            </select><br/>
+
+            <label>Text Color</label><br/>
+              <input className="color" id="text_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textColor(canvas); }} /><br/>
+            <label>Text Background Color</label><br/>
+              <input className="color" id="text_bg_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textBgColor(canvas); }} /><br/>
+            <label>Stroke Color</label><br/>
+              <input className="color" id="text_stroke_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textStrokeColor(canvas); }} /><br/>
+            <label>Stroke Width</label><br/>   
+              <input className="range"  id="text_stroke_width" type="range" 
+                      onChange={(e) => { e.preventDefault(); Tfunc.textStrokeWidth(canvas); }} min="1" max="5" defaultValue="1" /><br/> 
+            
+          </Fragment>
     );
   }
 }

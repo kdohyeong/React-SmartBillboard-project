@@ -5,7 +5,7 @@ var $ = require('jquery');
 //캔버스를 전역으로 선언
 let canvas = null;
 
-//컨버스 배경 컬러설정
+//캔버스 배경 컬러설정
 export function bgColor(_canvas) {
     canvas = _canvas;
     canvas.backgroundColor = $('#bg_color').val();                                          

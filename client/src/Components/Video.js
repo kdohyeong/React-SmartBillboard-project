@@ -16,10 +16,12 @@ class Video extends React.Component {
 
   render() {
     return (
-      <Fragment>
-        <video draggable='true' src={Fsrc} width="150px" height="150px" muted poster="" />
-        <video draggable='true' src={this.state.src1} width='150px' height='150px' poster="" loop />
-      </Fragment>
+        <Fragment>
+
+          <video draggable='true' src={Fsrc} width="150px" height="150px" muted poster="" />
+          <video draggable='true' src={this.state.src1} width='150px' height='150px' poster="" loop />
+        
+        </Fragment>
     );
   }
 }
