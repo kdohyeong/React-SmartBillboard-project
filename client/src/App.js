@@ -75,7 +75,7 @@ constructor(props){
                     onClick={() => this.handleChangeMode('BILLBOARD')} name='Show' value='ShowBill'>Home</Button></li>
           <li>
             <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" 
-                    onClick={() => this.handleChangeMode('MAKE')} name='Make' value='MakeBill'>Make BillBoard</Button></li>
+                    onClick={() => this.handleChangeMode('MAKE')} name='Make' value='MakeBill'>Billboard Maker</Button></li>
         </ul>
       </div>
      );

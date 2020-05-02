@@ -139,8 +139,11 @@ function handleDrop(e) {
     //태그이름이 비디오 일때만 실행해서 추가
     else if ($(vid).prop('tagName') === 'VIDEO') {
         //비디오 패브릭 만듬                                    
-        var newVideo = new fabric.CustomVideo(vid, {left: vx, top: vy, width: 200, height: 200, cropRect: {x: 200, y: 50, w: 200, h: 200}});
-        canvas.add(newVideo);     
+        var newVideo = new fabric.CustomVideo(vid, { left: vx, top: vy });
+        //cropRect: {x: 200, y: 50, w: 200, h: 200}
+        canvas.add(newVideo); 
+        newVideo.scaleToWidth(vid.width);                                             
+        newVideo.scaleToHeight(vid.height);    
         
         //비디오의 장면을 현재시간으로 계속 셋팅해서 플레이시킴
         function playTrigger() {

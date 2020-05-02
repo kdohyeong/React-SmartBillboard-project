@@ -24,12 +24,12 @@ class Image extends React.Component {
     return (
         <Fragment>
 
-        <img draggable='true' src={this.state.src1} width='100' height='100' />
-        <img draggable='true' src={Isrc} width='100' height='100' />
-        <img draggable='true' src={this.state.src2} width='100' height='100' />
-        <img draggable='true' src={this.state.src3} width='100' height='100' />
-        <img draggable='true' src={this.state.src5} width='100' height='100' />
-        <img draggable='true' src="https://i.pinimg.com/originals/e2/b7/da/e2b7da6bc749ba2d7ebdfda28fac6009.gif" width='100' height='100' />
+        <img draggable='true' src={this.state.src1} width='160' height='150' />
+        <img draggable='true' src={Isrc} width='160' height='150' />
+        <img draggable='true' src={this.state.src2} width='160' height='150' />
+        <img draggable='true' src={this.state.src3} width='160' height='150' />
+        <img draggable='true' src={this.state.src5} width='160' height='150' />
+        <img draggable='true' src="https://i.pinimg.com/originals/e2/b7/da/e2b7da6bc749ba2d7ebdfda28fac6009.gif" width='160' height='150' />
         
         </Fragment>
     );

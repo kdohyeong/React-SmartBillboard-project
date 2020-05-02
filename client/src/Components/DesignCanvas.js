@@ -90,16 +90,16 @@ class DesignCanvas extends React.Component {
         
           <div className="menu">
 
-            <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('IMAGE')}}>Image</button>
-            <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('VIDEO')}}>Video</button>
-            <button onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('TEXT')}}>Text</button>
+            <button className="snip1535u" onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('IMAGE')}}>Image</button>
+            <button className="snip1535u" onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('VIDEO')}}>Video</button>
+            <button className="snip1535u" onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('TEXT')}}>Text</button>
           
             <label>Background Color</label><br/>
-		      		<input className="color" id="bg_color" type="color" onChange={(e) => { e.preventDefault(); Cfunc.bgColor(canvas); }}/>
-            <button id="delete" onClick={(e) => { e.preventDefault(); Cfunc.deleteObjects(canvas); }}>DELETE</button>
-            <button id="sendbackwards" onClick={(e) => { e.preventDefault(); Cfunc.sendBackwards(canvas); }}>SEND BACK</button>
-            <button id="capture" onClick={(e) => { e.preventDefault(); Cfunc.captureButton(canvas); }}>CAPTURE</button>
-            <button id="toJson" onClick={(e) => { e.preventDefault(); console.log(canvas.toJSON()); }}>To JSON</button>
+		      		<input className="color" id="bg_color" type="color" onChange={(e) => { e.preventDefault(); Cfunc.bgColor(canvas); }}/><br/><br/>
+            <button className="snip1535" id="delete" onClick={(e) => { e.preventDefault(); Cfunc.deleteObjects(canvas); }}>DELETE</button><br/>
+            <button className="snip1535" id="sendbackwards" onClick={(e) => { e.preventDefault(); Cfunc.sendBackwards(canvas); }}>SEND BACK</button><br/>
+            <button className="snip1535" id="capture" onClick={(e) => { e.preventDefault(); Cfunc.captureButton(canvas); }}>CAP TURE</button><br/>
+            <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); console.log(canvas.toJSON()); }}>To JSON</button>
           
           </div>
 
