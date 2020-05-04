@@ -45,6 +45,16 @@ app.get('/api/videos', (req, res) => {
       )
   });
 
+
+app.get('/api/menuDatas', (req, res) => {
+  connection.query(
+  `SELECT * FROM AI`,
+  (err, rows, fields) => {
+  res.send(rows);
+      }
+    )
+});
+
 // app.use('/image', express.static('./upload'));
 // app.post('/api/customers', upload.single('image'), (req, res) => {
 

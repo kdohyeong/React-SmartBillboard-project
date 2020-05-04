@@ -10,10 +10,12 @@ class Video extends React.Component {
       this.state = {
           src1:"http://html5demos.com/assets/dizzy.mp4",
           src2:"https://www.youtube.com/watch?v=SOE1A9p8KLw"
+          
       }
     }
 
-  componentDidMount() { dragAndDrop(null); }
+  //componentDidMount() { dragAndDrop(null); }
+  componentDidMount(){ setTimeout(() => { dragAndDrop(null); }, 500); } 
   
   componentWillUnmount() { removeCanvasEvent(); }
 
@@ -22,10 +24,19 @@ class Video extends React.Component {
         <Fragment>
 
           <video draggable='true' src={Fsrc} width='160' height='150' muted poster="" />
-          <video draggable='true' src={Fsrc2} width='160' height='150' muted poster="" loop />
+          {/* <video draggable='true' src={Fsrc2} width='160' height='150' muted poster="" loop />
           <video draggable='true' src={Fsrc3} width='160' height='150' muted poster="" loop />
-          <video draggable='true' src={this.state.src1} width='160' height='150' poster="" loop />
-          
+          <video draggable='true' src={this.state.src1} width='160' height='150' poster="" loop /> */}
+          {
+            this.props.menuDatas.map((menuDatas) => {
+              if (menuDatas.zTYPE === 'video') {
+                return (
+                  <video draggable='true' src={menuDatas.src} width ='160' height ='150' muted poster="" loop/>
+                  );
+              }
+            })
+          }
+
         </Fragment>
     );
   }

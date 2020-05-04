@@ -23,8 +23,11 @@ export function dragAndDrop(canvas_) {
     if (canvas_) { canvas = canvas_; }
 
     // 태그달고있는 전체 NodeList로 반환
-    images = document.querySelectorAll(".addimage img");            
+    images = document.querySelectorAll(".addimage img");          
     videos = document.querySelectorAll(".addvideo video");
+    // console.log(images);
+    // console.log(videos);    
+    
     //$(".canvas-container") 가아니라 $(.'canvas-wrapper') 이거에 대해 리스닝해야 컨버스에 올라갔을때만 드랍이 실행 **
     canvas_container = document.getElementsByClassName('canvas-wrapper')[0];
 
@@ -51,7 +54,7 @@ export function dragAndDrop(canvas_) {
 
 //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
 function handleDragStart(e) {                                       
-    //console.log('DragStart');
+    console.log('DragStart');
     //모든 img중에 classList 에서 dragging 남아있는거 지움
     [].forEach.call(images, function(img) {
       img.classList.remove("img_dragging");                            

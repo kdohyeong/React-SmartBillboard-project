@@ -62,7 +62,7 @@ constructor(props){
       else if (this.state.category === 'CUSTOM') 
         { return this.state.datas ? <ShowCustom datas={this.state.datas}/> : '..LOADING' }
     }
-    else if (this.state.mode === 'MAKE') { return <MakeCustom/> }
+    else if (this.state.mode === 'MAKE') { return <MakeCustom mainUrl = {mainUrl}/> }
   }
 
   render(){

@@ -7,6 +7,9 @@ import './DesignCanvas.css';
 import { dragAndDrop } from '../utils/DragDrop.js';
 import * as Cfunc from '../utils/CanvasFunction.js';
 
+//mainUrl = 'http://localhost:5000/api/';
+
+
 //윈도우 안에 패브릭을 넣어줌
 const fabric = window.fabric; 
 //제이쿼리를 사용하기로함                                             
@@ -17,7 +20,14 @@ let canvas = null;
 class DesignCanvas extends React.Component {
   constructor(props) {
     super(props);
-      this.state = {
+      this.state = { 
+
+        menuDatas :[{
+          src: null,
+          type: '',
+        }],
+
+        toJSON:[{
           id : null,
           src: null,
           width: '',
@@ -29,11 +39,18 @@ class DesignCanvas extends React.Component {
           type: '',
           scaleX: '',
           scaleY: '',
+        }],
 
-            //캔버스값을 저장을 저장할 그릇
+          //캔버스값을 저장을 저장할 그릇
           canvas: null,                                                    
           menu : 'IMAGE'                                     
       }
+  }
+
+  componentWillMount() {
+    this.callApi('menuDatas')
+    .then(res => this.setState({ menuDatas: res }))
+    .catch(err => console.log(err));
   }
 
   componentDidMount() {
@@ -45,26 +62,34 @@ class DesignCanvas extends React.Component {
     canvas.setWidth($('.canvas-wrapper').width());
     this.setState({ canvas }) 
 
-    //드래그 앤 드랍 함수를 실행            
-    dragAndDrop(canvas);
+    //드래그 앤 드랍 함수를 실행 , 바로 실행시키면 서버로 부터 메뉴목록 받기전에 실행되서 드래그앤드랍이 데이터에 안먹힘 
+    // dragAndDrop(canvas);
+    setTimeout(() => { dragAndDrop(canvas); }, 500); 
     //선택한 객체 인덱스 맨앞으로 땡기기
     canvas.on('mouse:down', function() { Cfunc.bringFrontIndex(canvas) });   
-
   }
+
+
+  callApi = async (value) => {
+    const response = await fetch(`${this.props.mainUrl}${value}`);
+    const body = await response.json();
+    return body;
+  }
+
 
   handleMenuChange(menu){ this.setState({ menu : menu }) };
 
   //IMAGE || VIDEO || TEXT 전환
   handleFurnitureChange() {
-    if (this.state.menu === 'IMAGE'){ return (
+    if (this.state.menu === 'IMAGE'){ return ( 
       <div className="addimage"> 
-        <Image></Image> 
+        <Image menuDatas={this.state.menuDatas}></Image> 
       </div>
       ); 
     }
     else if(this.state.menu === 'VIDEO'){ return (
       <div className='addvideo'>  
-        <Video></Video> 
+        <Video menuDatas={this.state.menuDatas}></Video> 
       </div>
       ); 
     }
