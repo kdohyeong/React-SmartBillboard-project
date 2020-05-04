@@ -25,8 +25,9 @@ export function dragAndDrop(canvas_) {
     // 태그달고있는 전체 NodeList로 반환
     images = document.querySelectorAll(".addimage img");            
     videos = document.querySelectorAll(".addvideo video");
-    //$(".canvas-container")
-    canvas_container = document.getElementsByClassName('canvas-container')[0];
+    //$(".canvas-container") 가아니라 $(.'canvas-wrapper') 이거에 대해 리스닝해야 컨버스에 올라갔을때만 드랍이 실행 **
+    canvas_container = document.getElementsByClassName('canvas-wrapper')[0];
+
     //console.log(document.getElementsByClassName('canvas-container')[0]);
     canvasObject = $('canvas',canvas_container)[0];
     //console.log(canvasObject);

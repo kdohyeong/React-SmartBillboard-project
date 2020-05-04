@@ -28,6 +28,7 @@ class ShowCustom extends React.Component {
                       left = {data.left}
                       position = 'fixed'
                       angle = {data.angle}
+                      alt = ""
                   ></img>
                   );
                 } 

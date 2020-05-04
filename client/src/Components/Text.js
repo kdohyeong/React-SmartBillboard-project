@@ -3,7 +3,7 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import * as Tfunc from '../utils/TextFunction.js';
 
-var $ = require('jquery');  
+// var $ = require('jquery');  
 let canvas = null;
 // let text = '';
 

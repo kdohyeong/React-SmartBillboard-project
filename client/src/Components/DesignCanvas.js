@@ -100,7 +100,7 @@ class DesignCanvas extends React.Component {
             <button className="snip1535" id="sendbackwards" onClick={(e) => { e.preventDefault(); Cfunc.sendBackwards(canvas); }}>SEND BACK</button><br/>
             <button className="snip1535" id="capture" onClick={(e) => { e.preventDefault(); Cfunc.captureButton(canvas); }}>CAP TURE</button><br/>
             <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); console.log(canvas.toJSON()); }}>To JSON</button>
-          
+            
           </div>
 
           <div className="furniture">

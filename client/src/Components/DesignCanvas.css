@@ -4,9 +4,9 @@
   height : 6%;
   background-color: black;
   color: white;
-  font-size: 30px;
-  font-family: sans-serif;
-   opacity: 0.9;
+  font-size: 250%;
+  font-family: 'BenchNine', Arial, sans-serif;
+  opacity: 0.9;
 }
 
 .canvas-container {
@@ -87,8 +87,6 @@ input {
     box-sizing: border-box;
 
   }
-
-  
 
 
   @import url(https://fonts.googleapis.com/css?family=BenchNine:700);
