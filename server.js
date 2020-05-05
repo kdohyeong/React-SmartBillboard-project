@@ -38,7 +38,8 @@ const connection = mysql.createConnection(
 
 app.get('/api/videos', (req, res) => {
     connection.query(
-    `SELECT * FROM AI WHERE id = 4`,
+    // `SELECT * FROM AI WHERE id = 4`,
+    'SELECT * FROM CANVAS',
     (err, rows, fields) => {
     res.send(rows);
         }
@@ -55,24 +56,30 @@ app.get('/api/menuDatas', (req, res) => {
     )
 });
 
-// app.use('/image', express.static('./upload'));
-// app.post('/api/customers', upload.single('image'), (req, res) => {
+// app.use('/api/canvasDatas', express.static('./upload'));
+app.post('/api/canvasDatas', (req, res) => {
+    console.log(req.body);
+    let sql = 'INSERT INTO CANVAS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    let background = req.body.canvasDatas.background;
+    let src = req.body.canvasDatas.objects[0].src;                          
+    let width = req.body.canvasDatas.objects[0].width;
+    let height = req.body.canvasDatas.objects[0].height;
+    let scaleX = req.body.canvasDatas.objects[0].scaleX;
+    let scaleY = req.body.canvasDatas.objects[0].scaleY;
+    let top = req.body.canvasDatas.objects[0].top;
+    let left = req.body.canvasDatas.objects[0].left;
+    let angle = req.body.canvasDatas.objects[0].angle;
+    let zTYPE = req.body.canvasDatas.objects[0].type;
 
-//     let sql = 'INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?, now(), 0)';
-//     let image = '/image/' + req.file.filename;
-//     let name = req.body.name;
-//     let birthday = req.body.birthday;                            데이터추가 
-//     let gender = req.body.gender;
-//     let job = req.body.job;
-//     let params = [image, name, birthday, gender, job];
+    let params = [background, src, width, height, scaleX, scaleY, top, left, angle, zTYPE];
 
-//     connection.query(sql, params,
-//     (err, rows, fields) => {
-//     console.log(rows);
-//     res.send(rows);
-//     }
-//   )
-// });
+    connection.query(sql, params,
+    (err, rows, fields) => {
+    console.log(rows);
+    res.send(rows);
+    }
+  )
+});
 
 
 // app.delete('/api/customers/:id', (req, res) => {

@@ -66,17 +66,17 @@ class Text extends React.Component {
   //텍스트 글꼴 옵션리스트
   fontOption() {
     return (
-    <Fragment>
-      <option value="arial black" selected>Arial</option>
-      <option value="helvetica" >Helvetica</option>
-      <option value="comic sans ms">Comic Sans MS</option>
-      <option value="impact">Impact</option>
-      <option value="Times New Roman">Times New Roman</option>
-      <option value="delicious">Delicious</option>
-      <option value="verdana">Verdana</option>
-      <option value="georgia">Georgia</option>
-      <option value="courier">Courier</option>
-    </Fragment>
+        <Fragment>
+          <option value="arial black" selected>Arial</option>
+          <option value="helvetica" >Helvetica</option>
+          <option value="comic sans ms">Comic Sans MS</option>
+          <option value="impact">Impact</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="delicious">Delicious</option>
+          <option value="verdana">Verdana</option>
+          <option value="georgia">Georgia</option>
+          <option value="courier">Courier</option>
+        </Fragment>
     );
   };
   

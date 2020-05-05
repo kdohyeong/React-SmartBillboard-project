@@ -6,8 +6,11 @@ import './DesignCanvas.css';
 
 import { dragAndDrop } from '../utils/DragDrop.js';
 import * as Cfunc from '../utils/CanvasFunction.js';
+import axios from 'axios';
+
 
 //mainUrl = 'http://localhost:5000/api/';
+
 
 
 //윈도우 안에 패브릭을 넣어줌
@@ -48,7 +51,7 @@ class DesignCanvas extends React.Component {
   }
 
   componentWillMount() {
-    this.callApi('menuDatas')
+    this.getMenuItemApi('menuDatas')
     .then(res => this.setState({ menuDatas: res }))
     .catch(err => console.log(err));
   }
@@ -70,11 +73,20 @@ class DesignCanvas extends React.Component {
   }
 
 
-  callApi = async (value) => {
+  getMenuItemApi = async (value) => {
     const response = await fetch(`${this.props.mainUrl}${value}`);
     const body = await response.json();
     return body;
   }
+
+  addCanvasDataApi = (canvasDatas) => {
+  const canvasDataUrl = this.props.mainUrl + 'canvasDatas';
+  const url = `${canvasDataUrl}`;
+  axios.post( url , { canvasDatas })
+  .then( response => { console.log(response) } )
+  .catch( response => { console.log(response) } );
+  }
+
 
 
   handleMenuChange(menu){ this.setState({ menu : menu }) };
@@ -124,8 +136,9 @@ class DesignCanvas extends React.Component {
             <button className="snip1535" id="delete" onClick={(e) => { e.preventDefault(); Cfunc.deleteObjects(canvas); }}>DELETE</button><br/>
             <button className="snip1535" id="sendbackwards" onClick={(e) => { e.preventDefault(); Cfunc.sendBackwards(canvas); }}>SEND BACK</button><br/>
             <button className="snip1535" id="capture" onClick={(e) => { e.preventDefault(); Cfunc.captureButton(canvas); }}>CAP TURE</button><br/>
-            <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); console.log(canvas.toJSON()); }}>To JSON</button>
-            
+            <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); this.addCanvasDataApi(canvas.toJSON()) }}>To JSON</button>
+          
+
           </div>
 
           <div className="furniture">

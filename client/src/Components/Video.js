@@ -31,7 +31,7 @@ class Video extends React.Component {
             this.props.menuDatas.map((menuDatas) => {
               if (menuDatas.zTYPE === 'video') {
                 return (
-                  <video draggable='true' src={menuDatas.src} width ='160' height ='150' muted poster="" loop/>
+                    <video draggable='true' src={menuDatas.src} width ='160' height ='150' muted poster="" loop/>
                   );
               }
             })

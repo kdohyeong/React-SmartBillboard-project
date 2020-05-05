@@ -26,3 +26,18 @@ INSERT INTO AI VALUE (7, 'https://www.youtube.com/watch?v=-Y9VtoPvtuM','null','n
 INSERT INTO AI VALUE (8, 'https://www.youtube.com/watch?v=ZWue6i_LRZ4','null','null','null','null','video','null');
 INSERT INTO AI VALUE (9, 'https://www.youtube.com/watch?v=MHmKx-QFIr4','null','null','null','null','video','null');
 INSERT INTO AI VALUE (10, 'https://www.youtube.com/watch?v=mAjsF4UTg8g','null','null','null','null','video','null');
+
+
+CREATE TABLE CANVAS (
+	background VARCHAR(64),
+	src VARCHAR(1024),
+	width VARCHAR(64),
+	height VARCHAR(64),
+	scaleX VARCHAR(64),
+	scaleY VARCHAR(64),
+	top VARCHAR(64),
+	zleft VARCHAR(64),
+	angle VARCHAR(64),
+	zTYPE VARCHAR(64)
+	
+) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_GENERAL_CI;

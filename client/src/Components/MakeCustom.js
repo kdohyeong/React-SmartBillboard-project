@@ -9,9 +9,7 @@ class MakeCustom extends React.Component {
   render () {
     return (
       <Fragment>
-
         <DesignCanvas mainUrl= {this.props.mainUrl} />
-
       </Fragment>
       );   
     }

@@ -17,7 +17,7 @@ constructor(props){
 
   this.state = {
     mode: 'BILLBOARD',            // 'BILLBOARD' || 'MAKE' || 'DETAIL' || 'QUESTION'  
-    category: 'AI',               // 'AI' || 'CUSTOM'
+    category: 'CUSTOM',               // 'AI' || 'CUSTOM'
     datas: [{               
           id: null,               // 1 ~ 10
           src: null,              

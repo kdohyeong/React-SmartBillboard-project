@@ -27,7 +27,8 @@ export function dragAndDrop(canvas_) {
     videos = document.querySelectorAll(".addvideo video");
     // console.log(images);
     // console.log(videos);    
-    
+    console.log($(".canvas-container").width());
+    console.log($(".canvas-container").height());
     //$(".canvas-container") 가아니라 $(.'canvas-wrapper') 이거에 대해 리스닝해야 컨버스에 올라갔을때만 드랍이 실행 **
     canvas_container = document.getElementsByClassName('canvas-wrapper')[0];
 
@@ -46,10 +47,12 @@ export function dragAndDrop(canvas_) {
         vid.addEventListener("dragend", handleDragEnd, false);
     });
     //컨버스 내에서 enter , over , leave , drop 리스너 실행
-    canvasContainer.addEventListener("dragenter", handleDragEnter, false);
-    canvasContainer.addEventListener("dragover", handleDragOver, false);
-    canvasContainer.addEventListener("dragleave", handleDragLeave, false);
-    canvasContainer.addEventListener("drop", handleDrop, false);
+    if(canvasContainer) {
+        canvasContainer.addEventListener("dragenter", handleDragEnter, false);
+        canvasContainer.addEventListener("dragover", handleDragOver, false);
+        canvasContainer.addEventListener("dragleave", handleDragLeave, false);
+        canvasContainer.addEventListener("drop", handleDrop, false);
+    }
 }
 
 //넣을 이미지를 클릭하고 옮기는 딱 start시점에 발생
@@ -194,9 +197,11 @@ export function removeCanvasEvent() {
         vid.removeEventListener("dragend", handleDragEnd, false);
     });
 
-    canvasContainer.removeEventListener("dragenter", handleDragEnter, false);
-    canvasContainer.removeEventListener("dragover", handleDragOver, false);
-    canvasContainer.removeEventListener("dragleave", handleDragLeave, false);
-    canvasContainer.removeEventListener("drop", handleDrop, false);
+    if(canvasContainer) {
+        canvasContainer.removeEventListener("dragenter", handleDragEnter, false);
+        canvasContainer.removeEventListener("dragover", handleDragOver, false);
+        canvasContainer.removeEventListener("dragleave", handleDragLeave, false);
+        canvasContainer.removeEventListener("drop", handleDrop, false);
+    }
 }
 

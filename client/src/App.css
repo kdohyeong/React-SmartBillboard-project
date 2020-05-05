@@ -54,3 +54,18 @@ li {
     background-color: #000000 !important;
     opacity: 0.9;
 }
+
+video {
+    object-fit: fill !important;
+    background-size : cover;
+    background-repeat : no-repeat;
+    background-position : center;
+}
+
+div {
+    transform-origin: 0% 0% !important;
+}
+
+img {
+    transform-origin: 0% 0% !important;
+}
