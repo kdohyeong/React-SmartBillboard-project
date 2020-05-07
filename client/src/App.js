@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import ShowAI from './Components/ShowAI';
 import MakeCustom from './Components/MakeCustom';
 import ShowCustom from './Components/ShowCustom';
@@ -42,12 +42,14 @@ constructor(props){
   
     }
 
-  // componentDidUpdate(){
-  //     this.callApi('videos')
-  //     .then(res => this.setState({datas: res}))
-  //     .catch(err => console.log(err));
-  //     this.viewChange() 
-  // }
+  componentDidUpdate() {
+      setTimeout(() => {
+        this.callApi('videos')
+        .then(res => this.setState({datas: res}))
+        .catch(err => console.log(err));
+        this.viewChange()
+      }, 10000); 
+    }
 
   //서버주소 + value로 데이터 가져오는 API
   callApi = async (value) => {
@@ -59,8 +61,8 @@ constructor(props){
   handleChangeMode = (mode) => {
     this.setState({
       mode: mode
-    });
-  }
+      });
+    }
 
   //state에 따라 home 화면에 다른 컴포넌트를 뿌려줌
   viewChange() {
@@ -75,8 +77,10 @@ constructor(props){
 
   render(){
     return(
-      <div>
-      { this.viewChange() }
+      <Fragment>
+        <div>
+          { this.viewChange() }
+        </div>
         <ul>
           <li>
             <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" fontSize="x-large"
@@ -85,7 +89,8 @@ constructor(props){
             <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" 
                     onClick={() => this.handleChangeMode('MAKE')} name='Make' value='MakeBill'>Billboard Maker</Button></li>
         </ul>
-      </div>
+      
+      </Fragment>
      );
   }
 }

@@ -16,7 +16,7 @@ class ShowCustom extends React.Component {
       return style 
   }
 
-  setBack= (_back) => {
+  setBackColor= (_back) => {
     let style = {
       backgroundColor : _back,
     }
@@ -27,7 +27,7 @@ class ShowCustom extends React.Component {
       return (
         <Fragment>
           
-          <div className='back' style={this.setBack(this.props.datas[0].background)}/>
+          <div className='back' style={this.setBackColor(this.props.datas[0].background)}/>
             {
               this.props.datas.map((data) => {
                   if (data.zTYPE === 'video') {
@@ -41,12 +41,13 @@ class ShowCustom extends React.Component {
                   }
                   else if (data.zTYPE === 'image'){
                     return (
-                        <img style={ this.setStyle(data.zleft, data.top, data.angle) } 
-                            src ={data.src}
-                            width = {data.width * data.scaleX * 5/3}
-                            height = {data.height * data.scaleY * 5/3}
-                            alt = ""
-                        />
+                      <img style={ this.setStyle(data.zleft, data.top, data.angle) } 
+                          src ={data.src}
+                          width = {data.width * data.scaleX * 5/3}
+                          height = {data.height * data.scaleY * 5/3}
+                          draggable="false"
+                          alt = ""
+                      />
                     );
                   } 
               })

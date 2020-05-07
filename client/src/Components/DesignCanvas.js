@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import Image from './Image.js'
-import Video from './Video.js'
-import Text from './Text.js'
+import Image from '../CanvasItem/Image.js'
+import Video from '../CanvasItem/Video.js'
+import Text from '../CanvasItem/Text.js'
 import './DesignCanvas.css';
 
 import { dragAndDrop } from '../utils/DragDrop.js';
@@ -10,7 +10,6 @@ import axios from 'axios';
 
 
 //mainUrl = 'http://localhost:5000/api/';
-
 
 
 //윈도우 안에 패브릭을 넣어줌

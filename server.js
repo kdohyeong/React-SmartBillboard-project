@@ -73,7 +73,7 @@ app.post('/api/canvasDatas', (req, res) => {
       let left = canvasDatas.left;
       let angle = canvasDatas.angle;
       let zTYPE = canvasDatas.type;
-
+      
       let params = [background, src, width, height, scaleX, scaleY, top, left, angle, zTYPE, category];
     
     connection.query(sql, params,
