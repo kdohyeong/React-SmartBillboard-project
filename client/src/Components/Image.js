@@ -19,18 +19,12 @@ class Image extends React.Component {
   //componentDidMount() { dragAndDrop(null); }
   componentDidMount(){ setTimeout(() => { dragAndDrop(null); }, 500); } 
 
-  componentWillUnmount() { removeCanvasEvent(); }
+  componentWillUnmount() { setTimeout(() => { removeCanvasEvent(); }, 500); }
 
   render() {
     return (
         <Fragment>
 
-        {/* <img draggable='true' src={this.state.src1} width='160' height='150' alt="" />
-        <img draggable='true' src={this.state.src2} width='160' height='150' alt="" />
-        <img draggable='true' src={this.state.src3} width='160' height='150' alt="" />
-        <img draggable='true' src={this.state.src4} width='160' height='150' alt="" />
-        <img draggable='true' src="https://i.pinimg.com/originals/e2/b7/da/e2b7da6bc749ba2d7ebdfda28fac6009.gif" width='160' height='150' alt="" />
-        <img draggable='true' src={Isrc} width='160' height='150' alt="" /> */}
         {
           this.props.menuDatas.map((menuDatas) => {
             if (menuDatas.zTYPE === 'image') {

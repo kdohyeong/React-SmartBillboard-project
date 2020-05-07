@@ -63,9 +63,15 @@ video {
 }
 
 div {
-    transform-origin: 0% 0% !important;
+    transform-origin: 0% 0%!important;
 }
 
 img {
-    transform-origin: 0% 0% !important;
+    transform-origin: 0% 0%  !important;
+}
+
+
+.back {
+    width : 100%;
+    height : 85vh;
 }

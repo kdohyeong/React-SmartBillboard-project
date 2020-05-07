@@ -17,16 +17,13 @@ class Video extends React.Component {
   //componentDidMount() { dragAndDrop(null); }
   componentDidMount(){ setTimeout(() => { dragAndDrop(null); }, 500); } 
   
-  componentWillUnmount() { removeCanvasEvent(); }
+  componentWillUnmount() { setTimeout(() => { removeCanvasEvent(); }, 500); }
 
   render() {
     return (
         <Fragment>
 
           <video draggable='true' src={Fsrc} width='160' height='150' muted poster="" />
-          {/* <video draggable='true' src={Fsrc2} width='160' height='150' muted poster="" loop />
-          <video draggable='true' src={Fsrc3} width='160' height='150' muted poster="" loop />
-          <video draggable='true' src={this.state.src1} width='160' height='150' poster="" loop /> */}
           {
             this.props.menuDatas.map((menuDatas) => {
               if (menuDatas.zTYPE === 'video') {

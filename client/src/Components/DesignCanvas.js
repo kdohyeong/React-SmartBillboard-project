@@ -55,7 +55,7 @@ class DesignCanvas extends React.Component {
     .then(res => this.setState({ menuDatas: res }))
     .catch(err => console.log(err));
   }
-
+  
   componentDidMount() {
     //캔버스를 만듬
     canvas = new fabric.Canvas(this.c , { backgroundColor : '#fff' });       
@@ -80,11 +80,11 @@ class DesignCanvas extends React.Component {
   }
 
   addCanvasDataApi = (canvasDatas) => {
-  const canvasDataUrl = this.props.mainUrl + 'canvasDatas';
-  const url = `${canvasDataUrl}`;
-  axios.post( url , { canvasDatas })
-  .then( response => { console.log(response) } )
-  .catch( response => { console.log(response) } );
+    const canvasDataUrl = this.props.mainUrl + 'canvasDatas';
+    const url = `${canvasDataUrl}`;
+    axios.post( url , { canvasDatas })
+    .then( response => { console.log(response) } )
+    .catch( response => { console.log(response) } );
   }
 
 

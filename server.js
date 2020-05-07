@@ -21,7 +21,7 @@ const conf = JSON.parse(data);
 const mysql = require('mysql');
 
 const multer = require('multer');
-const upload = multer({dest: './upload'})
+// const upload = multer({dest: './upload'})
 
 const connection = mysql.createConnection(
   {
@@ -59,26 +59,30 @@ app.get('/api/menuDatas', (req, res) => {
 // app.use('/api/canvasDatas', express.static('./upload'));
 app.post('/api/canvasDatas', (req, res) => {
     console.log(req.body);
-    let sql = 'INSERT INTO CANVAS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     let background = req.body.canvasDatas.background;
-    let src = req.body.canvasDatas.objects[0].src;                          
-    let width = req.body.canvasDatas.objects[0].width;
-    let height = req.body.canvasDatas.objects[0].height;
-    let scaleX = req.body.canvasDatas.objects[0].scaleX;
-    let scaleY = req.body.canvasDatas.objects[0].scaleY;
-    let top = req.body.canvasDatas.objects[0].top;
-    let left = req.body.canvasDatas.objects[0].left;
-    let angle = req.body.canvasDatas.objects[0].angle;
-    let zTYPE = req.body.canvasDatas.objects[0].type;
+    let category = "CUSTOM";
+    let sql = 'INSERT INTO CANVAS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-    let params = [background, src, width, height, scaleX, scaleY, top, left, angle, zTYPE];
+    req.body.canvasDatas.objects.map(function (canvasDatas){
+      let src = canvasDatas.src;                          
+      let width = canvasDatas.width;
+      let height = canvasDatas.height;
+      let scaleX = canvasDatas.scaleX;
+      let scaleY = canvasDatas.scaleY;
+      let top = canvasDatas.top;
+      let left = canvasDatas.left;
+      let angle = canvasDatas.angle;
+      let zTYPE = canvasDatas.type;
 
+      let params = [background, src, width, height, scaleX, scaleY, top, left, angle, zTYPE, category];
+    
     connection.query(sql, params,
     (err, rows, fields) => {
     console.log(rows);
-    res.send(rows);
+    // res.send(rows);
     }
-  )
+      )
+    });
 });
 
 
