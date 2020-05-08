@@ -58,6 +58,13 @@ export function captureButton(_canvas) {
     }, 2000)
 }
 
+export function canvasResize(_canvas) {
+    canvas = _canvas;
+    canvas.setHeight($('.canvas-wrapper').height());                                                  
+    canvas.setWidth($('.canvas-wrapper').width());
+}
+
+
 //패브릭에 이미지태그에 비디오로 만드는놈을 새로 클래스로 정의해줌
 fabric.CustomVideo = fabric.util.createClass(fabric.Image, {
     type: 'video',

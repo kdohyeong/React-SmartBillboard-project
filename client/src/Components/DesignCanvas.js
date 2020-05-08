@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import Image from '../CanvasItem/Image.js'
-import Video from '../CanvasItem/Video.js'
-import Text from '../CanvasItem/Text.js'
+import ImageItem from '../CanvasItem/ImageItem.js'
+import VideoItem from '../CanvasItem/VideoItem.js'
+import TextItem from '../CanvasItem/TextItem.js'
 import './DesignCanvas.css';
 
 import { dragAndDrop } from '../utils/DragDrop.js';
@@ -62,7 +62,9 @@ class DesignCanvas extends React.Component {
     //캔버스의 크기설정할수 있음
     canvas.setHeight($('.canvas-wrapper').height());                                                  
     canvas.setWidth($('.canvas-wrapper').width());
-    this.setState({ canvas }) 
+    this.setState({ canvas });
+
+    window.addEventListener('resize', function(){ Cfunc.canvasResize(canvas) }, false);
 
     //드래그 앤 드랍 함수를 실행 , 바로 실행시키면 서버로 부터 메뉴목록 받기전에 실행되서 드래그앤드랍이 데이터에 안먹힘 
     // dragAndDrop(canvas);
@@ -86,27 +88,25 @@ class DesignCanvas extends React.Component {
     .catch( response => { console.log(response) } );
   }
 
-
-
   handleMenuChange(menu){ this.setState({ menu : menu }) };
 
   //IMAGE || VIDEO || TEXT 전환
   handleFurnitureChange() {
     if (this.state.menu === 'IMAGE'){ return ( 
       <div className="addimage"> 
-        <Image menuDatas={this.state.menuDatas}></Image> 
+        <ImageItem menuDatas={this.state.menuDatas}></ImageItem> 
       </div>
       ); 
     }
     else if(this.state.menu === 'VIDEO'){ return (
       <div className='addvideo'>  
-        <Video menuDatas={this.state.menuDatas}></Video> 
+        <VideoItem menuDatas={this.state.menuDatas}></VideoItem> 
       </div>
       ); 
     }
     else if (this.state.menu === 'TEXT'){ return (
       <div className="addtext">
-        <Text canvas={canvas}></Text>
+        <TextItem canvas={canvas}></TextItem>
       </div>
       ); 
     }
@@ -152,3 +152,4 @@ class DesignCanvas extends React.Component {
 }
 
 export default DesignCanvas
+

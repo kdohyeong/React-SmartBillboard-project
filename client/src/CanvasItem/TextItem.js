@@ -3,11 +3,9 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import * as Tfunc from '../utils/TextFunction.js';
 
-// var $ = require('jquery');  
 let canvas = null;
-// let text = '';
 
-class Text extends React.Component {
+class TextItem extends React.Component {
   constructor(props) {
     super(props);
       this.state ={
@@ -41,14 +39,16 @@ class Text extends React.Component {
   onKeyBoard() {
     if (this.state.mode ==='on'){
       return  <Fragment>
-              <input
-                value={this.state.input} placeholder={"Keyboard Input"} onChange={this.onChangeInput} type="text" id="new_text"
-              />
-              <Keyboard
-                      keyboardRef={r => (this.keyboard = r)} layoutName={this.state.layoutName}
-                      onChange={this.onChange} onKeyPress={this.onKeyPress}
-              />
-              <button id="addtext" onClick={ (e) => { e.preventDefault(); Tfunc.addText(this.keyboard , canvas); }}>ADD TEXT</button><br/>
+
+                <input
+                  value={this.state.input} placeholder={"Keyboard Input"} onChange={this.onChangeInput} type="text" id="new_text"
+                />
+                <Keyboard
+                        keyboardRef={r => (this.keyboard = r)} layoutName={this.state.layoutName}
+                        onChange={this.onChange} onKeyPress={this.onKeyPress}
+                />
+                <button id="addtext" onClick={ (e) => { e.preventDefault(); Tfunc.addText(this.keyboard , canvas); }}>ADD TEXT</button><br/>
+
               </Fragment>
     }
   };
@@ -108,4 +108,4 @@ class Text extends React.Component {
   }
 }
 
-export default Text
+export default TextItem;

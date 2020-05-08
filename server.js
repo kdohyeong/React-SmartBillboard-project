@@ -70,11 +70,11 @@ app.post('/api/canvasDatas', (req, res) => {
       let scaleX = canvasDatas.scaleX;
       let scaleY = canvasDatas.scaleY;
       let top = canvasDatas.top;
-      let left = canvasDatas.left;
+      let zLeft = canvasDatas.left;
       let angle = canvasDatas.angle;
-      let zTYPE = canvasDatas.type;
+      let zType = canvasDatas.type;
 
-      let ZTEXT = canvasDatas.text;
+      let zText = canvasDatas.text;
       let fontFamily = canvasDatas.fontFamily;
       let fill = canvasDatas.fill;
       let stroke = canvasDatas.stroke;
@@ -82,12 +82,11 @@ app.post('/api/canvasDatas', (req, res) => {
       let textBackColor = canvasDatas.backgroundColor;
 
       let params = [background, src, width, height, scaleX, scaleY,
-                    top, left, angle, zTYPE, category, ZTEXT, fontFamily, fill, stroke, strokeWidth, textBackColor ];
+                    top, zLeft, angle, zType, category, zText, fontFamily, fill, stroke, strokeWidth, textBackColor ];
     
     connection.query(sql, params,
     (err, rows, fields) => {
     console.log(rows);
-    // res.send(rows);
           }
        )
     });
