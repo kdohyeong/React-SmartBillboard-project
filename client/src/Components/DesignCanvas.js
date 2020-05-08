@@ -94,13 +94,13 @@ class DesignCanvas extends React.Component {
   handleFurnitureChange() {
     if (this.state.menu === 'IMAGE'){ return ( 
       <div className="addimage"> 
-        <ImageItem menuDatas={this.state.menuDatas}></ImageItem> 
+        <ImageItem menuDatas={this.state.menuDatas} width={$('.furniture').width()} height={$('.furniture').height()}></ImageItem> 
       </div>
       ); 
     }
     else if(this.state.menu === 'VIDEO'){ return (
       <div className='addvideo'>  
-        <VideoItem menuDatas={this.state.menuDatas}></VideoItem> 
+        <VideoItem menuDatas={this.state.menuDatas} width={$('.furniture').width()} height={$('.furniture').height()}></VideoItem> 
       </div>
       ); 
     }

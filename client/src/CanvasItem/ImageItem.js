@@ -16,7 +16,7 @@ class ImageItem extends React.Component {
             {
               this.props.menuDatas.map((menuDatas) => {
                 if (menuDatas.zTYPE === 'image') {
-                  return ( <img draggable='true' src={menuDatas.src} width ='160' height ='150' alt="" /> );
+                  return ( <img draggable='true' src={menuDatas.src} width ={this.props.width / 2.2} height ={this.props.height / 4.5} alt="" /> );
                 }
               return false; 
               })

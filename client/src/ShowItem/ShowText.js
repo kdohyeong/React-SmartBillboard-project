@@ -7,7 +7,7 @@ class ShowText extends React.Component {
     const reSize = 5/3;
       return (
 
-          <div class="svg-wrapper" 
+          <div className="svg-wrapper" 
                 style={{
                   position : 'fixed',
                   left : this.props.data.zLeft * reSize+'px',

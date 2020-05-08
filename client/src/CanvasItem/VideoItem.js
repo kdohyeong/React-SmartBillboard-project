@@ -24,19 +24,19 @@ class VideoItem extends React.Component {
 
           <Fragment>
 
-            <video draggable='true' src={Fsrc} width='160' height='150' muted poster="" />
+            <video draggable='true' src={Fsrc}  width ={this.props.width / 2.2} height ={this.props.height / 4.5} muted poster="" />
             {
               this.props.menuDatas.map((menuDatas) => {
                 if (menuDatas.zTYPE === 'video') {
                   return (
-                      <video draggable='true' src={menuDatas.src} width ='160' height ='150' muted poster="http://img.youtube.com/vi/sJeZECYYaDc/0.jpg" loop/>
+                      <video draggable='true' src={menuDatas.src}  width ={this.props.width / 2.2} height ={this.props.height / 4.5} muted poster="http://img.youtube.com/vi/sJeZECYYaDc/0.jpg" loop/>
                   );
                 }
                 return false; 
               })
             }
-            <video draggable='true' src={Fsrc2} width='160' height='150' muted poster="" />
-            <video draggable='true' src={Fsrc3} width='160' height='150' muted poster="" />
+            <video draggable='true' src={Fsrc2}  width ={this.props.width / 2.2} height ={this.props.height / 4.5} muted poster="" />
+            <video draggable='true' src={Fsrc3}  width ={this.props.width / 2.2} height ={this.props.height / 4.5} muted poster="" />
 
           </Fragment>
           
