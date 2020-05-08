@@ -44,7 +44,7 @@ app.get('/api/videos', (req, res) => {
     res.send(rows);
         }
       )
-  });
+});
 
 
 app.get('/api/menuDatas', (req, res) => {
@@ -58,10 +58,10 @@ app.get('/api/menuDatas', (req, res) => {
 
 // app.use('/api/canvasDatas', express.static('./upload'));
 app.post('/api/canvasDatas', (req, res) => {
-    console.log(req.body);
+    console.log(req.body.canvasDatas);
     let background = req.body.canvasDatas.background;
     let category = "CUSTOM";
-    let sql = 'INSERT INTO CANVAS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    let sql = 'INSERT INTO CANVAS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
     req.body.canvasDatas.objects.map(function (canvasDatas){
       let src = canvasDatas.src;                          
@@ -73,15 +73,23 @@ app.post('/api/canvasDatas', (req, res) => {
       let left = canvasDatas.left;
       let angle = canvasDatas.angle;
       let zTYPE = canvasDatas.type;
-      
-      let params = [background, src, width, height, scaleX, scaleY, top, left, angle, zTYPE, category];
+
+      let ZTEXT = canvasDatas.text;
+      let fontFamily = canvasDatas.fontFamily;
+      let fill = canvasDatas.fill;
+      let stroke = canvasDatas.stroke;
+      let strokeWidth = canvasDatas.strokeWidth;
+      let textBackColor = canvasDatas.backgroundColor;
+
+      let params = [background, src, width, height, scaleX, scaleY,
+                    top, left, angle, zTYPE, category, ZTEXT, fontFamily, fill, stroke, strokeWidth, textBackColor ];
     
     connection.query(sql, params,
     (err, rows, fields) => {
     console.log(rows);
     // res.send(rows);
-    }
-      )
+          }
+       )
     });
 });
 

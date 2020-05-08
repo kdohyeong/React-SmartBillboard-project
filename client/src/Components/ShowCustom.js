@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import ReactPlayer from 'react-player' 
 import './MakeCustom.css'
 
-
 class ShowCustom extends React.Component {
 
 
@@ -12,22 +11,45 @@ class ShowCustom extends React.Component {
                     left : _left * 5/3+'px',
                     top : _top * 5/3+'px',
                     transform : `rotate(${_angle}deg)`,
-                  }
+      }
       return style 
   }
 
   setBackColor= (_back) => {
-    let style = {
-      backgroundColor : _back,
-    }
+      let style = {
+        backgroundColor : _back,
+      }
+    return style
+  }
+
+  setSvgStyle= (_left, _top, _angle, _width, _height, _scaleX, _scaleY, _back) => {
+      let style = {
+                      position : 'fixed',
+                      left : _left * 5/3+'px',
+                      top : _top * 5/3+'px',
+                      transform : `rotate(${_angle}deg)`,
+                      width : _width * _scaleX * 5/3+'px',
+                      height : _height * _scaleY * 5/3+'px',
+                      backgroundColor : _back,
+      }
+    return style
+  }
+
+  setTextStyle=( _scaleX, _scaleY) =>{
+      let style = {
+      fontSize : 80 * _scaleX,
+      fontWeight: 'normal',
+
+      }
     return style
   }
 
   render () {
+
       return (
         <Fragment>
           
-          <div className='back' style={this.setBackColor(this.props.datas[0].background)}/>
+          <div className='back' style={this.setBackColor(this.props.datas[0].background)}/> 
             {
               this.props.datas.map((data) => {
                   if (data.zTYPE === 'video') {
@@ -49,7 +71,25 @@ class ShowCustom extends React.Component {
                           alt = ""
                       />
                     );
-                  } 
+                  }
+                  else if (data.zTYPE === 'i-text'){
+                    return (
+                      <Fragment>
+                      
+                      <div class="svg-wrapper" style={ this.setSvgStyle(data.zleft, data.top, data.angle, data.width,
+                           data.height, data.scaleX, data.scaleY, data.textBackColor) }>
+
+                        <svg width= '100%' height="100%" style={this.setTextStyle(data.scaleX , data.scaleY)}>
+                          <text fill= {data.fill} stroke={data.stroke} strokeWidth={data.strokeWidth * 3} 
+                          fontFamily={data.fontFamily} y = '70%' textLength="100%" 
+                          >{data.zTEXT}</text>
+                        
+                        </svg>
+                      
+                      </div>
+                  
+                      </Fragment>
+                    )}
               })
             }
 

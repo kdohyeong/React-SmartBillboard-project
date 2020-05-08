@@ -1,6 +1,4 @@
-import React, { Fragment }from 'react'
-//웹에선 로컬주소를 불러올수없어서 import 시킴
-import Isrc from 'C:/Users/KDHyeong/Desktop/React/smartbillboard/client/src/test1.png';  
+import React, { Fragment }from 'react'  
 import { dragAndDrop, removeCanvasEvent } from '../utils/DragDrop.js';
 
 class Image extends React.Component {

@@ -33,7 +33,8 @@ class Video extends React.Component {
               }
             })
           }
-
+           <video draggable='true' src={Fsrc2} width='160' height='150' muted poster="" />
+           <video draggable='true' src={Fsrc3} width='160' height='150' muted poster="" />
         </Fragment>
     );
   }
