@@ -58,6 +58,7 @@ export function captureButton(_canvas) {
     }, 2000)
 }
 
+//컨버스의 크기를 브라우저에 맞게 조절하는 함수
 export function canvasResize(_canvas) {
     canvas = _canvas;
     canvas.setHeight($('.canvas-wrapper').height());                                                  

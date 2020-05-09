@@ -5,6 +5,7 @@ import * as Tfunc from '../utils/TextFunction.js';
 
 let canvas = null;
 
+//MAKE 메뉴에 텍스트 버튼을 눌렀을 때 텍스트 관련 목록을 뿌려주는 컴포넌트
 class TextItem extends React.Component {
   constructor(props) {
     super(props);

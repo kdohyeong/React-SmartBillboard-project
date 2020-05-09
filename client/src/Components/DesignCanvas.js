@@ -19,6 +19,7 @@ var $ = require('jquery');
 //컨버스를 전역으로 선언                                                
 let canvas = null;
 
+//MAKE 메뉴의 전체부분
 class DesignCanvas extends React.Component {
   constructor(props) {
     super(props);
@@ -50,9 +51,11 @@ class DesignCanvas extends React.Component {
   }
 
   componentWillMount() {
+
     this.getMenuItemApi('menuDatas')
     .then(res => this.setState({ menuDatas: res }))
     .catch(err => console.log(err));
+  
   }
   
   componentDidMount() {
@@ -64,6 +67,7 @@ class DesignCanvas extends React.Component {
     canvas.setWidth($('.canvas-wrapper').width());
     this.setState({ canvas });
 
+    //캔버스의 크기를 전체 브라우저의 크기에 맞게 조절
     window.addEventListener('resize', function(){ Cfunc.canvasResize(canvas) }, false);
 
     //드래그 앤 드랍 함수를 실행 , 바로 실행시키면 서버로 부터 메뉴목록 받기전에 실행되서 드래그앤드랍이 데이터에 안먹힘 
@@ -73,13 +77,14 @@ class DesignCanvas extends React.Component {
     canvas.on('mouse:down', function() { Cfunc.bringFrontIndex(canvas) });   
   }
 
-
+  //아이템 메뉴 목록을 가져오는 API
   getMenuItemApi = async (value) => {
     const response = await fetch(`${this.props.mainUrl}${value}`);
     const body = await response.json();
     return body;
   }
 
+  //캔버스에서 만든 내용물을 ToJSON형식으로 서버로 보냄 
   addCanvasDataApi = (canvasDatas) => {
     const canvasDataUrl = this.props.mainUrl + 'canvasDatas';
     const url = `${canvasDataUrl}`;

@@ -2,7 +2,9 @@ import React from 'react';
 //웹서버 링크, 로컬 둘다 플레이 가능 
 import ReactPlayer from 'react-player';      
 
+//HOME의 상태가 AI일때 보여주는 비디오
 class ShowAI extends React.Component {
+  
     render () {
         return (
           <div className="Player">

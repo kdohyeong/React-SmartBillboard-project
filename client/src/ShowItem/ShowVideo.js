@@ -1,6 +1,7 @@
 import React from 'react'  
 import ReactPlayer from 'react-player' ;
 
+//비디오를 HOME 화면에 뿌려주는 컴포넌트
 class ShowVideo extends React.Component {
   
 

@@ -1,7 +1,7 @@
 import React from 'react'  
 
+//이미지를 HOME화면에 뿌려주는 컴포넌트
 class ShowImage extends React.Component {
-
 
   render() {
     const reSize = 5/3;
