@@ -36,8 +36,15 @@ CREATE TABLE CANVAS (
 	scaleX VARCHAR(64),
 	scaleY VARCHAR(64),
 	top VARCHAR(64),
-	zleft VARCHAR(64),
+	zLeft VARCHAR(64),
 	angle VARCHAR(64),
-	zTYPE VARCHAR(64)
+	zType VARCHAR(64),
+	zText VARCHAR(64),
+	fontFamaily VARCHAR(64),
+	fill VARCHAR(64),
+	stroke  VARCHAR(64),
+	strokeWidth VARCHAR(64),
+	textBackColor VARCHAR(64),
+	category VARCHAR(64)
 	
 ) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_GENERAL_CI;

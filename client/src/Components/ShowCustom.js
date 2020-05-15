@@ -8,7 +8,7 @@ import ShowText from '../ShowItem/ShowText.js';
 class ShowCustom extends React.Component {
 
   render() {
-
+ 
       return (
         //각각 이미지, 비디오, 텍스트를 매핑해서 전부 다 뿌려줌
         <Fragment>

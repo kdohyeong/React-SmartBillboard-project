@@ -82,7 +82,7 @@ app.post('/api/canvasDatas', (req, res) => {
       let textBackColor = canvasDatas.backgroundColor;
 
       let params = [background, src, width, height, scaleX, scaleY,
-                    top, zLeft, angle, zType, category, zText, fontFamily, fill, stroke, strokeWidth, textBackColor ];
+                    top, zLeft, angle, zType, zText, fontFamily, fill, stroke, strokeWidth, textBackColor, category ];
     
     connection.query(sql, params,
     (err, rows, fields) => {

@@ -1,5 +1,6 @@
 import React, { Fragment }from 'react'  
 import { dragAndDrop, removeCanvasEvent } from '../utils/DragDrop.js';
+import Iu from '../iu.png'
 
 //MAKE 메뉴에 이미지 버튼을 눌렀을 때 이미지 목록을 뿌려주는 컴포넌트
 class ImageItem extends React.Component {
@@ -10,10 +11,11 @@ class ImageItem extends React.Component {
   componentWillUnmount() { setTimeout(() => { removeCanvasEvent(); }, 500); }
 
   render() {
-      return (
-          
-          <Fragment>
 
+      return (
+           
+          <Fragment>
+                 <img draggable='true' src={Iu} width ={this.props.width / 2.2} height ={this.props.height / 4.5} alt="" />
             {
               this.props.menuDatas.map((menuDatas) => {
                 if (menuDatas.zType === 'image') {

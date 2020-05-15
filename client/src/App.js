@@ -48,7 +48,7 @@ constructor(props){
         .then(res => this.setState({datas: res}))
         .catch(err => console.log(err));
         this.viewChange()
-      }, 10000); 
+      }, 10000);  
     }
 
   //서버주소 + value로 데이터 가져오는 API
