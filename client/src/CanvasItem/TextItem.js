@@ -68,7 +68,7 @@ class TextItem extends React.Component {
   fontOption() {
     return (
         <Fragment>
-          <option value="arial black" selected>Arial</option>
+          <option value="arial black">Arial</option>
           <option value="helvetica" >Helvetica</option>
           <option value="comic sans ms">Comic Sans MS</option>
           <option value="impact">Impact</option>

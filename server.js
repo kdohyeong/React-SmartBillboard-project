@@ -36,9 +36,9 @@ const connection = mysql.createConnection(
   connection.connect();
 
 
-app.get('/api/videos', (req, res) => {
+app.get('/api/main', (req, res) => {
     connection.query(
-    // `SELECT * FROM AI WHERE id = 4`,
+    // `SELECT * FROM AI WHERE id = 8`,
     'SELECT * FROM CANVAS',
     (err, rows, fields) => {
     res.send(rows);
@@ -49,7 +49,7 @@ app.get('/api/videos', (req, res) => {
 
 app.get('/api/menuDatas', (req, res) => {
   connection.query(
-  `SELECT * FROM AI`,
+  `SELECT * FROM MENUITEM`,
   (err, rows, fields) => {
   res.send(rows);
       }

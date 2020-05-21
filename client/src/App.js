@@ -35,7 +35,7 @@ constructor(props){
 
   componentDidMount() {
       //api로 비디오를 호출 후 그 데이터를 state에 저장
-      this.callApi('videos')
+      this.getAiContentsApi('main')
       .then(res => this.setState({datas: res}))
       .catch(err => console.log(err));
       this.viewChange() 
@@ -44,7 +44,7 @@ constructor(props){
 
   componentDidUpdate() {
       setTimeout(() => {
-        this.callApi('videos')
+        this.getAiContentsApi('main')
         .then(res => this.setState({datas: res}))
         .catch(err => console.log(err));
         this.viewChange()
@@ -52,7 +52,7 @@ constructor(props){
     }
 
   //서버주소 + value로 데이터 가져오는 API
-  callApi = async (value) => {
+  getAiContentsApi = async (value) => {
       const response = await fetch(`${mainUrl}${value}`);
       const body = await response.json();
       return body;
