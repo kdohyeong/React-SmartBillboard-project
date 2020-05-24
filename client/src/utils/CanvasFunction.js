@@ -55,6 +55,7 @@ export function captureButton(_canvas) {
       setTimeout(() => {  
       var imgs = img.toDataURL('image/jpeg');                                              
       console.log(imgs);
+      return imgs;
     }, 2000)
 }
 

@@ -19,8 +19,8 @@ let images = null;
 let videos = null;       
 
 //드래그 앤 드랍을 각 이미지 동영상 별로 실행 시키기 위해 전역으로 export
-export function dragAndDrop(canvas_) {       
-    if (canvas_) { canvas = canvas_; }
+export function dragAndDrop(_canvas) {       
+    if (_canvas) { canvas = _canvas; }
 
     // 태그달고있는 전체 NodeList로 반환
     images = document.querySelectorAll(".addimage img");          

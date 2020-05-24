@@ -37,6 +37,7 @@ const connection = mysql.createConnection(
 
 
 app.get('/api/main', (req, res) => {
+  // `SELECT * FROM ${req.connectT}`
     connection.query(
     // `SELECT * FROM AI WHERE id = 8`,
     'SELECT * FROM CANVAS',

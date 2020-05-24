@@ -7,7 +7,6 @@ import './DesignCanvas.css';
 
 import { dragAndDrop } from '../utils/DragDrop.js';
 import * as Cfunc from '../utils/CanvasFunction.js';
-import axios from 'axios';
 
 
 //mainUrl = 'http://localhost:5000/api/';
@@ -86,29 +85,19 @@ class DesignCanvas extends React.Component {
     return body;
   }
 
-  //캔버스에서 만든 내용물을 ToJSON형식으로 서버로 보냄 
-  addCanvasDataApi = (canvasDatas) => {
-    const canvasDataUrl = this.props.mainUrl + 'canvasDatas';
-    const url = `${canvasDataUrl}`;
-    axios.post( url , { canvasDatas })
-    .then( response => { console.log(response) } )
-    .catch( response => { console.log(response) } );
-  }
-
   handleMenuChange(menu){ this.setState({ menu : menu }) };
 
-  handleSendOnOff(send){ this.setState({ send : send }) };
+  handleSaveOnOff(send){ this.setState({ send : send }) };
 
-  handleChangeSendButton() {
+  handleChangeSaveButton() {
     if (this.state.send === 'off'){
-      return ( <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); this.handleSendOnOff('on')}}>SEND BILL</button> );
+      return ( <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); this.handleSaveOnOff('on')}}>SAVE BILL</button> );
     } 
     else if (this.state.send === 'on'){
       return (
         <Fragment>
-        <SendCanvas />
-        <button className="sendbutton" id="sendbutton" onClick={(e) =>{ e.preventDefault(); this.addCanvasDataApi(canvas.toJSON()) }}>보내기</button>
-        <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); this.handleSendOnOff('off')}}>SEND BILL</button>
+        <SendCanvas canvas={canvas} mainUrl={this.props.mainUrl}/>
+        <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); this.handleSaveOnOff('off')}} style={{zIndex : "15"}}>SAVE BILL</button>
         </Fragment>
         );
     }
@@ -160,8 +149,7 @@ class DesignCanvas extends React.Component {
             <button className="snip1535" id="delete" onClick={(e) => { e.preventDefault(); Cfunc.deleteObjects(canvas); }}>DELETE</button><br/>
             <button className="snip1535" id="sendbackwards" onClick={(e) => { e.preventDefault(); Cfunc.sendBackwards(canvas); }}>SEND BACK</button><br/>
             <button className="snip1535" id="capture" onClick={(e) => { e.preventDefault(); Cfunc.captureButton(canvas); }}>CAP TURE</button><br/>
-            {/* <button className="snip1535" id="toJson" onClick={(e) => { e.preventDefault(); this.addCanvasDataApi(canvas.toJSON()) }}>To JSON</button> */}
-            { this.handleChangeSendButton() }
+            { this.handleChangeSaveButton() }
 
           </div>
 
