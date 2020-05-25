@@ -61,8 +61,10 @@ app.get('/api/menuDatas', (req, res) => {
 app.post('/api/canvasDatas', (req, res) => {
     console.log(req.body.canvasDatas);
     let background = req.body.canvasDatas.background;
+    let fromTime = req.body.canvasDatas.fromdatetime;
+    let toTime = req.body.canvasDatas.todatetime;
     let category = "CUSTOM";
-    let sql = 'INSERT INTO CANVAS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    let sql = 'INSERT INTO CANVAS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
     req.body.canvasDatas.objects.map(function (canvasDatas){
       let src = canvasDatas.src;                          
@@ -82,8 +84,9 @@ app.post('/api/canvasDatas', (req, res) => {
       let strokeWidth = canvasDatas.strokeWidth;
       let textBackColor = canvasDatas.backgroundColor;
 
-      let params = [background, src, width, height, scaleX, scaleY,
-                    top, zLeft, angle, zType, zText, fontFamily, fill, stroke, strokeWidth, textBackColor, category ];
+      let params = [ background, src, width, height, scaleX, scaleY,
+                    top, zLeft, angle, zType, zText, fontFamily, fill, stroke, 
+                    strokeWidth, textBackColor, category, fromTime, toTime ];
     
     connection.query(sql, params,
     (err, rows, fields) => {

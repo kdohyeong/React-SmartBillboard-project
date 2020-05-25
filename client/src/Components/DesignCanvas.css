@@ -88,6 +88,12 @@ input {
     top : 15%;
 
   }
+  .sendbutton2{
+    position : fixed;
+    left : 45%;
+    top : 20%;
+
+  }
 
   .button{
     width: 30px;

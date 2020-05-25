@@ -13,9 +13,31 @@ class SendCanvas extends React.Component {
     .catch( response => { console.log(response) } );
   }
 
+  dateFunction() {
+    var dateTime = new Date();
+    //사용자가 입력한 date 를 valueAsNumber로 가져옴
+    var getFromDateTime = document.getElementById('fromdatetime').valueAsNumber;
+    var getToDateTime = document.getElementById('todatetime').valueAsNumber;
+    console.log(getFromDateTime);
+    console.log(getToDateTime);
+    //9시간 시간차가 있어서 밀리초단위로 9시간을 빼줌
+    getFromDateTime = getFromDateTime - (60 * 60 * 9 * 1000);
+    getToDateTime = getToDateTime - (60 * 60 * 9 * 1000);
+    console.log(getFromDateTime);
+    console.log(getToDateTime);
+    dateTime.setTime(getFromDateTime);
+    console.log(dateTime);
+
+    const sendData = this.props.canvas.toJSON();
+    sendData.fromdatetime = `${getFromDateTime}`;
+    sendData.todatetime = `${getToDateTime}`;
+    console.log(sendData);
+    
+    return sendData;
+  }
 
   render() {
-    // var date = new Date();
+  
     // var month = date.getUTCMonth() + 1; //months from 1-12
     // var day = date.getUTCDate();
     // var year = date.getUTCFullYear();
@@ -35,17 +57,19 @@ class SendCanvas extends React.Component {
               top : "0",
               zIndex : "10"
             }}/>
-
+           
             
             <div className="send" style={{ zIndex : "15" }}>
-                <div style ={{color : "white"}}>만든 광고를 보여줄 날짜를 정해주세요.</div>
-                <input type="date" id="date" className="date" style={{
-                    width : '200px',
-                }} />
-                <input type="time" className="time" style={{
-                    width : '200px',
-                }} />
-                <button className="sendbutton" id="sendbutton" onClick={(e) =>{ e.preventDefault(); this.addCanvasDataApi(this.props.canvas.toJSON()) }}>저장하기</button>
+                <div style ={{color : "white"}}>만든 광고를 보여줄 날짜와 시간을 정해주세요.</div>
+                <input type="datetime-local" id="fromdatetime" className="fromdatetime" style={{
+                    width : '350px',
+                }} /><br/><br/>
+                <div style ={{color : "white"}}>만든 광고를 종료할 날짜와 시간을 정해주세요.</div>
+                <input type="datetime-local" id="todatetime" className="todatetime" style={{
+                    width : '350px',
+                }} /><br/>
+                <button className="sendbutton" id="sendbutton" onClick={(e) =>{ e.preventDefault(); this.addCanvasDataApi(this.props.canvas.toJSON()) }}>테스트</button>
+                <button className="sendbutton2" id="sendbutton2" onClick={(e) =>{ e.preventDefault(); this.addCanvasDataApi(this.dateFunction()) }}>저장하기</button>
             </div>
           </Fragment>
       );
