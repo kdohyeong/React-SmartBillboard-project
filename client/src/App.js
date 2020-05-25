@@ -28,31 +28,31 @@ constructor(props){
           angle: null,             // ANGLE
           scaleX: null,
           scaleY: null,
-          category: 'CUSTOM',     // 'AI' || 'CUSTOM'
+          category: 'AI',     // 'AI' || 'CUSTOM'
       }]
     }
   }
 
   componentDidMount() {
       //api로 비디오를 호출 후 그 데이터를 state에 저장
-      this.getAiContentsApi('main')
+      this.getContentsApi('main')
       .then(res => this.setState({datas: res}))
       .catch(err => console.log(err));
-      this.viewChange() 
+      // this.viewChange() 
   
     }
 
   componentDidUpdate() {
       setTimeout(() => {
-        this.getAiContentsApi('main')
+        this.getContentsApi('main')
         .then(res => this.setState({datas: res}))
         .catch(err => console.log(err));
-        this.viewChange()
+        // this.viewChange()
       }, 10000);  
     }
 
   //서버주소 + value로 데이터 가져오는 API
-  getAiContentsApi = async (value) => {
+  getContentsApi = async (value) => {
       const response = await fetch(`${mainUrl}${value}`);
       const body = await response.json();
       return body;
