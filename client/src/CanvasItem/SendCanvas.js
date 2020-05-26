@@ -38,13 +38,6 @@ class SendCanvas extends React.Component {
 
   render() {
   
-    // var month = date.getUTCMonth() + 1; //months from 1-12
-    // var day = date.getUTCDate();
-    // var year = date.getUTCFullYear();
-    // const day = date.getDay();
-    // const hours = date.getHours();
-    // console.log(date);
-
       return ( 
         <Fragment>  
             <div className="sendcontainer" style={{

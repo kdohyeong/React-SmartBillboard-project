@@ -30,20 +30,6 @@ class DesignCanvas extends React.Component {
           type: '',
         }],
 
-        toJSON:[{
-          id : null,
-          src: null,
-          width: '',
-          height: '',
-          top: '',
-          left: '',
-          angle: '',
-          categoty: 'CUSTOM',
-          type: '',
-          scaleX: '',
-          scaleY: '',
-        }],
-
           //캔버스값을 저장을 저장할 그릇
           canvas: null,                                                    
           menu : 'IMAGE',

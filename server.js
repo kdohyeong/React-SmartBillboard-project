@@ -36,11 +36,22 @@ const connection = mysql.createConnection(
   connection.connect();
 
 
-app.get('/api/main', (req, res) => {
+app.get('/api/ai', (req, res) => {
+  // `SELECT * FROM ${req.connectT}`
+    connection.query(
+    `SELECT * FROM AI WHERE id = 6`,
+    // 'SELECT * FROM CANVAS',
+    (err, rows, fields) => {
+    res.send(rows);
+        }
+      )
+});
+
+app.get('/api/canvas', (req, res) => {
   // `SELECT * FROM ${req.connectT}`
     connection.query(
     // `SELECT * FROM AI WHERE id = 7`,
-    'SELECT * FROM CANVAS',
+    `SELECT * FROM CANVAS`,
     (err, rows, fields) => {
     res.send(rows);
         }
