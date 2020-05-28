@@ -75,7 +75,7 @@ constructor(props){
       //API를 바꿔 CANVAS 데이터 띄울 시간이 되면 CANVAS 데이터를 datas에 저장시켜 화면 전환
       var changeApi = setInterval(() => {
         if(this.state.mode === 'BILLBOARD'){ 
-          console.log('작동중');console.log(this.state.datas2[0]);
+          console.log('작동중');
           if (this.state.datas2[0]) {
             if (this.state.datas2[0].fromTime > nowDate || this.state.datas2[0].toTime < nowDate ) {
               console.log('AI대기중');
@@ -123,7 +123,7 @@ constructor(props){
   render(){
       return (
         <Fragment>
-          <div>
+          <div className="noDrag">
             { this.viewChange() }
           </div>
           <ul>

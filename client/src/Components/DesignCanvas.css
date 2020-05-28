@@ -70,43 +70,58 @@ input {
     margin:0;
     padding: 0;
   }
-  
-  .simple-keyboard {
-    max-width: 850px;
-  }
 
-  .send {
-    position : fixed;
-    left : 10%;
-    top : 10%;
+.simple-keyboard {
+  max-width: 60.2%;
+}
 
-  }
+#new_text {
+  left : 3%;
+  top : 47%;
+  z-index : 15;
+  position : fixed;
+  width : 60%;
+  height: 10%;
+}
 
-  .sendbutton{
-    position : fixed;
-    left : 45%;
-    top : 15%;
+.hg-theme-default {
+  left : 3%;
+  top: 57%;
+  position : fixed;
+  z-index : 15;
+}
+.send {
+  position : fixed;
+  left : 10%;
+  top : 10%;
 
-  }
-  .sendbutton2{
-    position : fixed;
-    left : 45%;
-    top : 20%;
+}
 
-  }
+.sendbutton{
+  position : fixed;
+  left : 45%;
+  top : 15%;
 
-  .button{
-    width: 30px;
-    height: 30px;
-  }
+}
+.sendbutton2{
+  position : fixed;
+  left : 45%;
+  top : 20%;
 
-  .color{
-    width: 50px;
-    height: 50px;
-    border: none;
-    box-sizing: border-box;
+}
 
-  }
+.button{
+  width: 30px;
+  height: 30px;
+}
+
+.color{
+  width: 50px;
+  height: 50px;
+  border: none;
+  box-sizing: border-box;
+
+}
 
 
   @import url(https://fonts.googleapis.com/css?family=BenchNine:700);

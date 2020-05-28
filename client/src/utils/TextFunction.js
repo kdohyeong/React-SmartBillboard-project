@@ -15,7 +15,13 @@ export function addText(keyboard , _canvas) {
       top: 100,                                                         
       fontFamily: 'arial black',
       fill: '#333',
-      fontSize: 50
+      fontSize: 50,
+      borderColor: 'grey',
+      cornerColor: 'black',
+      cornerSize: 18,
+      transparentCorners: true,
+      uniScaleTransform : true
+      // lockScalingY: true
     });
     canvas.add(newText);
     canvas.requestRenderAll();
@@ -76,8 +82,9 @@ export function textStrokeColor(_canvas) {
 export function textStrokeWidth(_canvas) {
   canvas = _canvas;
   if (canvas.getActiveObject() !== undefined && canvas.getActiveObject() !== null){       
-    if (canvas.getActiveObject().text) {                                                  
-    canvas.getActiveObject().set({ strokeWidth: $('#text_stroke_width').val() });                   
+    if (canvas.getActiveObject().text) {         
+    //val.()은 항상 문자열로 반환하기에 parseFloat을 이용해 Number로 반환                                         
+    canvas.getActiveObject().set({ strokeWidth: parseFloat($('#text_stroke_width').val()) });                   
     canvas.renderAll();
     }
   }

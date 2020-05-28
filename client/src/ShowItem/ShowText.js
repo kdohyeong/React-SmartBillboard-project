@@ -1,10 +1,20 @@
 import React from 'react'  
 
+let scale;
 //텍스트를 HOME화면에 뿌려주는 컴포넌트
 class ShowText extends React.Component {
+  
 
   render() {
+
+    if (this.props.data.scaleX < this.props.data.scaleY){
+      scale = this.props.data.scaleX
+    }  
+    else if (this.props.data.scaleX > this.props.data.scaleY){
+      scale = this.props.data.scaleY
+    }  
     const reSize = 5/3;
+   
       return (
 
           <div className="svg-wrapper" 
@@ -20,7 +30,7 @@ class ShowText extends React.Component {
           >
 
             <svg style={{
-                  fontSize : 80 * this.props.data.scaleX,
+                  fontSize : 80 * scale,
                   fontWeight: 'normal',
                   }}
                   width='100%' 
@@ -32,7 +42,7 @@ class ShowText extends React.Component {
                     strokeWidth={this.props.data.strokeWidth * 3} 
                     fontFamily={this.props.data.fontFamily} 
                     textLength='100%' 
-                    y = '70%'
+                    y = '80%'
               >{this.props.data.zText}
               </text>
             

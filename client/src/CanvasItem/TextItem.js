@@ -1,9 +1,12 @@
 import React, { Fragment }from 'react'
-import Keyboard from "react-simple-keyboard";
+import Keyboard from 'react-hangul-virtual-keyboard';
 import "react-simple-keyboard/build/css/index.css";
 import * as Tfunc from '../utils/TextFunction.js';
+import Hangul from "hangul-js";
 
 let canvas = null;
+let buttonArray = [];
+let inputText = "";
 
 //MAKE 메뉴에 텍스트 버튼을 눌렀을 때 텍스트 관련 목록을 뿌려주는 컴포넌트
 class TextItem extends React.Component {
@@ -12,6 +15,7 @@ class TextItem extends React.Component {
       this.state ={
         mode:"off",
         layoutName: "default",
+        language: "default",
         input: ""
       }
     canvas = this.props.canvas;
@@ -21,35 +25,111 @@ class TextItem extends React.Component {
   //입력인자로 ON || OFF 받아서 state 전환
   handleOnKeyborad = (mode) => { this.setState({ mode: mode }); };
 
-  //키보드 입력값이 바뀌면 그 값을 state에 저장
-  onChange = input => { this.setState({ input }); };
-      
-  //클릭시 버튼이 shift면 lock으로 전환
-  onKeyPress = button => { if (button === "{shift}" || button === "{lock}") this.handleShift(); };
-      
-  //인풋이 바뀌면 그 값을 state input에 저장해서 텍스트박스에 적용
-  onChangeInput = (e) => { e.preventDefault(); const input = e.target.value; this.setState({ input }); };
+  //클릭시 버튼 전환 한글 자음+모음 합치는 함수
+  onKeyPress = button => {
+    if (
+        ![
+          "{shift}",
+          "{language}",
+          "{enter}",
+          "{bksp}",
+          "{space}",
+          "{tab}"
+        ].includes(button)
+    ) {
+        buttonArray.push(button);
+    }
+    if (button === "{bksp}") {
+        buttonArray.pop();
+    }
+    if (button === "{space}") {
+        buttonArray.push(" ");
+    }
+    if (button === "{tab}") {
+        buttonArray.push("  ");
+    }
+    if (button === "{enter}") {
+      Tfunc.addText(this.keyboard , canvas); 
+      this.setState({ input : "" }); 
+      // inputText=""; 
+      buttonArray = [];
+    }
 
-  //쉬프트 누르면 대 소문자 전환
-  handleShift = (e) => { 
+    inputText = Hangul.assemble(buttonArray);
+    this.setState({ input : inputText });
+
+    //Shift 함수
+    if (button === "{shift}") this.handleShiftButton();
+    if (button === "{language}") this.handleLanguageButton();
+  };
+
+  //input창에 변화가 생기면 그 값을 반영
+  onChangeInput = (e) => { 
+    e.preventDefault(); 
+    const input = e.target.value;
+    buttonArray = [];
+    buttonArray.push(input);
+    this.setState({ input : buttonArray });
+  };
+
+  //쉬프트버튼 함수
+  handleShiftButton = (e) => {
     const layoutName = this.state.layoutName; 
-    this.setState({ layoutName: layoutName === "default" ? "shift" : "default" }); 
+    const shiftToggle = layoutName === "default" ? "shift" : "default";
+    this.setState({ layoutName: shiftToggle });
+  };
+
+  //한영버튼 함수
+  handleLanguageButton= (e) => {
+    const language = this.state.language;
+    const languageToggle = language === "default" ? "english" : "default";
+    this.setState({ language: languageToggle });
   };
 
   //ON일때 키보드 , 입력창 , 추가버튼 출력 //ref={(t) => {text = t}}
   onKeyBoard() {
     if (this.state.mode ==='on'){
       return  <Fragment>
-
+                <div className="keyboardcontainer" style={{
+                        width :"100%",
+                        height : "100%",
+                        backgroundColor : "#333",
+                        opacity : "0.3", 
+                        position : "fixed",
+                        left : "0",
+                        top : "0",
+                        zIndex : "10"
+                }}/>
                 <input
-                  value={this.state.input} placeholder={"Keyboard Input"} onChange={this.onChangeInput} type="text" id="new_text"
+                        value={this.state.input} 
+                        placeholder="Keyboard Input" type="text" 
+                        id="new_text" onChange={this.onChangeInput}
                 />
                 <Keyboard
-                        keyboardRef={r => (this.keyboard = r)} layoutName={this.state.layoutName}
-                        onChange={this.onChange} onKeyPress={this.onKeyPress}
+                        stateToIgnore={this.state.input}
+                        keyboardRef={r => (this.keyboard = r)}
+                        onKeyPress={this.onKeyPress}
+                        layoutName={this.state.layoutName}
+                        language={this.state.language}
+                        autoUseTouchEvents = { true }
                 />
-                <button id="addtext" onClick={ (e) => { e.preventDefault(); Tfunc.addText(this.keyboard , canvas); }}>ADD TEXT</button><br/>
-
+                <button id="addtext" 
+                        onClick={(e) => { 
+                          e.preventDefault(); 
+                          Tfunc.addText(this.keyboard , canvas); 
+                          this.setState({ input : "" }); 
+                          buttonArray = []; 
+                          }}
+                        style = {{ 
+                          zIndex : "15",
+                          position : "fixed",
+                          width : "10%",
+                          height : "10%",
+                          top : "65%",
+                          left : "70%" 
+                        }}
+                >ADD TEXT
+                </button><br/>
               </Fragment>
     }
   };
@@ -57,10 +137,38 @@ class TextItem extends React.Component {
   //키보드 ON & OFF 버튼
   handleChangeButton() {
     if (this.state.mode === 'on'){
-      return <button onClick={(e) => { e.preventDefault(); this.handleOnKeyborad('off'); }}>Keyboard Off</button>
+      return <button style = {{ 
+                      zIndex : "15",
+                      position : "fixed",
+                      width : "10%",
+                      height : "10%",
+                      top : "50%",
+                      left : "70%" 
+                      }}
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        this.handleOnKeyborad('off');
+                        this.setState({ input : "" }); 
+                        buttonArray = []; 
+                        }}
+             >Keyboard Off</button>
     }
     else if (this.state.mode === 'off'){
-      return <button onClick={(e) => { e.preventDefault(); this.handleOnKeyborad('on'); }}>Keyboard on</button>
+      return <button style = {{ 
+                      zIndex : "15",
+                      position : "fixed",
+                      width : "10%",
+                      height : "10%",
+                      top : "50%",
+                      left : "70%" 
+                      }}
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        this.handleOnKeyborad('on'); 
+                        this.setState({ input : "" }); 
+                        buttonArray = []; 
+                      }}
+             >Keyboard on</button>
     }
   };
 
@@ -83,15 +191,11 @@ class TextItem extends React.Component {
   
   render() {
     return (
-        <Fragment>
-
-          {this.onKeyBoard()}
-          
-          {this.handleChangeButton()}<br/>
+        <Fragment>          
 
           <label>Font Family</label><br/>
             <select id="font_family" onChange={(e) => { e.preventDefault(); Tfunc.fontFamily(canvas); }}>
-              { this.fontOption() }
+              {this.fontOption()}
             </select><br/>
 
             <label>Text Color</label><br/>
@@ -102,8 +206,12 @@ class TextItem extends React.Component {
               <input className="color" id="text_stroke_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textStrokeColor(canvas); }} /><br/>
             <label>Stroke Width</label><br/>   
               <input className="range"  id="text_stroke_width" type="range" 
-                      onChange={(e) => { e.preventDefault(); Tfunc.textStrokeWidth(canvas); }} min="1" max="5" defaultValue="1" /><br/> 
+                      onChange={(e) => { e.preventDefault(); Tfunc.textStrokeWidth(canvas); }} step="0.5" min="0.5" max="4" defaultValue="2" /><br/> 
             
+            {this.onKeyBoard()}
+
+            {this.handleChangeButton()}
+
           </Fragment>
     );
   }
