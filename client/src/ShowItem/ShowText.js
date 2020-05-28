@@ -7,10 +7,10 @@ class ShowText extends React.Component {
 
   render() {
 
-    if (this.props.data.scaleX < this.props.data.scaleY){
+    if (this.props.data.width < this.props.data.height){
       scale = this.props.data.scaleX
     }  
-    else if (this.props.data.scaleX > this.props.data.scaleY){
+    else if (this.props.data.width > this.props.data.height){
       scale = this.props.data.scaleY
     }  
     const reSize = 5/3;

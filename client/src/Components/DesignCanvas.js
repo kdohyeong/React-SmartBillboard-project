@@ -130,8 +130,8 @@ class DesignCanvas extends React.Component {
             <button className="snip1535u" onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('VIDEO')}}>Video</button>
             <button className="snip1535u" onClick={(e) =>{ e.preventDefault(); this.handleMenuChange('TEXT')}}>Text</button>
           
-            <label>Background Color</label><br/>
-		      		<input className="color" id="bg_color" type="color" onChange={(e) => { e.preventDefault(); Cfunc.bgColor(canvas); }}/><br/><br/>
+            <label style ={{ color : "white" }}>Background Color</label><br/>
+		      		<input className="color" id="bg_color" type="color" onChange={(e) => { e.preventDefault(); Cfunc.bgColor(canvas); }} style ={{width : "160%"}}/><br/><br/>
             <button className="snip1535" id="delete" onClick={(e) => { e.preventDefault(); Cfunc.deleteObjects(canvas); }}>DELETE</button><br/>
             <button className="snip1535" id="sendbackwards" onClick={(e) => { e.preventDefault(); Cfunc.sendBackwards(canvas); }}>SEND BACK</button><br/>
             <button className="snip1535" id="capture" onClick={(e) => { e.preventDefault(); Cfunc.captureButton(canvas); }}>CAP TURE</button><br/>

@@ -104,6 +104,7 @@ class TextItem extends React.Component {
                         value={this.state.input} 
                         placeholder="Keyboard Input" type="text" 
                         id="new_text" onChange={this.onChangeInput}
+                        style ={{ fontSize : "250%"}}
                 />
                 <Keyboard
                         stateToIgnore={this.state.input}
@@ -199,11 +200,11 @@ class TextItem extends React.Component {
             </select><br/>
 
             <label>Text Color</label><br/>
-              <input className="color" id="text_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textColor(canvas); }} /><br/>
+              <input className="color" id="text_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textColor(canvas); }} style ={{ width : "100%", height : 50}} /><br/>
             <label>Text Background Color</label><br/>
-              <input className="color" id="text_bg_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textBgColor(canvas); }} /><br/>
+              <input className="color" id="text_bg_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textBgColor(canvas); }} style ={{ width : "100%", height : 50}} /><br/>
             <label>Stroke Color</label><br/>
-              <input className="color" id="text_stroke_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textStrokeColor(canvas); }} /><br/>
+              <input className="color" id="text_stroke_color" type="color" onChange={(e) => { e.preventDefault(); Tfunc.textStrokeColor(canvas); }} style ={{ width : "100%", height : 50}} /><br/>
             <label>Stroke Width</label><br/>   
               <input className="range"  id="text_stroke_width" type="range" 
                       onChange={(e) => { e.preventDefault(); Tfunc.textStrokeWidth(canvas); }} step="0.5" min="0.5" max="4" defaultValue="2" /><br/> 
