@@ -16,10 +16,6 @@ export function addText(keyboard , _canvas) {
       fontFamily: 'arial black',
       fill: '#333',
       fontSize: 50,
-      borderColor: 'grey',
-      cornerColor: 'black',
-      cornerSize: 18,
-      transparentCorners: true,
       uniScaleTransform : true
       // lockScalingY: true
     });

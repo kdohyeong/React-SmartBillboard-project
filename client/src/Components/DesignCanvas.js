@@ -54,6 +54,14 @@ class DesignCanvas extends React.Component {
     canvas.setWidth($('.canvas-wrapper').width());
     this.setState({ canvas });
 
+    //컨버스에 기본 옵션설정 테두리,모서리
+    fabric.Object.prototype.set({
+      borderColor: 'grey',
+      cornerColor: 'black',
+      cornerSize: 18,
+      transparentCorners: true,
+    });
+
     //캔버스의 크기를 전체 브라우저의 크기에 맞게 조절
     window.addEventListener('resize', function(){ Cfunc.canvasResize(canvas) }, false);
 

@@ -136,14 +136,7 @@ function handleDrop(e) {
     //태그이름이 이미지 일때만 실행해서 추가
     if ($(img).prop('tagName') === 'IMG') {
         //이미지 패브릭 만듬
-        var newImage = new fabric.Image(img, { 
-            left: ix,
-            top: iy,
-            borderColor: 'grey',
-            cornerColor: 'black',
-            cornerSize: 18,
-            transparentCorners: true,     
-            });                      
+        var newImage = new fabric.Image(img, { left: ix, top: iy });    
         canvas.add(newImage);
         //HTML 태그에서 명시한 width height을 scale화 해서 드랍되는 아이템에 사이즈 수정
         newImage.scaleToWidth(img.width);                                             
@@ -153,14 +146,7 @@ function handleDrop(e) {
     //태그이름이 비디오 일때만 실행해서 추가
     else if ($(vid).prop('tagName') === 'VIDEO') {
         //비디오 패브릭 만듬                                    
-        var newVideo = new fabric.CustomVideo(vid, { 
-            left: vx,
-            top: vy,
-            borderColor: 'grey',
-            cornerColor: 'black',
-            cornerSize: 18,
-            transparentCorners: true,
-            });
+        var newVideo = new fabric.CustomVideo(vid, { left: vx, top: vy });
         //cropRect: {x: 200, y: 50, w: 200, h: 200}
         canvas.add(newVideo); 
         newVideo.scaleToWidth(vid.width);                                             
