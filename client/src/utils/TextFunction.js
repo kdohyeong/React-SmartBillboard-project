@@ -16,8 +16,9 @@ export function addText(keyboard , _canvas) {
       fontFamily: 'arial black',
       fill: '#333',
       fontSize: 50,
-      uniScaleTransform : true
-      // lockScalingY: true
+      uniScaleTransform: true,
+      //비균일 스케일링 잠금!
+      lockUniScaling: true
     });
     canvas.add(newText);
     canvas.requestRenderAll();
