@@ -37,7 +37,7 @@ class SendCanvas extends React.Component {
   }
 
   render() {
-      console.log(this.props.canvas.toSVG())
+
       return ( 
         <Fragment>  
             <div className="sendcontainer" style={{

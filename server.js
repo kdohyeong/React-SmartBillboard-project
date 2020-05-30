@@ -39,7 +39,7 @@ const connection = mysql.createConnection(
 app.get('/api/ai', (req, res) => {
   // `SELECT * FROM ${req.connectT}`
     connection.query(
-    `SELECT * FROM AI WHERE id = 6`,
+    `SELECT * FROM AI WHERE id = 3`,
     (err, rows, fields) => {
     res.send(rows);
         }
