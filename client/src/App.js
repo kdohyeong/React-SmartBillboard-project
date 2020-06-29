@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import ShowAI from './Components/ShowAI';
 import MakeCustom from './Components/MakeCustom';
 import ShowCustom from './Components/ShowCustom';
+import ShowMap from './Components/ShowMap';
 import Button from '@material-ui/core/Button';
 import './App.css';
 
@@ -11,7 +12,7 @@ const mainUrl = 'http://localhost:5000/api/';
 let nowDate = null;
 
 class App extends Component {
-constructor(props){
+constructor(props) {
   super(props);
 
   this.state = {
@@ -118,6 +119,7 @@ constructor(props){
           { return this.state.datas ? <ShowCustom datas={this.state.datas}/> : '..LOADING' }
     }
     else if (this.state.mode === 'MAKE') { return <MakeCustom mainUrl = {mainUrl}/> }
+    else if (this.state.mode === 'MAP') { return <ShowMap /> }
   }
 
   render(){
@@ -133,6 +135,9 @@ constructor(props){
             <li>
               <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" 
                       onClick={() => this.handleChangeMode('MAKE')} name='Make' value='MakeBill'>Billboard Maker</Button></li>
+            <li>
+              <Button fullWidth={true} variant="contained" color="primary" href="#contained-buttons" 
+                      onClick={() => this.handleChangeMode('MAP')} name='Make' value='MakeBill'>Map</Button></li>
           </ul>
         
         </Fragment>
