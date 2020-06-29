@@ -5,7 +5,7 @@
 src/video
 
 #index
-src/index.html
+public/index.html
 
 # dependencies
 /node_modules
