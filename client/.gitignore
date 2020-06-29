@@ -4,6 +4,8 @@
 #video
 src/video
 
+#index
+src/index.html
 
 # dependencies
 /node_modules
