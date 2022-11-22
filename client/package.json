@@ -20,7 +20,7 @@
     "react-fittext": "^1.0.0",
     "react-hangul-virtual-keyboard": "^1.0.0",
     "react-player": "^1.15.3",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-simple-keyboard": "^2.3.5",
     "react-svg-text": "^0.1.2",
     "request": "^2.88.2",
